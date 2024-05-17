@@ -33,7 +33,7 @@ async def login(payload: LoginForm):
     )
     res = JSONResponse(Token(access_token=access_token).model_dump())
     res.set_cookie(key="token", value=access_token,
-                   httponly=True, secure=True)
+                   httponly=True)
 
     return res
 
@@ -49,7 +49,6 @@ async def get_projects(current_user: Annotated[Client, Depends(http_auth)]):
                 project_connection.connect_time.timestamp()
             datas.append(data.get_data(additional_time=active_time))
         else:
-            print("Hi")
             datas.append(data.get_data())
 
     return datas
