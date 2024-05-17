@@ -14,11 +14,11 @@ class Project(Base):
     __tablename__ = "projects"
 
     id: Mapped[str] = mapped_column(primary_key=True)
-    title: Mapped[str] = mapped_column(default="",primary_key=True)
+    title: Mapped[str] = mapped_column(default="",unique=True)
     description: Mapped[str] = mapped_column(default="")
     functions: Mapped[JSON] = mapped_column(type_=JSON, default=[])
     secret: Mapped[str] = mapped_column(default="".join(
-        [random.choice("abcde1234567890") for _ in range(32)]), primary_key=True)
+        [random.choice("abcde1234567890") for _ in range(32)]),unique=True)
     create_at: Mapped[int] = mapped_column(
         default=int(datetime.now().timestamp()))
     active_time: Mapped[int] = mapped_column(default=0)

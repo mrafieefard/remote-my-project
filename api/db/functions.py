@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import select,delete
-
+from sqlalchemy.exc import IntegrityError
 import uuid
 from datetime import datetime
 
@@ -10,11 +10,18 @@ from .base import conn,session
 Base.metadata.create_all(bind=conn)
 
 def db_create_project(id,title,description) -> Project:
-    project = Project(id=id,title=title,description=description)
-    session.add(project)
-    session.commit()
+    try : 
+        project = Project(id=id,title=title,description=description)
+        session.add(project)
+        session.commit()
 
-    return project
+        return project
+    except IntegrityError: 
+        return "unuque"
+    except:
+        return False
+    finally : 
+        session.rollback()
 
 def db_get_projects() -> list[Project]:  
     stmt = select(Project)
@@ -29,23 +36,30 @@ def db_get_project(id) -> Project | None:
     return data.first()
 
 def db_update_project(id,new_project : Project) -> Project | None:
-    project = session.query(Project).where(Project.id == id).first()
+    try:
+        project = session.query(Project).where(Project.id == id).first()
 
-    if not project :
-        return
+        if not project :
+            return
+        
+        project.title = new_project.title
+        project.description = new_project.description
+        project.functions = new_project.functions
+        project.secret = new_project.secret
+        project.is_ready = new_project.is_ready
+
+        session.commit()
+
+        return project
+
+    except IntegrityError: 
+        return "unuque"
+    except:
+        return False
+    finally:
+        session.rollback()
     
-    project.title = new_project.title
-    project.description = new_project.description
-    project.functions = new_project.functions
-    project.secret = new_project.secret
-    project.is_ready = new_project.is_ready
-
-    session.commit()
-
-    project = session.query(Project).where(Project.id == id).first()
     
-    return project
-
     
 
 def db_delete_project(id) -> bool:

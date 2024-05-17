@@ -83,11 +83,16 @@ async def edit_project(id: str, payload: UpdateProject, response: Response):
                 [random.choice("abcde1234567890") for _ in range(32)])
 
         data = db_update_project(id, project)
+        
+        if data == "unuque":
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,detail="Invalid name for project")
+        
         if not data:
             raise HTTPException(
                 status_code=400,
                 detail="Faild to edit project"
             )
+
         log = db_update_log_project_name(id)
         if not log:
             raise HTTPException(
@@ -121,7 +126,10 @@ async def delete_project(id: str, response: Response, current_user: Annotated[Cl
 async def create_project(json_data: CreateProject, current_user: Annotated[Client, Depends(http_auth)]):
     new_project = db_create_project(
         str(uuid.uuid4()), json_data.title, json_data.description)
-    return new_project.get_data()
+    if new_project:
+        if new_project == "unuque":
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,detail="Invalid name for project")
+        return new_project.get_data()
 
 
 @route.get("/logs")
