@@ -33,9 +33,9 @@ interface props {
 }
 
 export default function ProjectPage(props: props) {
-  
-  const openModal = (modal: JSX.Element) => {
+  const openModal = (modal: JSX.Element,size : "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "full" = "md") => {
     props.modal.setModalContent(modal);
+    props.modal.setModalSize(size)
     props.modal.disclosure.onOpen();
   };
 
@@ -58,13 +58,18 @@ export default function ProjectPage(props: props) {
     {
       name: "Use project",
       icon: <FaCirclePlay />,
+      
       onClick: (project: ProjectResponse) => {
         openModal(
+          
           <UseProjectModal
-            disclosure={props.modal.disclosure}
-            notificationContext={toast}
+            modal={{
+              disclosure: props.modal.disclosure,
+              notificationContext: toast,
+            }}
+            project={project}
           />
-        );
+        ,"4xl");
       },
     },
     {
@@ -72,7 +77,7 @@ export default function ProjectPage(props: props) {
       icon: <FaPen />,
       onClick: (project: ProjectResponse) => {
         openModal(
-           <DeleteModal
+          <DeleteModal
             refetchProjects={props.refetchProjects}
             project={project}
             modal={{
@@ -138,9 +143,9 @@ export default function ProjectPage(props: props) {
         return (
           <>
             <div className="hidden md:flex relative items-center gap-4">
-              {actions.map((value,index) => (
+              {actions.map((value, index) => (
                 <Tooltip
-                key={`${value.name}-${index}`}
+                  key={`${value.name}-${index}`}
                   content={value.name}
                   color={value.name == "Delete" ? "danger" : "default"}
                 >
@@ -171,9 +176,9 @@ export default function ProjectPage(props: props) {
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu>
-                  {actions.map((value,index) => (
+                  {actions.map((value, index) => (
                     <DropdownItem
-                    key={`${value.name}-${index}`}
+                      key={`${value.name}-${index}`}
                       isReadOnly={project.is_ready}
                       onClick={() => value.onClick(project)}
                       className={value.name == "Delete" ? "text-danger" : ""}

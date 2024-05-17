@@ -10,14 +10,15 @@ import { FaPlus } from "react-icons/fa";
 import { FaMagnifyingGlass, FaRotate } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
-import { ModalViewProps } from "../modal/modal-base";
+import { ContextModal, ModalViewProps } from "../modal/modal-base";
 import ModalContext from "../modal/modal-context";
 import CreateProjectModal from "../modal/modal-views/create-project-modal";
 import { http_get_projects } from "@/app/http/client";
 
 
-export default function OverviewPage() {
+export default function ProjectPage() {
   const [modalContent, setModalContent] = useState(<></>);
+  const [modalSize,setModalSize] = useState< "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "full">("md")
   const disclosure = useDisclosure();
   const [token, setToken] = useState("");
   
@@ -27,7 +28,6 @@ export default function OverviewPage() {
       localStorageToken != null ? "Bearer " + localStorageToken : "Bearer "
     );
   }, []);
-  const router = useRouter();
 
   const openModal = (modal: JSX.Element) => {
     setModalContent(modal);
@@ -49,7 +49,7 @@ export default function OverviewPage() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ModalContext disclosure={disclosure}>{modalContent}</ModalContext>
+      <ModalContext modalSize={modalSize} disclosure={disclosure}>{modalContent}</ModalContext>
       <Toaster
         position="bottom-right"
         reverseOrder={false}
@@ -124,6 +124,8 @@ export default function OverviewPage() {
             projects={data ? data : []}
             isLoading={isLoading}
             modal={{
+              modalSize:modalSize,
+              setModalSize : setModalSize,
               setModalContent: setModalContent,
               ModalContent: modalContent,
               disclosure: disclosure,

@@ -16,6 +16,7 @@ import {http_get_logs} from "@/app/http/client";
 
 export default function LogsPage() {
   const [modalContent, setModalContent] = useState(<></>);
+  const [modalSize,setModalSize] = useState< "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "full">("md")
   const [page, setPage] = useState(1);
   const disclosure = useDisclosure();
   const [token,setToken] = useState("");
@@ -55,7 +56,7 @@ export default function LogsPage() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ModalContext disclosure={disclosure} >
+      <ModalContext modalSize={modalSize} disclosure={disclosure} >
         {modalContent}
       </ModalContext>
       <Toaster
@@ -146,6 +147,8 @@ export default function LogsPage() {
               </div>
             }
             modal={{
+              modalSize : modalSize,
+              setModalSize : setModalSize,
               setModalContent: setModalContent,
               ModalContent: modalContent,
               disclosure: disclosure,
