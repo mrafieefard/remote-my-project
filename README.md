@@ -5,15 +5,15 @@ Remote My Project is a straightforward tool that allows you to connect your Pyth
 
 1. first clone repository
 
-`https://github.com/mrafieefard/remote-my-project`
+```https://github.com/mrafieefard/remote-my-project```
 
 2. build the project with docker
 
-`docker build -t rmp remote-my-project/`
+```docker build -t rmp remote-my-project/```
 
 3. run docker
 
-`docker run -d -p 3000:3000 rmp`
+```docker run -d -p 3000:3000 rmp```
 
 ## Contribution
 
