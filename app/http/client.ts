@@ -4,7 +4,6 @@ import toast from "react-hot-toast";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 const client = axios.create({
-  baseURL: "http://127.0.0.1:8000",
   withCredentials: true,
 });
 

@@ -69,7 +69,7 @@ export default function ProjectPage(props: props) {
             }}
             project={project}
           />
-        ,"4xl");
+        ,"5xl");
       },
     },
     {

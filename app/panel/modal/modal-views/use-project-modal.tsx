@@ -14,7 +14,6 @@ interface props {
 export default function UseProjectModal(props: props) {
   const { onClose } = props.modal.disclosure;
   const pathname = usePathname()
-  
   const codes = {
     python : `from rmp_py import Client,Context,Function,Argument
 from rmp_py.types import String,Log
@@ -27,7 +26,7 @@ def print_function(ctx : Context,text):
 def run(client : Client):
   client.send_log(Log.INFO,"Project run")
         
-client = Client("${pathname.split("/")[0]}","${props.project.id}","${props.project.secret}",[
+client = Client("${window.location.host}","${props.project.id}","${props.project.secret}",[
     Function("print",print_function,(
         Argument("text",String),
     ))
