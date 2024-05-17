@@ -8,7 +8,6 @@ import {
 } from "@nextui-org/react";
 import { ChildrenModal } from "../modal-base";
 import { useEffect, useState } from "react";
-import PanelHttp from "@/app/http/panel";
 import { ProjectResponse } from "@/app/http/base";
 import {http_delete_project} from "@/app/http/client";
 

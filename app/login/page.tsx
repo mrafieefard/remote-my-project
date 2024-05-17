@@ -8,7 +8,6 @@ import {
   Input,
   Tooltip,
 } from "@nextui-org/react";
-import Login from "../http/login";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";

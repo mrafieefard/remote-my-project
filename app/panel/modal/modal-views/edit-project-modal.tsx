@@ -11,7 +11,6 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { ProjectResponse } from "@/app/http/base";
 import { useEffect, useState } from "react";
 import { FaRotate } from "react-icons/fa6";
-import PanelHttp from "@/app/http/panel";
 import { QueryClient } from "react-query";
 import {http_edit_project} from "@/app/http/client";
 

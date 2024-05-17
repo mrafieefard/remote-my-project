@@ -1,6 +1,5 @@
 "use client";
 
-import PanelHttp from "@/app/http/panel";
 import { Button, Input, Pagination, useDisclosure } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

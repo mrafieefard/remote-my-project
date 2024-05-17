@@ -3,7 +3,6 @@
 import { Button, Card, Input, useDisclosure } from "@nextui-org/react";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 
-import PanelHttp from "../../http/panel";
 import ProjectTable from "./project-table";
 import { ReactNode, useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
