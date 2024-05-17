@@ -19,8 +19,10 @@ export default function LogsPage() {
   const disclosure = useDisclosure();
   const [token,setToken] = useState("");
   useEffect(()=>{
-    const localStorageToken = localStorage.getItem("token")
-    setToken(localStorageToken != null ? localStorageToken:"")
+    const localStorageToken = localStorage.getItem("token");
+    setToken(
+      localStorageToken != null ? "Bearer " + localStorageToken : "Bearer "
+    );
   },[])
   const router = useRouter();
   const queryClient = new QueryClient();
@@ -30,7 +32,7 @@ export default function LogsPage() {
     disclosure.onOpen();
   };
 
-  const panelHttp = new PanelHttp(router);
+  const panelHttp = new PanelHttp(router,token);
   if (token == null) {
     router.push("/login");
   }
@@ -42,6 +44,7 @@ export default function LogsPage() {
     },
     {
       refetchOnWindowFocus: false,
+      enabled : token == "" ? false : true
     }
   );
 

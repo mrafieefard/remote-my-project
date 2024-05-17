@@ -1,17 +1,17 @@
+"use client";
+
 import axios, { AxiosError } from "axios";
 import { LogsResponse, ProjectResponse, base_url, return_data } from "./base";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import toast from "react-hot-toast";
 
 class PanelHttp {
   router: AppRouterInstance;
   token: string;
 
-  constructor(router: AppRouterInstance) {
+  constructor(router: AppRouterInstance,token : string) {
     this.router = router;
-    
-    this.token = "Bearer " + localStorage.getItem("token");
-    
+
+    this.token = token
   }
 
   unauthorized_token() {
@@ -21,7 +21,7 @@ class PanelHttp {
     }, 1000);
   }
   async get_projects() {
-    console.log(this.token)
+    console.log(this.token);
     try {
       const projectRequest = await axios.get<ProjectResponse[]>(
         `${base_url}/client/project`,
@@ -50,7 +50,7 @@ class PanelHttp {
       const logsRequest = await axios.get<LogsResponse>(
         `${base_url}/client/logs`,
         {
-          params:{
+          params: {
             page: page,
             size: size,
           },

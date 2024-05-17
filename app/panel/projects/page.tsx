@@ -17,11 +17,13 @@ import CreateProjectModal from "../modal/modal-views/create-project-modal";
 export default function OverviewPage() {
   const [modalContent, setModalContent] = useState(<></>);
   const disclosure = useDisclosure();
-  const [token,setToken] = useState("");
-  useEffect(()=>{
-    const localStorageToken = localStorage.getItem("token")
-    setToken(localStorageToken != null ? localStorageToken:"")
-  },[])
+  const [token, setToken] = useState("");
+  useEffect(() => {
+    const localStorageToken = localStorage.getItem("token");
+    setToken(
+      localStorageToken != null ? "Bearer " + localStorageToken : "Bearer "
+    );
+  }, []);
   const router = useRouter();
 
   const openModal = (modal: JSX.Element) => {
@@ -29,7 +31,7 @@ export default function OverviewPage() {
     disclosure.onOpen();
   };
 
-  const panelHttp = new PanelHttp(router);
+  const panelHttp = new PanelHttp(router, token);
   if (token == null) {
     router.push("/login");
   }
@@ -43,6 +45,7 @@ export default function OverviewPage() {
     },
     {
       refetchOnWindowFocus: false,
+      enabled : token == "" ? false : true
     }
   );
 
@@ -52,9 +55,7 @@ export default function OverviewPage() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ModalContext  disclosure={disclosure} >
-        {modalContent}
-      </ModalContext>
+      <ModalContext disclosure={disclosure}>{modalContent}</ModalContext>
       <Toaster
         position="bottom-right"
         reverseOrder={false}
@@ -105,7 +106,11 @@ export default function OverviewPage() {
                 Add new <FaPlus />
               </Button>
 
-              <Button className="flex md:hidden" isIconOnly color="primary" onClick={() => {
+              <Button
+                className="flex md:hidden"
+                isIconOnly
+                color="primary"
+                onClick={() => {
                   openModal(
                     <CreateProjectModal
                       modal={{
@@ -116,7 +121,8 @@ export default function OverviewPage() {
                       refetchProjects={refetch}
                     />
                   );
-                }}>
+                }}
+              >
                 <FaPlus />
               </Button>
             </div>
