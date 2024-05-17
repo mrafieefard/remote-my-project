@@ -1,0 +1,38 @@
+{
+  "name": "remote-my-project",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "fastapi": "python3 api/main.py",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "panel": "concurrently \"npm run start\" \"npm run fastapi\"",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.3.7",
+    "@nextui-org/react": "^2.3.6",
+    "axios": "^1.6.8",
+    "concurrently": "^8.2.2",
+    "framer-motion": "^11.1.9",
+    "http-proxy-middleware": "^3.0.0",
+    "next": "14.2.3",
+    "nextui-cli": "^0.2.1",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-hot-toast": "^2.4.1",
+    "react-icons": "^5.2.1",
+    "react-query": "^3.39.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.3",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}
