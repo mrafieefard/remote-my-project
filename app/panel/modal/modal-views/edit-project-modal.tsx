@@ -92,8 +92,8 @@ export default function EditProjectModal(props: props) {
                   onClose();
                   props.modal.notificationContext.success("Project edited");
                 }).catch((error)=>{
-                  handle_error(error,props.modal.notificationContext,router)
                   setIsLoading(false)
+                  handle_error(error,props.modal.notificationContext,router)
                 });
             }
           }}
