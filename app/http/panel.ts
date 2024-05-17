@@ -10,7 +10,6 @@ class PanelHttp {
 
   constructor(router: AppRouterInstance,token : string) {
     this.router = router;
-
     this.token = token
   }
 

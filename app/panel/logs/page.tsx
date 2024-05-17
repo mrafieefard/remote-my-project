@@ -24,6 +24,7 @@ export default function LogsPage() {
       localStorageToken != null ? "Bearer " + localStorageToken : "Bearer "
     );
   },[])
+  
   const router = useRouter();
   const queryClient = new QueryClient();
 
@@ -49,7 +50,9 @@ export default function LogsPage() {
   );
 
   useEffect(() => {
-    refetch();
+    if (token != ""){
+      refetch();
+    }
   }, [page]);
 
   return (
