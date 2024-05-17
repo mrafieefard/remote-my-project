@@ -12,7 +12,8 @@ import { ProjectResponse } from "@/app/http/base";
 import { useEffect, useState } from "react";
 import { FaRotate } from "react-icons/fa6";
 import { QueryClient } from "react-query";
-import { http_create_project } from "@/app/http/client";
+import { handle_error, http_create_project } from "@/app/http/client";
+import { useRouter } from "next/navigation";
 
 interface props {
   modal: ChildrenModal;
@@ -21,6 +22,8 @@ interface props {
 
 export default function CreateProjectModal(props: props) {
   const { onClose } = props.modal.disclosure;
+  const router = useRouter()
+  const [isLoading,setIsLoading] = useState(false);
   const [createData, setCreateData] = useState({
     title: "",
     description: "",
@@ -60,21 +63,22 @@ export default function CreateProjectModal(props: props) {
           Close
         </Button>
         <Button
+        isLoading={isLoading}
           color="primary"
           onClick={() => {
             if (allowApply) {
+              setIsLoading(true)
               http_create_project(
                 createData.title,
                 createData.description
-              ).then((value) => {
-                if (value.success) {
-                  props.refetchProjects();
-                  onClose();
-                  props.modal.notificationContext.success(value.data!);
-                } else {
-                  onClose();
-                  props.modal.notificationContext.error(value.data!);
-                }
+              ).then(() => {
+                setIsLoading(false)
+                props.refetchProjects();
+                onClose();
+                props.modal.notificationContext.success("Project created");
+              }).catch((error)=>{
+                setIsLoading(false)
+                handle_error(error,props.modal.notificationContext,router)
               });
             }
           }}

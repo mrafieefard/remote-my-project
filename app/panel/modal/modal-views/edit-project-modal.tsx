@@ -12,7 +12,10 @@ import { ProjectResponse } from "@/app/http/base";
 import { useEffect, useState } from "react";
 import { FaRotate } from "react-icons/fa6";
 import { QueryClient } from "react-query";
-import {http_edit_project} from "@/app/http/client";
+import {handle_error, http_edit_project} from "@/app/http/client";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+
 
 interface props {
   modal: ChildrenModal;
@@ -22,13 +25,14 @@ interface props {
 
 export default function EditProjectModal(props: props) {
   const { onClose } = props.modal.disclosure;
+  const router = useRouter()
   const [editedData, setEditData] = useState({
     title: props.project.title,
     description: props.project.description,
     change_secret: false,
   });
   const [allowApply, setAllowApply] = useState(false);
-
+  const [isLoading,setIsLoading] = useState(false);
   useEffect(() => {
     if (editedData.title != "") {
       setAllowApply(true);
@@ -71,9 +75,11 @@ export default function EditProjectModal(props: props) {
           Close
         </Button>
         <Button
+          isLoading={isLoading}
           color="primary"
           onClick={() => {
             if (allowApply) {
+              setIsLoading(true)
               http_edit_project(
                   props.project.id,
                   editedData.title,
@@ -81,9 +87,13 @@ export default function EditProjectModal(props: props) {
                   editedData.change_secret
                 )
                 .then(() => {
+                  setIsLoading(false)
                   props.refetchProjects();
                   onClose();
                   props.modal.notificationContext.success("Project edited");
+                }).catch((error)=>{
+                  handle_error(error,props.modal.notificationContext,router)
+                  setIsLoading(false)
                 });
             }
           }}

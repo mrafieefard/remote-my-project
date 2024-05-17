@@ -9,7 +9,8 @@ import {
 import { ChildrenModal } from "../modal-base";
 import { useEffect, useState } from "react";
 import { ProjectResponse } from "@/app/http/base";
-import {http_delete_project} from "@/app/http/client";
+import {handle_error, http_delete_project} from "@/app/http/client";
+import { useRouter } from "next/navigation";
 
 interface props {
   modal: ChildrenModal;
@@ -19,8 +20,10 @@ interface props {
 
 export default function DeleteProjectModal(props: props) {
   const { onClose } = props.modal.disclosure;
+  const router = useRouter()
   const [confirmValue, setConfirmValue] = useState("");
   const [allowDelete, setAllowDelete] = useState(false);
+  const [isLoading,setIsLoading] = useState(false);
   useEffect(() => {
     if (confirmValue == props.project.title) {
       setAllowDelete(true);
@@ -46,14 +49,20 @@ export default function DeleteProjectModal(props: props) {
       <ModalFooter>
         <Button
           isDisabled={!allowDelete}
+          isLoading={isLoading}
           color="danger"
-          onClick={() => [
+          onClick={() => {
+            setIsLoading(true)
             http_delete_project(props.project.id).then(() => {
+              setIsLoading(false)
               onClose();
               props.refetchProjects();
               props.modal.notificationContext.success("Project delted");
-            }),
-          ]}
+            }).catch((error)=>{
+              setIsLoading(false)
+              handle_error(error,props.modal.notificationContext,router)
+            })
+          }}
         >
           Delete
         </Button>

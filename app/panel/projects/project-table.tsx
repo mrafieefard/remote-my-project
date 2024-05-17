@@ -22,6 +22,7 @@ import DetailModal from "../modal/modal-views/detail-project-modal";
 import DeleteModal from "../modal/modal-views/delete-project-modal";
 import toast from "react-hot-toast";
 import UseProjectModal from "../modal/modal-views/use-project-modal";
+import EditProjectModal from "../modal/modal-views/edit-project-modal";
 
 interface props {
   projects: ProjectResponse[];
@@ -76,7 +77,7 @@ export default function ProjectPage(props: props) {
       icon: <FaPen />,
       onClick: (project: ProjectResponse) => {
         openModal(
-          <DeleteModal
+          <EditProjectModal
             refetchProjects={props.refetchProjects}
             project={project}
             modal={{

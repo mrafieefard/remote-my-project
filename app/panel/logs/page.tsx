@@ -11,21 +11,24 @@ import CreateProjectModal from "../modal/modal-views/create-project-modal";
 import LogsTable from "./logs-table";
 import { FaTrash } from "react-icons/fa";
 import ClearLogConfirmModal from "../modal/modal-views/clear-log-confirm-modal";
-import {http_get_logs} from "@/app/http/client";
+import { http_get_logs, handle_error } from "@/app/http/client";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 export default function LogsPage() {
   const [modalContent, setModalContent] = useState(<></>);
-  const [modalSize,setModalSize] = useState< "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "full">("md")
+  const [modalSize, setModalSize] = useState<
+    "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "full"
+  >("md");
   const [page, setPage] = useState(1);
   const disclosure = useDisclosure();
-  const [token,setToken] = useState("");
-  useEffect(()=>{
+  const [token, setToken] = useState("");
+  useEffect(() => {
     const localStorageToken = localStorage.getItem("token");
     setToken(
       localStorageToken != null ? "Bearer " + localStorageToken : "Bearer "
     );
-  },[])
-  
+  }, []);
+
   const router = useRouter();
   const queryClient = new QueryClient();
 
@@ -34,28 +37,30 @@ export default function LogsPage() {
     disclosure.onOpen();
   };
 
-  
-
-  const { data, isLoading, isFetching, refetch } = useQuery(
+  const { data, isLoading, isFetching, refetch, isError, error } = useQuery(
     "logs",
     async () => {
-      return await http_get_logs(page, 25);
+      try {
+        return await http_get_logs(page, 25);
+      } catch (error) {
+        handle_error(error,toast,router)
+      }
     },
     {
       refetchOnWindowFocus: false,
-      enabled : token == "" ? false : true
+      enabled: token == "" ? false : true,
     }
   );
 
   useEffect(() => {
-    if (token != ""){
+    if (token != "") {
       refetch();
     }
   }, [page]);
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ModalContext modalSize={modalSize} disclosure={disclosure} >
+      <ModalContext modalSize={modalSize} disclosure={disclosure}>
         {modalContent}
       </ModalContext>
       <Toaster
@@ -146,8 +151,8 @@ export default function LogsPage() {
               </div>
             }
             modal={{
-              modalSize : modalSize,
-              setModalSize : setModalSize,
+              modalSize: modalSize,
+              setModalSize: setModalSize,
               setModalContent: setModalContent,
               ModalContent: modalContent,
               disclosure: disclosure,

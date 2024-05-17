@@ -12,10 +12,11 @@ import toast, { Toaster } from "react-hot-toast";
 import { ContextModal, ModalViewProps } from "../modal/modal-base";
 import ModalContext from "../modal/modal-context";
 import CreateProjectModal from "../modal/modal-views/create-project-modal";
-import { http_get_projects } from "@/app/http/client";
+import { handle_error, http_get_projects } from "@/app/http/client";
 
 
 export default function ProjectPage() {
+  const router = useRouter()
   const [modalContent, setModalContent] = useState(<></>);
   const [modalSize,setModalSize] = useState< "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "full">("md")
   const disclosure = useDisclosure();
@@ -35,16 +36,25 @@ export default function ProjectPage() {
 
   const queryClient = new QueryClient();
 
-  const { data, isLoading, isFetching, refetch } = useQuery(
+  const { data, isLoading, isFetching, refetch,isError,error } = useQuery(
     "projects",
     async () => {
-      return await http_get_projects();
+      try{
+        return await http_get_projects();
+      } catch (error) {
+        handle_error(error,toast,router)
+      }
+      
     },
     {
       refetchOnWindowFocus: false,
       enabled : token == "" ? false : true
     }
   );
+
+  if (isError){
+    handle_error(error,toast,router)
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
