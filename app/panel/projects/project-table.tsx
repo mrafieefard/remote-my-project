@@ -19,7 +19,6 @@ import { FaEye, FaPen, FaScroll, FaTrash } from "react-icons/fa";
 import { FaCirclePlay, FaEllipsisVertical } from "react-icons/fa6";
 import { ModalViewProps } from "../modal/modal-base";
 import DetailModal from "../modal/modal-views/detail-project-modal";
-import LogsModal from "../modal/modal-views/use-project-modal";
 import DeleteModal from "../modal/modal-views/delete-project-modal";
 import toast from "react-hot-toast";
 import UseProjectModal from "../modal/modal-views/use-project-modal";
