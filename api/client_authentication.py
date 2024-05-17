@@ -4,7 +4,7 @@ from passlib.context import CryptContext
 from common import SECRET_KEY,ALGORITHM
 from db import db_get_client,db_get_clients,db_create_client
 from base_models import TokenData
-from fastapi import status,Depends, HTTPException, status
+from fastapi import Cookie, status,Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from typing import Annotated
 
@@ -56,7 +56,8 @@ async def get_current_user(token):
         return
     return user
 
-async def http_auth(token: Annotated[str, Depends(oauth2_scheme)]):
+async def http_auth(token: Annotated[str | None, Cookie()] = None):
+    print(token)
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",

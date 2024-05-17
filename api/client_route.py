@@ -1,11 +1,11 @@
 import random
 from fastapi import APIRouter, WebSocket, Response, status, Depends, Header, HTTPException, status, Request
 from fastapi.responses import JSONResponse
-from base_models import CreateProject, LoginForm, Token, UpdateProject,GetLogsForm
+from base_models import CreateProject, LoginForm, Token, UpdateProject, GetLogsForm
 from websocket_manager import websocket_handler, ClientWebsocket
 from db import *
 from client_authentication import *
-from common import calculate_total_pages,get_page_content
+from common import calculate_total_pages, get_page_content
 import uuid
 
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
@@ -31,8 +31,11 @@ async def login(payload: LoginForm):
     access_token = create_access_token(
         data={"sub": user.username}, expires_delta=access_token_expires
     )
+    res = JSONResponse(Token(access_token=access_token).model_dump())
+    res.set_cookie(key="token", value=access_token,
+                   httponly=True, secure=True)
 
-    return Token(access_token=access_token)
+    return res
 
 
 @route.get("/project")
@@ -42,12 +45,13 @@ async def get_projects(current_user: Annotated[Client, Depends(http_auth)]):
     for data in projects:
         project_connection = websocket_handler.get_connected_project(data.id)
         if project_connection:
-            active_time = datetime.now().timestamp() - project_connection.connect_time.timestamp()
+            active_time = datetime.now().timestamp() - \
+                project_connection.connect_time.timestamp()
             datas.append(data.get_data(additional_time=active_time))
         else:
             print("Hi")
             datas.append(data.get_data())
-            
+
     return datas
 
 
@@ -98,8 +102,6 @@ async def edit_project(id: str, payload: UpdateProject, response: Response):
             detail="You cannot edit active project"
         )
 
-    
-
 
 @route.delete("/project/{id}")
 async def delete_project(id: str, response: Response, current_user: Annotated[Client, Depends(http_auth)]):
@@ -124,20 +126,22 @@ async def create_project(json_data: CreateProject, current_user: Annotated[Clien
 
 
 @route.get("/logs")
-async def get_project_log(size:int,page : int,current_user: Annotated[Client, Depends(http_auth)]):
+async def get_project_log(size: int, page: int, current_user: Annotated[Client, Depends(http_auth)]):
     logs = db_get_logs()
-    total_pages = calculate_total_pages(len(logs),size)
-    logs = get_page_content(logs,page,size)
+    total_pages = calculate_total_pages(len(logs), size)
+    logs = get_page_content(logs, page, size)
     data = [log.get_data() for log in logs] if logs != False else []
     sorted(data, key=lambda log: log["create_at"])
     data.reverse()
-    return {"total_pages" : total_pages,"data": data}
+    return {"total_pages": total_pages if total_pages > 0 else 1, "data": data}
+
 
 @route.delete("/logs/clear")
 async def clear_all_logs(current_user: Annotated[Client, Depends(http_auth)]):
     db_clear_logs()
 
-    return {"success": True,}
+    return {"success": True, }
+
 
 @route.delete("/log/{id}")
 async def get_project_log(id: str, current_user: Annotated[Client, Depends(http_auth)]):
