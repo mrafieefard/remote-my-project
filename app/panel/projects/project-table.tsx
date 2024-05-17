@@ -16,17 +16,19 @@ import {
 import { Key, useCallback } from "react";
 import { ProjectResponse } from "../../http/base";
 import { FaEye, FaPen, FaScroll, FaTrash } from "react-icons/fa";
-import { FaEllipsisVertical } from "react-icons/fa6";
+import { FaCirclePlay, FaEllipsisVertical } from "react-icons/fa6";
 import { ModalViewProps } from "../modal/modal-base";
 import DetailModal from "../modal/modal-views/detail-project-modal";
-import LogsModal from "../modal/modal-views/logs-project-modal";
+import LogsModal from "../modal/modal-views/use-project-modal";
 import DeleteModal from "../modal/modal-views/delete-project-modal";
 import toast from "react-hot-toast";
+import UseProjectModal from "../modal/modal-views/use-project-modal";
 
 interface props {
   projects: ProjectResponse[];
   isLoading: boolean;
   modal: ModalViewProps;
+
   refetchProjects: () => void;
 }
 
@@ -54,11 +56,11 @@ export default function ProjectPage(props: props) {
       },
     },
     {
-      name: "Logs",
-      icon: <FaScroll />,
+      name: "Use project",
+      icon: <FaCirclePlay />,
       onClick: (project: ProjectResponse) => {
         openModal(
-          <LogsModal
+          <UseProjectModal
             disclosure={props.modal.disclosure}
             notificationContext={toast}
           />

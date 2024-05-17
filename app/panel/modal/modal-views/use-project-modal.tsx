@@ -1,12 +1,12 @@
 import { Button, ModalBody, ModalFooter, ModalHeader } from "@nextui-org/react";
 import { ChildrenModal } from "../modal-base";
 
-export default function LogsProjectModal(props: ChildrenModal) {
+export default function UseProjectModal(props: ChildrenModal) {
   const { onClose } = props.disclosure;
 
   return (
     <>
-      <ModalHeader className="flex flex-col gap-1">Logs</ModalHeader>
+      <ModalHeader className="flex flex-col gap-1">Use it</ModalHeader>
       <ModalBody>
 
       </ModalBody>
