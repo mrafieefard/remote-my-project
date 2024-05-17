@@ -13,10 +13,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import { FaKey } from "react-icons/fa";
+import HttpClient from "../http/client";
 
 export default function LoginPage() {
-  const loginHttp = new Login();
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -24,27 +23,22 @@ export default function LoginPage() {
 
   const router = useRouter();
 
-  const login = ()=>{
+  const loginHttp = new HttpClient("", toast, router);
+
+  const login = () => {
     setIsLoading(true);
     loginHttp.login(username, password).then((value) => {
-      if (value.success == false) {
-        toast.error(value.error!);
-        setIsLoading(false);
-      } else {
-        toast.success("Welcome");
-        setTimeout(() => {
-          localStorage.setItem(
-            "token",
-            value.data?.access_token!
-          );
-          router.push("/panel/overview",{scroll : false});
-        }, 1000);
-      }
+      toast.success("Welcome");
+      setTimeout(() => {
+        localStorage.setItem("token", value?.access_token!);
+        router.push("/panel/overview", { scroll: false });
+      }, 1000);
+    }).catch(()=>{
+      setIsLoading(false);
     });
-  }
+  };
 
   return (
-    
     <>
       <Toaster
         position="top-center"
@@ -65,14 +59,13 @@ export default function LoginPage() {
               User and password you set for panel in server
             </p>
           </div>
-          
+
           <div className="flex flex-col gap-2">
             <Input
               size="sm"
               label="Username"
               value={username}
               onChange={(value) => setUsername(value.target.value)}
-              
             ></Input>
             <Input
               label="Password"
