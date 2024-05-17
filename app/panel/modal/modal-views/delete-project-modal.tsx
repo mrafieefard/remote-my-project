@@ -10,11 +10,11 @@ import { ChildrenModal } from "../modal-base";
 import { useEffect, useState } from "react";
 import PanelHttp from "@/app/http/panel";
 import { ProjectResponse } from "@/app/http/base";
+import {http_delete_project} from "@/app/http/client";
 
 interface props {
   modal: ChildrenModal;
   project: ProjectResponse;
-  http: PanelHttp;
   refetchProjects: () => void;
 }
 
@@ -49,15 +49,10 @@ export default function DeleteProjectModal(props: props) {
           isDisabled={!allowDelete}
           color="danger"
           onClick={() => [
-            props.http.delete_project(props.project.id).then((value) => {
-              if (value.success) {
-                onClose();
-                props.refetchProjects();
-                props.modal.notificationContext.success(value.data!);
-              } else {
-                onClose();
-                props.modal.notificationContext.error(value.data!);
-              }
+            http_delete_project(props.project.id).then(() => {
+              onClose();
+              props.refetchProjects();
+              props.modal.notificationContext.success("Project delted");
             }),
           ]}
         >

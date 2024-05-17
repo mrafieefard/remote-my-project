@@ -12,6 +12,7 @@ import CreateProjectModal from "../modal/modal-views/create-project-modal";
 import LogsTable from "./logs-table";
 import { FaTrash } from "react-icons/fa";
 import ClearLogConfirmModal from "../modal/modal-views/clear-log-confirm-modal";
+import {http_get_logs} from "@/app/http/client";
 
 export default function LogsPage() {
   const [modalContent, setModalContent] = useState(<></>);
@@ -33,15 +34,12 @@ export default function LogsPage() {
     disclosure.onOpen();
   };
 
-  const panelHttp = new PanelHttp(router,token);
-  if (token == null) {
-    router.push("/login");
-  }
+  
 
   const { data, isLoading, isFetching, refetch } = useQuery(
     "logs",
     async () => {
-      return await panelHttp.get_logs(page, 25);
+      return await http_get_logs(page, 25);
     },
     {
       refetchOnWindowFocus: false,
@@ -101,7 +99,6 @@ export default function LogsPage() {
                         disclosure: disclosure,
                         notificationContext: toast,
                       }}
-                      http={panelHttp}
                       refetchLogs={refetch}
                     />
                   );
@@ -120,7 +117,6 @@ export default function LogsPage() {
                         disclosure: disclosure,
                         notificationContext: toast,
                       }}
-                      http={panelHttp}
                       refetchLogs={refetch}
                     />
                   );
@@ -133,8 +129,7 @@ export default function LogsPage() {
           </div>
           <LogsTable
             refetchLogs={refetch}
-            http={panelHttp}
-            logs={data?.data ? data?.data!.data : []}
+            logs={data ? data.data : []}
             isLoading={isLoading}
             toastContext={toast}
             pagination={
@@ -143,9 +138,9 @@ export default function LogsPage() {
                   isCompact
                   showControls
                   showShadow
-                  color="secondary"
+                  color="primary"
                   page={page}
-                  total={data?.data ? data?.data.total_pages : 1}
+                  total={data ? data?.total_pages : 1}
                   onChange={(page) => setPage(page)}
                 />
               </div>

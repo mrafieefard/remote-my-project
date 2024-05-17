@@ -13,11 +13,14 @@ import toast, { Toaster } from "react-hot-toast";
 import { ModalViewProps } from "../modal/modal-base";
 import ModalContext from "../modal/modal-context";
 import CreateProjectModal from "../modal/modal-views/create-project-modal";
+import { http_get_projects } from "@/app/http/client";
+
 
 export default function OverviewPage() {
   const [modalContent, setModalContent] = useState(<></>);
   const disclosure = useDisclosure();
   const [token, setToken] = useState("");
+  
   useEffect(() => {
     const localStorageToken = localStorage.getItem("token");
     setToken(
@@ -31,27 +34,18 @@ export default function OverviewPage() {
     disclosure.onOpen();
   };
 
-  const panelHttp = new PanelHttp(router, token);
-  if (token == null) {
-    router.push("/login");
-  }
-
   const queryClient = new QueryClient();
 
   const { data, isLoading, isFetching, refetch } = useQuery(
     "projects",
     async () => {
-      return await panelHttp.get_projects();
+      return await http_get_projects();
     },
     {
       refetchOnWindowFocus: false,
       enabled : token == "" ? false : true
     }
   );
-
-  useEffect(() => {
-    console.log(isLoading);
-  }, [isLoading]);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -97,7 +91,6 @@ export default function OverviewPage() {
                         disclosure: disclosure,
                         notificationContext: toast,
                       }}
-                      http={panelHttp}
                       refetchProjects={refetch}
                     />
                   );
@@ -117,7 +110,6 @@ export default function OverviewPage() {
                         disclosure: disclosure,
                         notificationContext: toast,
                       }}
-                      http={panelHttp}
                       refetchProjects={refetch}
                     />
                   );
@@ -129,8 +121,7 @@ export default function OverviewPage() {
           </div>
           <ProjectTable
             refetchProjects={refetch}
-            http={panelHttp}
-            projects={data ? data?.data! : []}
+            projects={data ? data : []}
             isLoading={isLoading}
             modal={{
               setModalContent: setModalContent,

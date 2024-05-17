@@ -13,7 +13,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import { FaKey } from "react-icons/fa";
-import HttpClient from "../http/client";
+import {http_login} from "../http/client";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -23,18 +23,15 @@ export default function LoginPage() {
 
   const router = useRouter();
 
-  const loginHttp = new HttpClient("", toast, router);
-
   const login = () => {
     setIsLoading(true);
-    loginHttp.login(username, password).then((value) => {
+    http_login(username, password).then(() => {
       toast.success("Welcome");
       setTimeout(() => {
-        localStorage.setItem("token", value?.access_token!);
         router.push("/panel/overview", { scroll: false });
       }, 1000);
     }).catch(()=>{
-      setIsLoading(false);
+      
     });
   };
 

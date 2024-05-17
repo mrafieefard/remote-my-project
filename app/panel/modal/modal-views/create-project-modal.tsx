@@ -13,10 +13,10 @@ import { useEffect, useState } from "react";
 import { FaRotate } from "react-icons/fa6";
 import PanelHttp from "@/app/http/panel";
 import { QueryClient } from "react-query";
+import { http_create_project } from "@/app/http/client";
 
 interface props {
   modal: ChildrenModal;
-  http: PanelHttp;
   refetchProjects: () => void;
 }
 
@@ -64,18 +64,19 @@ export default function CreateProjectModal(props: props) {
           color="primary"
           onClick={() => {
             if (allowApply) {
-              props.http
-                .create_project(createData.title, createData.description)
-                .then((value) => {
-                  if (value.success) {
-                    props.refetchProjects();
-                    onClose();
-                    props.modal.notificationContext.success(value.data!);
-                  } else {
-                    onClose();
-                    props.modal.notificationContext.error(value.data!);
-                  }
-                });
+              http_create_project(
+                createData.title,
+                createData.description
+              ).then((value) => {
+                if (value.success) {
+                  props.refetchProjects();
+                  onClose();
+                  props.modal.notificationContext.success(value.data!);
+                } else {
+                  onClose();
+                  props.modal.notificationContext.error(value.data!);
+                }
+              });
             }
           }}
           isDisabled={!allowApply}

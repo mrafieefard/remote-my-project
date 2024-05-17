@@ -10,10 +10,10 @@ import { ChildrenModal } from "../modal-base";
 import { useEffect, useState } from "react";
 import PanelHttp from "@/app/http/panel";
 import { ProjectResponse } from "@/app/http/base";
+import { http_clear_logs } from "@/app/http/client";
 
 interface props {
   modal: ChildrenModal;
-  http: PanelHttp;
   refetchLogs: () => void;
 }
 
@@ -32,7 +32,7 @@ export default function ClearLogConfirmModal(props: props) {
       <ModalFooter>
         <Button onClick={()=>onClose()}>No</Button>
         <Button onClick={()=>{
-            props.http.clear_logs().then(()=>{
+            http_clear_logs().then(()=>{
                 onClose()
                 props.modal.notificationContext.success("Logs cleared")
                 props.refetchLogs()

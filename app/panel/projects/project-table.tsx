@@ -20,21 +20,18 @@ import { FaEllipsisVertical } from "react-icons/fa6";
 import { ModalViewProps } from "../modal/modal-base";
 import DetailModal from "../modal/modal-views/detail-project-modal";
 import LogsModal from "../modal/modal-views/logs-project-modal";
-import EditModal from "../modal/modal-views/edit-project-modal";
 import DeleteModal from "../modal/modal-views/delete-project-modal";
-import PanelHttp from "../../http/panel";
-import { QueryClient } from "react-query";
 import toast from "react-hot-toast";
 
 interface props {
   projects: ProjectResponse[];
   isLoading: boolean;
   modal: ModalViewProps;
-  http: PanelHttp;
   refetchProjects: () => void;
 }
 
 export default function ProjectPage(props: props) {
+  
   const openModal = (modal: JSX.Element) => {
     props.modal.setModalContent(modal);
     props.modal.disclosure.onOpen();
@@ -73,9 +70,8 @@ export default function ProjectPage(props: props) {
       icon: <FaPen />,
       onClick: (project: ProjectResponse) => {
         openModal(
-          <EditModal
+           <DeleteModal
             refetchProjects={props.refetchProjects}
-            http={props.http}
             project={project}
             modal={{
               disclosure: props.modal.disclosure,
@@ -92,7 +88,6 @@ export default function ProjectPage(props: props) {
         openModal(
           <DeleteModal
             refetchProjects={props.refetchProjects}
-            http={props.http}
             project={project}
             modal={{
               disclosure: props.modal.disclosure,

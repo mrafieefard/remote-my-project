@@ -19,66 +19,28 @@ import { FaTrash } from "react-icons/fa";
 import { FaEllipsisVertical } from "react-icons/fa6";
 import { ModalViewProps } from "../modal/modal-base";
 
-import PanelHttp from "../../http/panel";
 import toast from "react-hot-toast";
+import { http_delete_log } from "@/app/http/client";
 
 interface props {
   logs: LogData[];
   isLoading: boolean;
   modal: ModalViewProps;
-  http: PanelHttp;
   toastContext : typeof toast
   refetchLogs: () => void;
   pagination : JSX.Element
 }
 
-function timeAgo(timestamp: number): string {
-
-  const timestampMs = timestamp * 1000;
-
-  const timestampDate = new Date(timestampMs);
-
-  const timeDiff = Date.now() - timestampDate.getTime();
-
-  const units: [string, number][] = [
-    ["year", 365 * 24 * 60 * 60 * 1000],
-    ["month", 30 * 24 * 60 * 60 * 1000],
-    ["week", 7 * 24 * 60 * 60 * 1000],
-    ["day", 24 * 60 * 60 * 1000],
-    ["hour", 60 * 60 * 1000],
-    ["minute", 60 * 1000],
-    ["second", 1000],
-  ];
-
-
-  for (const [unit, millisecondsPerUnit] of units) {
-    const interval = Math.floor(timeDiff / millisecondsPerUnit);
-    if (interval > 0) {
-      if (interval === 1) {
-        return `${interval} ${unit} ago`;
-      } else {
-        return `${interval} ${unit}s ago`;
-      }
-    }
-  }
-
-  return "Just now";
-}
-
 export default function LogsTable(props: props) {
-
+  
   const actions = [
     {
       name: "Delete",
       icon: <FaTrash />,
       onClick: (log: LogData) => {
-        props.http.delete_log(log.id).then((value) => {
-          if (value.success){
-            props.refetchLogs();
-            props.toastContext.success(value.data!)
-          }else{
-            props.toastContext.error(value.error!)
-          }
+        http_delete_log(log.id).then(() => {
+          props.refetchLogs();
+          props.toastContext.success("Log delted")
           
         });
       },
@@ -87,7 +49,7 @@ export default function LogsTable(props: props) {
 
   const renderCell = useCallback((log: LogData, columnKey: Key) => {
     const cellValue = log[columnKey as keyof LogData];
-
+    
     switch (columnKey) {
 
       case "level":
@@ -170,7 +132,6 @@ export default function LogsTable(props: props) {
           </>
         );
       default:
-        console.log(cellValue);
         return <p>{cellValue.toString()}</p>;
     }
   }, []);

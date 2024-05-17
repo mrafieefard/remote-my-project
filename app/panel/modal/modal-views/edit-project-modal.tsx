@@ -13,11 +13,11 @@ import { useEffect, useState } from "react";
 import { FaRotate } from "react-icons/fa6";
 import PanelHttp from "@/app/http/panel";
 import { QueryClient } from "react-query";
+import {http_edit_project} from "@/app/http/client";
 
 interface props {
   modal: ChildrenModal;
   project: ProjectResponse;
-  http: PanelHttp;
   refetchProjects: () => void;
 }
 
@@ -75,22 +75,16 @@ export default function EditProjectModal(props: props) {
           color="primary"
           onClick={() => {
             if (allowApply) {
-              props.http
-                .edit_project(
+              http_edit_project(
                   props.project.id,
                   editedData.title,
                   editedData.description,
                   editedData.change_secret
                 )
-                .then((value) => {
-                  if (value.success) {
-                    props.refetchProjects();
-                    onClose();
-                    props.modal.notificationContext.success(value.data!);
-                  } else {
-                    props.modal.notificationContext.error(value.error!);
-                    onClose()
-                  }
+                .then(() => {
+                  props.refetchProjects();
+                  onClose();
+                  props.modal.notificationContext.success("Project edited");
                 });
             }
           }}
