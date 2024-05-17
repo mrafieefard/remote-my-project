@@ -36,8 +36,6 @@ interface LogData{
   content : string
 }
 
-const base_url = "/api"
-
 function return_data<T>(success: boolean, data: T | undefined = undefined,error : string | undefined = undefined) {
   if (success) {
     
@@ -58,4 +56,4 @@ function return_data<T>(success: boolean, data: T | undefined = undefined,error 
 }
 
 export type {TokenResponse,ProjectResponse,LogsResponse,LogData}
-export {return_data,base_url}
+export {return_data}

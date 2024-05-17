@@ -5,6 +5,7 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 
 const client = axios.create({
   withCredentials: true,
+  baseURL : "/api"
 });
 
 function handle_error(
