@@ -136,10 +136,14 @@ async def create_project(json_data: CreateProject, current_user: Annotated[Clien
 async def get_project_log(size: int, page: int, current_user: Annotated[Client, Depends(http_auth)]):
     logs = db_get_logs()
     total_pages = calculate_total_pages(len(logs), size)
-    logs = get_page_content(logs, page, size)
-    data = [log.get_data() for log in logs] if logs != False else []
-    sorted(data, key=lambda log: log["create_at"])
-    data.reverse()
+    logs_dict = [log.get_data() for log in logs] if logs != False else []
+    
+    logs_dict = sorted(logs_dict, key=lambda log: log["create_at"])
+    logs_dict.reverse()
+    data = get_page_content(logs_dict, page, size)
+    
+    
+
     return {"total_pages": total_pages if total_pages > 0 else 1, "data": data}
 
 

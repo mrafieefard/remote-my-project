@@ -57,7 +57,6 @@ async def get_current_user(token):
     return user
 
 async def http_auth(token: Annotated[str | None, Cookie()] = None):
-    print(token)
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
