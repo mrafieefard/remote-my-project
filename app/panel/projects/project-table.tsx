@@ -157,7 +157,7 @@ export default function ProjectPage(props: props) {
                         ? "text-danger cursor-pointer "
                         : "text-default-400 cursor-pointer "
                     } active:opacity-50`}
-                    onPress={() => {
+                    onClick={() => {
                       if (project.is_active && value.name == "Edit") return;
                       value.onPress(project);
                     }}
