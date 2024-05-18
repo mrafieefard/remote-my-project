@@ -44,7 +44,7 @@ export default function App() {
             <Link
             className="cursor-pointer"
               color={activeItem == index ? "primary" : "foreground"}
-              onClick={() => {
+              onPress={() => {
                 router.push(`/panel/${value}`, { scroll: false });
               }}
             >
@@ -65,7 +65,7 @@ export default function App() {
               <DropdownItem
                 key="logout"
                 color="danger"
-                onClick={() => {
+                onPress={() => {
                   localStorage.removeItem("token");
                   setTimeout(() => {
                     router.push("/login", { scroll: false });
@@ -84,7 +84,7 @@ export default function App() {
             <Link
               className={"w-full"}
               color={activeItem == index ? "primary" : "foreground"}
-              onClick={() => {
+              onPress={() => {
                 router.push(`/panel/${value}`, { scroll: false });
               }}
               size="lg"

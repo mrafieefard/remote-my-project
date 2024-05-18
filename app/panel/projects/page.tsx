@@ -84,7 +84,7 @@ export default function ProjectPage() {
                 isLoading={isLoading || isFetching}
                 isIconOnly
                 color="primary"
-                onClick={() => {
+                onPress={() => {
                   refetch();
                 }}
               >
@@ -93,7 +93,7 @@ export default function ProjectPage() {
               <Button
                 className="hidden md:flex"
                 color="primary"
-                onClick={() => {
+                onPress={() => {
                   openModal(
                     <CreateProjectModal
                       modal={{
@@ -112,7 +112,7 @@ export default function ProjectPage() {
                 className="flex md:hidden"
                 isIconOnly
                 color="primary"
-                onClick={() => {
+                onPress={() => {
                   openModal(
                     <CreateProjectModal
                       modal={{

@@ -13,9 +13,22 @@ def create_pages(data, group_size):
 def get_page_content(data, page_number, group_size):
     total_pages = math.ceil(len(data) / group_size)
     if page_number <= 0 or page_number > total_pages:
-        return False
+        return []
     else:
         return list(create_pages(data, group_size))[page_number - 1]
 
 def calculate_total_pages(total_items, group_size):
     return math.ceil(total_items / group_size)
+
+def convert_level(level : int):
+    match level:
+        case 0:
+            return "info"
+        case 1:
+            return "debug"
+        case 2:
+            return "success"
+        case 3:
+            return "warning"
+        case 4:
+            return "error"

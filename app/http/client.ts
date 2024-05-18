@@ -5,7 +5,7 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 
 const client = axios.create({
   withCredentials: true,
-  baseURL : "/api"
+  baseURL: "/api",
 });
 
 function handle_error(
@@ -43,9 +43,17 @@ async function http_get_projects() {
   return response.data;
 }
 
-async function http_get_logs(page: number, size: number) {
-  const response = await client.get<LogsResponse>(`/client/logs`, {
-    params: { page, size },
+async function http_get_logs(
+  page: number,
+  size: number,
+  levelFilter: string | Array<string>,
+  projectFilter: string | Array<string>
+) {
+  const response = await client.post<LogsResponse>(`/client/logs`, {
+    page: page,
+    size: size,
+    level: levelFilter,
+    project: projectFilter,
   });
   return response.data;
 }

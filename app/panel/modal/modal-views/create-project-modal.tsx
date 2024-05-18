@@ -65,7 +65,7 @@ export default function CreateProjectModal(props: props) {
         <Button
         isLoading={isLoading}
           color="primary"
-          onClick={() => {
+          onPress={() => {
             if (allowApply) {
               setIsLoading(true)
               http_create_project(

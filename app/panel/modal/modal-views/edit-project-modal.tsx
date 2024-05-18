@@ -63,7 +63,7 @@ export default function EditProjectModal(props: props) {
         />
         <Button
           color={editedData.change_secret ? "success" : "danger"}
-          onClick={() => {
+          onPress={() => {
             setEditData({ ...editedData, change_secret: true });
           }}
         >
@@ -77,7 +77,7 @@ export default function EditProjectModal(props: props) {
         <Button
           isLoading={isLoading}
           color="primary"
-          onClick={() => {
+          onPress={() => {
             if (allowApply) {
               setIsLoading(true)
               http_edit_project(

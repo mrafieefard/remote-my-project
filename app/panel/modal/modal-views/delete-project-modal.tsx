@@ -51,7 +51,7 @@ export default function DeleteProjectModal(props: props) {
           isDisabled={!allowDelete}
           isLoading={isLoading}
           color="danger"
-          onClick={() => {
+          onPress={() => {
             setIsLoading(true)
             http_delete_project(props.project.id).then(() => {
               setIsLoading(false)

@@ -37,7 +37,7 @@ export default function LogsTable(props: props) {
     {
       name: "Delete",
       icon: <FaTrash />,
-      onClick: (log: LogData) => {
+      onPress: (log: LogData) => {
         http_delete_log(log.id).then(() => {
           props.refetchLogs();
           props.toastContext.success("Log delted")
@@ -101,7 +101,7 @@ export default function LogsTable(props: props) {
                         ? "text-danger"
                         : "text-default-400"
                     } cursor-pointer active:opacity-50`}
-                    onClick={() => value.onClick(log)}
+                    onClick={() => value.onPress(log)}
                   >
                     {value.icon}
                   </span>
@@ -120,7 +120,7 @@ export default function LogsTable(props: props) {
                   {actions.map((value,index) => (
                     <DropdownItem
                     key={`${value.name}-${index}`}
-                      onClick={() => value.onClick(log)}
+                      onPress={() => value.onPress(log)}
                       className={value.name == "Delete" ? "text-danger" : ""}
                     >
                       {value.name}

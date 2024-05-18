@@ -36,3 +36,6 @@ class LoginForm(BaseModel):
 class GetLogsForm(BaseModel):
     page: int
     size: int
+    level: str | list
+    project: str | list
+

@@ -17,7 +17,7 @@ def db_create_project(id,title,description) -> Project:
 
         return project
     except IntegrityError: 
-        return "unuque"
+        return "unique"
     except:
         return False
     finally : 

@@ -20,7 +20,7 @@ export default function DetailProjectModal(props: props) {
         <Input isDisabled label="Project title" value={props.project.title}/>
         <Textarea isDisabled label="Project description" value={props.project.description}/>
         <Input disabled label="Project secret" value={props.project.secret} type={showSecret ? "" : "password"} endContent={
-          <div onClick={()=>{setShowSecret(!showSecret)}}>
+          <div onPress={()=>{setShowSecret(!showSecret)}}>
             {showSecret ? <FaEyeSlash className="text-2xl text-default-400 cursor-pointer"/> : <FaEye className="text-2xl text-default-400 cursor-pointer"/>}
           </div>
         }/>

@@ -49,7 +49,7 @@ class Log(Base):
     id: Mapped[str] = mapped_column(primary_key=True)
     project_id: Mapped[str]
     project_name: Mapped[str]
-    level: Mapped[str]
+    level: Mapped[int]
     create_at: Mapped[int]
     content: Mapped[str]
 

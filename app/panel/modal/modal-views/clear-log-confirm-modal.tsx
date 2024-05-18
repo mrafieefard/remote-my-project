@@ -31,8 +31,8 @@ export default function ClearLogConfirmModal(props: props) {
         </p>
       </ModalBody>
       <ModalFooter>
-        <Button onClick={()=>onClose()}>No</Button>
-        <Button isLoading={isLoading} onClick={()=>{
+        <Button onPress={()=>onClose()}>No</Button>
+        <Button isLoading={isLoading} onPress={()=>{
           setIsLoading(true)
             http_clear_logs().then(()=>{
               setIsLoading(false)

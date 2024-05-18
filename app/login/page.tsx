@@ -74,7 +74,7 @@ export default function LoginPage() {
               <Button
                 color="primary"
                 isLoading={isLoading}
-                onClick={() => login()}
+                onPress={() => login()}
               >
                 Login
               </Button>
@@ -110,7 +110,7 @@ export default function LoginPage() {
               <Button
                 color="primary"
                 isLoading={isLoading}
-                onClick={() => login()}
+                onPress={() => login()}
               >
                 Login
               </Button>

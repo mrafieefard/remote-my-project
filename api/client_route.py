@@ -5,13 +5,13 @@ from base_models import CreateProject, LoginForm, Token, UpdateProject, GetLogsF
 from websocket_manager import websocket_handler, ClientWebsocket
 from db import *
 from client_authentication import *
-from common import calculate_total_pages, get_page_content
+from common import calculate_total_pages, convert_level, get_page_content
 import uuid
 
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 from datetime import timedelta
-from typing import Annotated
+from typing import Annotated, Union
 
 
 route = APIRouter(prefix="/client",
@@ -83,10 +83,11 @@ async def edit_project(id: str, payload: UpdateProject, response: Response):
                 [random.choice("abcde1234567890") for _ in range(32)])
 
         data = db_update_project(id, project)
-        
+
         if data == "unuque":
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,detail="Invalid name for project")
-        
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN, detail="Invalid name for project")
+
         if not data:
             raise HTTPException(
                 status_code=400,
@@ -127,23 +128,24 @@ async def create_project(json_data: CreateProject, current_user: Annotated[Clien
     new_project = db_create_project(
         str(uuid.uuid4()), json_data.title, json_data.description)
     if new_project:
-        if new_project == "unuque":
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,detail="Invalid name for project")
+        if new_project == "unique":
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN, detail="Invalid name for project")
         return new_project.get_data()
 
 
-@route.get("/logs")
-async def get_project_log(size: int, page: int, current_user: Annotated[Client, Depends(http_auth)]):
+@route.post("/logs")
+async def get_project_log(payload: GetLogsForm, current_user: Annotated[Client, Depends(http_auth)]):
     logs = db_get_logs()
-    total_pages = calculate_total_pages(len(logs), size)
-    logs_dict = [log.get_data() for log in logs] if logs != False else []
     
-    logs_dict = sorted(logs_dict, key=lambda log: log["create_at"])
+    logs_dict = []
+    for log in logs:
+        if (convert_level(log.level) in list(map(str.lower, payload.level)) or payload.level == "all") and (log.project_id in payload.project or payload.project == "all"):
+            logs_dict.append(log.get_data())
     logs_dict.reverse()
-    data = get_page_content(logs_dict, page, size)
+    total_pages = calculate_total_pages(len(logs_dict), payload.size)
+    data = get_page_content(logs_dict, payload.page, payload.size)
     
-    
-
     return {"total_pages": total_pages if total_pages > 0 else 1, "data": data}
 
 

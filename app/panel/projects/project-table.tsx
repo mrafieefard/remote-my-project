@@ -43,7 +43,7 @@ export default function ProjectPage(props: props) {
     {
       name: "Details",
       icon: <FaEye />,
-      onClick: (project: ProjectResponse) => {
+      onPress: (project: ProjectResponse) => {
         openModal(
           <DetailModal
             project={project}
@@ -59,7 +59,7 @@ export default function ProjectPage(props: props) {
       name: "Use project",
       icon: <FaCirclePlay />,
       
-      onClick: (project: ProjectResponse) => {
+      onPress: (project: ProjectResponse) => {
         openModal(
           
           <UseProjectModal
@@ -75,7 +75,7 @@ export default function ProjectPage(props: props) {
     {
       name: "Edit",
       icon: <FaPen />,
-      onClick: (project: ProjectResponse) => {
+      onPress: (project: ProjectResponse) => {
         openModal(
           <EditProjectModal
             refetchProjects={props.refetchProjects}
@@ -91,7 +91,7 @@ export default function ProjectPage(props: props) {
     {
       name: "Delete",
       icon: <FaTrash />,
-      onClick: (project: ProjectResponse) => {
+      onPress: (project: ProjectResponse) => {
         openModal(
           <DeleteModal
             refetchProjects={props.refetchProjects}
@@ -157,9 +157,9 @@ export default function ProjectPage(props: props) {
                         ? "text-danger cursor-pointer "
                         : "text-default-400 cursor-pointer "
                     } active:opacity-50`}
-                    onClick={() => {
+                    onPress={() => {
                       if (project.is_active && value.name == "Edit") return;
-                      value.onClick(project);
+                      value.onPress(project);
                     }}
                   >
                     {value.icon}
@@ -180,7 +180,7 @@ export default function ProjectPage(props: props) {
                     <DropdownItem
                       key={`${value.name}-${index}`}
                       isReadOnly={project.is_ready}
-                      onClick={() => value.onClick(project)}
+                      onPress={() => value.onPress(project)}
                       className={value.name == "Delete" ? "text-danger" : ""}
                     >
                       {value.name}
