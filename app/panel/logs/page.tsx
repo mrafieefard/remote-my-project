@@ -79,7 +79,7 @@ export default function LogsPage() {
           <div className="flex justify-between">
             <div>
               <Input
-                placeholder="Search in projects"
+                placeholder="Search in logs"
                 startContent={<FaMagnifyingGlass />}
               />
             </div>
