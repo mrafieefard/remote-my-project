@@ -14,9 +14,8 @@ Base.metadata.create_all(bind=conn)
 
 def db_create_project(id, title, description) -> Project:
     try :
-        secret = "".join(
-            [random.choice("abcde1234567890") for _ in range(32)])
-        project = Project(id=id, title=title, description=description, secret=secret)
+        project = Project(id=id, title=title, description=description, secret="".join(
+            [random.choice("abcde1234567890") for _ in range(32)]))
         session.add(project)
         session.commit()
 
