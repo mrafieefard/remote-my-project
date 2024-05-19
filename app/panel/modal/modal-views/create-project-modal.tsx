@@ -6,7 +6,7 @@ import {
   ModalHeader,
   Textarea,
 } from "@nextui-org/react";
-import { ChildrenModal } from "../modal-base";
+import { ModalView } from "../modal-base";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { ProjectResponse } from "@/app/http/base";
 import { useEffect, useState } from "react";
@@ -17,13 +17,12 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 interface props {
-  modal: ChildrenModal;
-  notificationContext: typeof toast;
+  view: ModalView;
   refetchProjects: () => void;
 }
 
 export default function CreateProjectModal(props: props) {
-  const { onClose } = props.modal.disclosure;
+  const { onClose } = props.view.modal.disclosure;
   const router = useRouter()
   const [isLoading,setIsLoading] = useState(false);
   const [createData, setCreateData] = useState({
@@ -77,10 +76,10 @@ export default function CreateProjectModal(props: props) {
                 setIsLoading(false)
                 props.refetchProjects();
                 onClose();
-                props.notificationContext.success("Project created");
+                props.view.notification.success("Project created");
               }).catch((error)=>{
                 setIsLoading(false)
-                handle_error(error,props.notificationContext,router)
+                handle_error(error,props.view.notification,router)
               });
             }
           }}

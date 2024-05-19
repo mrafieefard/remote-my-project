@@ -9,7 +9,7 @@ import { FaPlus } from "react-icons/fa";
 import { FaMagnifyingGlass, FaRotate } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
-import useModal, { ContextModal, ModalViewProps } from "../modal/modal-base";
+import useModal, { ContextModal } from "../modal/modal-base";
 import ModalContext from "../modal/modal-context";
 import { handle_error, http_get_projects } from "@/app/http/client";
 import TableHeader from "./components/table-header";
@@ -69,13 +69,18 @@ export default function ProjectPage() {
       />
       <main className="flex flex-col w-full h-full p-2 md:py-1 md:px-8 gap-4">
         <div className="flex flex-col gap-4">
-          <TableHeader queryData={queryData} modal={modal} notificationContext={toast}/>
+          <TableHeader
+            queryData={queryData}
+            view={{
+              modal: modal,
+              notification: toast,
+            }}
+          />
           <ProjectTable
             refetchProjects={queryData.refetch}
             projects={queryData.data ? queryData.data : []}
             isLoading={queryData.isLoading}
-            modal={{ modal: modal }}
-            notificationContext={toast}
+            view={{ modal: modal, notification: toast }}
           />
         </div>
       </main>

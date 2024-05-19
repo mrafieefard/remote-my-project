@@ -1,16 +1,16 @@
 import { Button, Chip, Input, ModalBody, ModalFooter, ModalHeader, Textarea } from "@nextui-org/react";
-import { ChildrenModal } from "../modal-base";
+import { ModalView } from "../modal-base";
 import { ProjectResponse } from "@/app/http/base";
 import { useState } from "react";
 import { FaEye, FaEyeSlash, FaUnsplash } from "react-icons/fa";
 
 interface props {
-  modal : ChildrenModal
+  view: ModalView;
   project : ProjectResponse
 }
 
 export default function DetailProjectModal(props: props) {
-  const { onClose } = props.modal.disclosure;
+  const { onClose } = props.view.modal.disclosure;
   const [showSecret,setShowSecret] = useState(false)
   return (
     <>

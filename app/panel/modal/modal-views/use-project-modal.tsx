@@ -1,5 +1,5 @@
 import { Button, Code, ModalBody, ModalFooter, ModalHeader } from "@nextui-org/react";
-import { ChildrenModal } from "../modal-base";
+import { ModalView } from "../modal-base";
 import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import { ProjectResponse } from "@/app/http/base";
 import { usePathname } from "next/navigation";
@@ -7,12 +7,12 @@ import { CopyBlock, dracula } from 'react-code-blocks';
 
 
 interface props {
-  modal: ChildrenModal;
+  view: ModalView;
   project: ProjectResponse;
 }
 
 export default function UseProjectModal(props: props) {
-  const { onClose } = props.modal.disclosure;
+  const { onClose } = props.view.modal.disclosure;
   const pathname = usePathname()
   const codes = {
     python : `from rmp_py import Client,Context,Function,Argument

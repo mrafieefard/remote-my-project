@@ -6,7 +6,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@nextui-org/react";
-import { ChildrenModal } from "../modal-base";
+import { ModalView } from "../modal-base";
 import { useEffect, useState } from "react";
 import { ProjectResponse } from "@/app/http/base";
 import { handle_error, http_clear_logs } from "@/app/http/client";
@@ -14,13 +14,12 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 interface props {
-  notificationContext: typeof toast,
-  modal: ChildrenModal;
+  view : ModalView
   refetchLogs: () => void;
 }
 
 export default function ClearLogConfirmModal(props: props) {
-  const { onClose } = props.modal.disclosure;
+  const { onClose } = props.view.modal.disclosure;
   const [isLoading,setIsLoading] = useState(false)
   const router = useRouter()
   return (
@@ -39,12 +38,12 @@ export default function ClearLogConfirmModal(props: props) {
             http_clear_logs().then(()=>{
               setIsLoading(false)
                 onClose()
-                props.notificationContext.success("Logs cleared")
+                props.view.notification.success("Logs cleared")
                 props.refetchLogs()
 
             }).catch((error)=>{
               setIsLoading(false)
-              handle_error(error,props.notificationContext,router)
+              handle_error(error,props.view.notification,router)
             })
         }} color="danger">Yes</Button>
       </ModalFooter>

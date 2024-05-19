@@ -6,7 +6,7 @@ import {
   ModalHeader,
   Textarea,
 } from "@nextui-org/react";
-import { ChildrenModal } from "../modal-base";
+import { ModalView } from "../modal-base";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { ProjectResponse } from "@/app/http/base";
 import { useEffect, useState } from "react";
@@ -18,15 +18,14 @@ import { useRouter } from "next/navigation";
 
 
 interface props {
-  modal: ChildrenModal;
+  view: ModalView;
   project: ProjectResponse;
-  notificationContext: typeof toast
   refetchProjects: () => void;
   
 }
 
 export default function EditProjectModal(props: props) {
-  const { onClose } = props.modal.disclosure;
+  const { onClose } = props.view.modal.disclosure;
   const router = useRouter()
   const [editedData, setEditData] = useState({
     title: props.project.title,
@@ -92,10 +91,10 @@ export default function EditProjectModal(props: props) {
                   setIsLoading(false)
                   props.refetchProjects();
                   onClose();
-                  props.notificationContext.success("Project edited");
+                  props.view.notification.success("Project edited");
                 }).catch((error)=>{
                   setIsLoading(false)
-                  handle_error(error,props.notificationContext,router)
+                  handle_error(error,props.view.notification,router)
                 });
             }
           }}

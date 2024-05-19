@@ -6,7 +6,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@nextui-org/react";
-import { ChildrenModal } from "../modal-base";
+import { ModalView } from "../modal-base";
 import { useEffect, useState } from "react";
 import { ProjectResponse } from "@/app/http/base";
 import {handle_error, http_delete_project} from "@/app/http/client";
@@ -14,14 +14,13 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 interface props {
-  modal: ChildrenModal;
-  notificationContext : typeof toast
+  view: ModalView;
   project: ProjectResponse;
   refetchProjects: () => void;
 }
 
 export default function DeleteProjectModal(props: props) {
-  const { onClose } = props.modal.disclosure;
+  const { onClose } = props.view.modal.disclosure;
   const router = useRouter()
   const [confirmValue, setConfirmValue] = useState("");
   const [allowDelete, setAllowDelete] = useState(false);
@@ -59,10 +58,10 @@ export default function DeleteProjectModal(props: props) {
               setIsLoading(false)
               onClose();
               props.refetchProjects();
-              props.notificationContext.success("Project delted");
+              props.view.notification.success("Project delted");
             }).catch((error)=>{
               setIsLoading(false)
-              handle_error(error,props.notificationContext,router)
+              handle_error(error,props.view.notification,router)
             })
           }}
         >

@@ -16,10 +16,10 @@ function useModal(){
   return {modalContent,setModalContent,openModal,modalSize,setModalSize,disclosure}
 }
 
-interface ChildrenModal {
-  disclosure: ReturnType<typeof useDisclosure>;
+// interface ChildrenModal {
+//   disclosure: ReturnType<typeof useDisclosure>;
 
-}
+// }
 
 interface ContextModal {
   children: ReactNode;
@@ -37,8 +37,9 @@ interface ContextModal {
     | "full";
 }
 
-interface ModalViewProps {
+interface ModalView {
   modal : ReturnType<typeof useModal>
+  notification : typeof toast
 }
 export default useModal;
-export type { ChildrenModal, ContextModal, ModalViewProps };
+export type { ModalView, ContextModal };

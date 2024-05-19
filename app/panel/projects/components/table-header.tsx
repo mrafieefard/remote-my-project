@@ -2,13 +2,12 @@ import { Button, Input } from "@nextui-org/react";
 import { FaMagnifyingGlass, FaPlus, FaRotate } from "react-icons/fa6";
 import CreateProjectModal from "../../modal/modal-views/create-project-modal";
 import { UseQueryResult } from "react-query";
-import useModal from "../../modal/modal-base";
+import useModal, { ModalView } from "../../modal/modal-base";
 import toast from "react-hot-toast";
 
 interface props {
     queryData : UseQueryResult<any, any>
-    modal : ReturnType<typeof useModal>
-    notificationContext: typeof toast,
+    view : ModalView
 }
 
 export default function TableHeader(props: props) {
@@ -36,13 +35,9 @@ export default function TableHeader(props: props) {
                 className="hidden md:flex"
                 color="primary"
                 onPress={() => {
-                  props.modal.openModal(
+                  props.view.modal.openModal(
                     <CreateProjectModal
-                    notificationContext={props.notificationContext}
-                      modal={{
-                        disclosure: props.modal.disclosure,
-                        
-                      }}
+                      view={props.view}
                      
                       refetchProjects={props.queryData.refetch}
                     />
@@ -57,13 +52,9 @@ export default function TableHeader(props: props) {
                 isIconOnly
                 color="primary"
                 onPress={() => {
-                  props.modal.openModal(
+                  props.view.modal.openModal(
                     <CreateProjectModal
-                      modal={{
-                        disclosure: props.modal.disclosure,
-                        
-                      }}
-                      notificationContext={props.notificationContext}
+                      view={props.view}
                       refetchProjects={props.queryData.refetch}
                     />
                   );
