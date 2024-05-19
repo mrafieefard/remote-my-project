@@ -28,28 +28,21 @@ interface props {
   projects: ProjectResponse[];
   isLoading: boolean;
   modal: ModalViewProps;
-
+  notificationContext : typeof toast
   refetchProjects: () => void;
 }
 
 export default function ProjectPage(props: props) {
-  const openModal = (modal: JSX.Element,size : "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "full" = "md") => {
-    props.modal.setModalContent(modal);
-    props.modal.setModalSize(size)
-    props.modal.disclosure.onOpen();
-  };
-
   const actions = [
     {
       name: "Details",
       icon: <FaEye />,
       onPress: (project: ProjectResponse) => {
-        openModal(
+        props.modal.modal.openModal(
           <DetailModal
             project={project}
             modal={{
-              disclosure: props.modal.disclosure,
-              notificationContext: toast,
+              disclosure: props.modal.modal.disclosure,
             }}
           />
         );
@@ -60,12 +53,11 @@ export default function ProjectPage(props: props) {
       icon: <FaCirclePlay />,
       
       onPress: (project: ProjectResponse) => {
-        openModal(
+        props.modal.modal.openModal(
           
           <UseProjectModal
             modal={{
-              disclosure: props.modal.disclosure,
-              notificationContext: toast,
+              disclosure: props.modal.modal.disclosure,
             }}
             project={project}
           />
@@ -76,14 +68,14 @@ export default function ProjectPage(props: props) {
       name: "Edit",
       icon: <FaPen />,
       onPress: (project: ProjectResponse) => {
-        openModal(
+        props.modal.modal.openModal(
           <EditProjectModal
             refetchProjects={props.refetchProjects}
             project={project}
             modal={{
-              disclosure: props.modal.disclosure,
-              notificationContext: toast,
+              disclosure: props.modal.modal.disclosure,
             }}
+            notificationContext= {props.notificationContext}
           />
         );
       },
@@ -92,13 +84,14 @@ export default function ProjectPage(props: props) {
       name: "Delete",
       icon: <FaTrash />,
       onPress: (project: ProjectResponse) => {
-        openModal(
+        props.modal.modal.openModal(
           <DeleteModal
             refetchProjects={props.refetchProjects}
             project={project}
+            notificationContext= {props.notificationContext}
             modal={{
-              disclosure: props.modal.disclosure,
-              notificationContext: toast,
+              disclosure: props.modal.modal.disclosure,
+              
             }}
           />
         );
