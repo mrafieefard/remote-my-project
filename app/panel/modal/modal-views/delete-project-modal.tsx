@@ -11,9 +11,11 @@ import { useEffect, useState } from "react";
 import { ProjectResponse } from "@/app/http/base";
 import {handle_error, http_delete_project} from "@/app/http/client";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface props {
   modal: ChildrenModal;
+  notificationContext : typeof toast
   project: ProjectResponse;
   refetchProjects: () => void;
 }
@@ -57,10 +59,10 @@ export default function DeleteProjectModal(props: props) {
               setIsLoading(false)
               onClose();
               props.refetchProjects();
-              props.modal.notificationContext.success("Project delted");
+              props.notificationContext.success("Project delted");
             }).catch((error)=>{
               setIsLoading(false)
-              handle_error(error,props.modal.notificationContext,router)
+              handle_error(error,props.notificationContext,router)
             })
           }}
         >

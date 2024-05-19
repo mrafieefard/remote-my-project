@@ -7,7 +7,7 @@ import { ContextModal } from "./modal-base";
 
 export default function ModalContext(props: ContextModal) {
   const { isOpen, onOpenChange } = props.disclosure;
-
+  
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange} size={props.modalSize}>
       <ModalContent>{props.children}</ModalContent>

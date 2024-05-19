@@ -20,7 +20,9 @@ import { useRouter } from "next/navigation";
 interface props {
   modal: ChildrenModal;
   project: ProjectResponse;
+  notificationContext: typeof toast
   refetchProjects: () => void;
+  
 }
 
 export default function EditProjectModal(props: props) {
@@ -90,10 +92,10 @@ export default function EditProjectModal(props: props) {
                   setIsLoading(false)
                   props.refetchProjects();
                   onClose();
-                  props.modal.notificationContext.success("Project edited");
+                  props.notificationContext.success("Project edited");
                 }).catch((error)=>{
                   setIsLoading(false)
-                  handle_error(error,props.modal.notificationContext,router)
+                  handle_error(error,props.notificationContext,router)
                 });
             }
           }}

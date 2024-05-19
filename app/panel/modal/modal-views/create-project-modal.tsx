@@ -14,9 +14,11 @@ import { FaRotate } from "react-icons/fa6";
 import { QueryClient } from "react-query";
 import { handle_error, http_create_project } from "@/app/http/client";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface props {
   modal: ChildrenModal;
+  notificationContext: typeof toast;
   refetchProjects: () => void;
 }
 
@@ -75,10 +77,10 @@ export default function CreateProjectModal(props: props) {
                 setIsLoading(false)
                 props.refetchProjects();
                 onClose();
-                props.modal.notificationContext.success("Project created");
+                props.notificationContext.success("Project created");
               }).catch((error)=>{
                 setIsLoading(false)
-                handle_error(error,props.modal.notificationContext,router)
+                handle_error(error,props.notificationContext,router)
               });
             }
           }}
