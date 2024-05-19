@@ -12,7 +12,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import { FaKey } from "react-icons/fa";
-import {http_login} from "../http/client";
+import { http_login } from "../http/client";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -24,14 +24,14 @@ export default function LoginPage() {
 
   const login = () => {
     setIsLoading(true);
-    http_login(username, password).then(() => {
-      toast.success("Welcome");
-      setTimeout(() => {
-        router.push("/panel/overview", { scroll: false });
-      }, 1000);
-    }).catch(()=>{
-      
-    });
+    http_login(username, password)
+      .then(() => {
+        toast.success("Welcome");
+        setTimeout(() => {
+          router.push("/panel/overview", { scroll: false });
+        }, 1000);
+      })
+      .catch(() => {});
   };
 
   return (
@@ -52,7 +52,7 @@ export default function LoginPage() {
           <div>
             <p className="font-bold text-xl">Login</p>
             <p className="text-xs">
-              User and password you set for panel in server
+              Your first credentials for login use for the next logins
             </p>
           </div>
 
