@@ -17,8 +17,7 @@ class Project(Base):
     title: Mapped[str] = mapped_column(default="",unique=True)
     description: Mapped[str] = mapped_column(default="")
     functions: Mapped[JSON] = mapped_column(type_=JSON, default=[])
-    secret: Mapped[str] = mapped_column(default="".join(
-        [random.choice("abcde1234567890") for _ in range(32)]),unique=True)
+    secret: Mapped[str] = mapped_column(unique=True)
     create_at: Mapped[int] = mapped_column(
         default=int(datetime.now().timestamp()))
     active_time: Mapped[int] = mapped_column(default=0)
