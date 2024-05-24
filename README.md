@@ -24,3 +24,9 @@ docker run -d -p 3000:3000 rmp
 ## Contribution
 
 Contributors are welcome <3
+
+## Todo
+- [ ] Optimization
+- [ ] Allow create widget for overview page
+- [ ] Add an authentication page to manage users and permissions
+- [ ] Add python sdk to pypi page
