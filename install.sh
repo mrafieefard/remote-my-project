@@ -4,23 +4,10 @@ exit_install(){
 }
 
 create_database(){
-    read -p "Set postgres username : " postgres_user
-    if [ -z "$postgres_user" ]; then
-        echo "You should fill postgres username"
-        exit_install
-    fi
-
-
-    read -p "Set postgres password : " postgres_password
-
-    if [ -z "$postgres_password" ]; then
-        echo "You should fill postgres password"
-        exit_install
-    fi
 
     docker run --name rmp-database \
-    -e POSTGRES_USER="$postgres_user" \
-    -e POSTGRES_PASSWORD="$postgres_password" \
+    -e POSTGRES_USER=postgres \
+    -e POSTGRES_PASSWORD=postgres \
     -e POSTGRES_DB="rmpdb" \
     --network rmp-network -d postgres
 
@@ -47,20 +34,6 @@ if [ -x "$(command -v docker)" ]; then
         if [ "$install_database" = "y" ]; then
             docker rm -f rmp-database
             create_database
-        else
-            read -p "Active postgres database username : " postgres_user
-            if [ -z "$postgres_user" ]; then
-                echo "You should fill postgres username"
-                exit_install
-            fi
-
-
-            read -p "Active postgres database password : " postgres_password
-            
-            if [ -z "$postgres_password" ]; then
-                echo "You should fill postgres password"
-                exit_install
-            fi
         fi
     else
         create_database
@@ -69,7 +42,7 @@ if [ -x "$(command -v docker)" ]; then
     docker build -t rmp-web-image .
     docker run --name rmp-web \
                --network rmp-network \
-               -e DATABASE_URL="postgresql://$postgres_user:$postgres_password@rmp-database/rmpdb" \
+               -e DATABASE_URL="postgresql://postgres:postgres@rmp-database/rmpdb" \
                -p 3000:3000 -d rmp-web-image
     
 
