@@ -6,13 +6,9 @@ import {
   ModalHeader,
   Textarea,
 } from "@nextui-org/react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { ProjectResponse } from "@/app/http/base";
 import { useEffect, useState } from "react";
-import { FaRotate } from "react-icons/fa6";
-import { QueryClient } from "react-query";
 import {handle_error, http_edit_project} from "@/app/http/client";
-import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useAlertContext } from "@/app/contexts/alert-context";
 

@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosInstance } from "axios";
+import axios, { AxiosError } from "axios";
 import { ProjectResponse, TokenResponse, LogsResponse } from "./base";
 import toast from "react-hot-toast";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";

@@ -15,9 +15,8 @@ import {
 } from "@nextui-org/react";
 import { Key, useCallback } from "react";
 import { ProjectResponse } from "../../http/base";
-import { FaEye, FaPen, FaScroll, FaTrash } from "react-icons/fa";
+import { FaEye, FaPen, FaTrash } from "react-icons/fa";
 import { FaCirclePlay, FaEllipsisVertical } from "react-icons/fa6";
-import toast from "react-hot-toast";
 import { useAlertContext } from "@/app/contexts/alert-context";
 import DetailProjectModal from "@/app/modal/modal-views/detail-project-modal";
 import UseProjectModal from "@/app/modal/modal-views/use-project-modal";

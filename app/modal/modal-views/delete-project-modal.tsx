@@ -10,7 +10,6 @@ import { useEffect, useState } from "react";
 import { ProjectResponse } from "@/app/http/base";
 import {handle_error, http_delete_project} from "@/app/http/client";
 import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
 import { useAlertContext } from "@/app/contexts/alert-context";
 
 interface props {

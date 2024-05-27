@@ -1,7 +1,6 @@
 import { Button, Input } from "@nextui-org/react";
 import { FaMagnifyingGlass, FaPlus, FaRotate } from "react-icons/fa6";
 import { UseQueryResult } from "react-query";
-import toast from "react-hot-toast";
 import { useAlertContext } from "@/app/contexts/alert-context";
 import CreateProjectModal from "@/app/modal/modal-views/create-project-modal"
 

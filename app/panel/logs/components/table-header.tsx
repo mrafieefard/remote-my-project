@@ -1,17 +1,11 @@
-import { LogsResponse, ProjectResponse } from "@/app/http/base";
+import { LogsResponse } from "@/app/http/base";
 import {
   Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
   Input,
-  Selection,
 } from "@nextui-org/react";
-import { FaChevronDown, FaTrash } from "react-icons/fa";
+import {  FaTrash } from "react-icons/fa";
 import { FaMagnifyingGlass, FaRotate } from "react-icons/fa6";
 import { UseQueryResult } from "react-query";
-import { memo, useCallback, useState } from "react";
 import React from "react";
 import Filters from "./filters";
 import ClearLogConfirmModal from "@/app/modal/modal-views/clear-log-confirm-modal";

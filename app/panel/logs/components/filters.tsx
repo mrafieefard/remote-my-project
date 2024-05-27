@@ -5,11 +5,10 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react";
-import { memo, useContext } from "react";
+import { memo } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import { useLogsContext } from "../../../contexts/log-context";
-import { QueryClient, useQuery } from "react-query";
-import { ProjectResponse } from "@/app/http/base";
+import {  useQuery } from "react-query";
 import { http_get_projects } from "@/app/http/client";
 
 const LOG_LEVELS = ["Info", "Debug", "Success", "Warning", "Error"];

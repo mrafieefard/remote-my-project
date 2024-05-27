@@ -1,7 +1,7 @@
 import { Button, Chip, Input, ModalBody, ModalFooter, ModalHeader, Textarea } from "@nextui-org/react";
 import { ProjectResponse } from "@/app/http/base";
 import { useState } from "react";
-import { FaEye, FaEyeSlash, FaUnsplash } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useAlertContext } from "@/app/contexts/alert-context";
 
 interface props {

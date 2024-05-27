@@ -1,8 +1,6 @@
 "use client";
 
-import { Selection } from "@nextui-org/react";
-import { ReactNode, createContext, useContext, useState } from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactNode, createContext, useContext } from "react";
 import { useModal, ModalBase } from "../modal/modal-base";
 import toast, { Toaster } from "react-hot-toast";
 

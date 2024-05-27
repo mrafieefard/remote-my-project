@@ -14,7 +14,7 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 import { Key, useCallback } from "react";
-import { LogData, LogsResponse } from "../../http/base";
+import { LogData } from "../../http/base";
 import { FaTrash } from "react-icons/fa";
 import { FaEllipsisVertical } from "react-icons/fa6";
 

@@ -1,5 +1,5 @@
 import { useDisclosure } from "@nextui-org/react";
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import { Modal, ModalContent } from "@nextui-org/react";
 
 

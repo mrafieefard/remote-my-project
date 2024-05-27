@@ -1,5 +1,5 @@
-import { Button, Code, ModalBody, ModalFooter, ModalHeader } from "@nextui-org/react";
-import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
+import { Button, ModalBody, ModalFooter, ModalHeader } from "@nextui-org/react";
+import { Tabs, Tab } from "@nextui-org/react";
 import { ProjectResponse } from "@/app/http/base";
 import { usePathname } from "next/navigation";
 import { CopyBlock, dracula } from 'react-code-blocks';

@@ -1,14 +1,10 @@
 "use client";
-
-import { Button, Card, Input, useDisclosure } from "@nextui-org/react";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 
 import ProjectTable from "./project-table";
-import { ReactNode, useEffect, useState } from "react";
-import { FaPlus } from "react-icons/fa";
-import { FaMagnifyingGlass, FaRotate } from "react-icons/fa6";
+import {  useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { handle_error, http_get_projects } from "@/app/http/client";
 import TableHeader from "./components/table-header";
 

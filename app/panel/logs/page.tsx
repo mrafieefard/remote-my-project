@@ -1,22 +1,13 @@
 "use client";
 
 import {
-  Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  Input,
   Pagination,
-  useDisclosure,
-  Selection,
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import { createContext, useEffect, useState } from "react";
-import { QueryClient, QueryClientProvider, useQuery } from "react-query";
-import toast, { Toaster } from "react-hot-toast";
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import toast from "react-hot-toast";
 import LogsTable from "./logs-table";
-import { FaChevronDown, FaTrash } from "react-icons/fa";
 import {
   http_get_logs,
   handle_error,

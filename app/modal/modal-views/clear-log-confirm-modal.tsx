@@ -1,16 +1,12 @@
 import {
   Button,
-  Code,
-  Input,
   ModalBody,
   ModalFooter,
   ModalHeader,
 } from "@nextui-org/react";
-import { useEffect, useState } from "react";
-import { ProjectResponse } from "@/app/http/base";
+import { useState } from "react";
 import { handle_error, http_clear_logs } from "@/app/http/client";
 import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
 import { useAlertContext } from "@/app/contexts/alert-context";
 
 interface props {
