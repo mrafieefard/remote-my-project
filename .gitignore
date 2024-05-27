@@ -36,6 +36,6 @@ yarn-error.log*
 next-env.d.ts
 
 #api
-touch.db
+rmp.db
 /api/__pycache__
 /api/db/__pycache__
