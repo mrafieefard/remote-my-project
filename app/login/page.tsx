@@ -6,9 +6,9 @@ import {
 } from "@nextui-org/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import toast, { Toaster } from "react-hot-toast";
 import { FaKey } from "react-icons/fa";
-import { http_login } from "../http/client";
+import { handle_error, http_login } from "../http/client";
+import { useAlertContext } from "../contexts/alert-context";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -18,31 +18,26 @@ export default function LoginPage() {
 
   const router = useRouter();
 
+  const alertContext = useAlertContext()
+  
   const login = () => {
     setIsLoading(true);
     http_login(username, password)
       .then(() => {
-        toast.success("Welcome");
+        alertContext.toast.success("Welcome");
         setTimeout(() => {
           router.push("/panel/overview", { scroll: false });
         }, 1000);
       })
-      .catch(() => {});
+      .catch((err) => {
+        handle_error(err,alertContext.toast,router)
+      }).finally(()=>{
+        setIsLoading(false);
+      });
   };
 
   return (
     <>
-      <Toaster
-        position="top-center"
-        reverseOrder={false}
-        toastOptions={{
-          style: {
-            border: "10px",
-            background: "#27272A",
-            color: "#fff",
-          },
-        }}
-      />
       <main className="flex h-screen justify-center mt-16 md:mt-0 md:items-center">
         <div className="hidden md:flex flex-col w-[380px] gap-4 border-1 pb-6 p-4 rounded-xl ">
           <div>
