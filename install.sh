@@ -5,18 +5,15 @@ exit_install(){
 
 create_database(){
     read -p "Set postgres username : " postgres_user
-    if [ -n "$postgres_user" ]; then
-        break
-    else
+    if [ -z "$postgres_user" ]; then
         echo "You should fill postgres username"
         exit_install
     fi
 
 
     read -p "Set postgres password : " postgres_password
-    if [ -n "$postgres_password" ]; then
-        break
-    else
+
+    if [ -z "$postgres_password" ]; then
         echo "You should fill postgres password"
         exit_install
     fi
@@ -49,7 +46,19 @@ if [ -x "$(command -v docker)" ]; then
             docker rm -f rmp-database
             create_database
         else
-            break
+            read -p "Active postgres database username : " postgres_user
+            if [ -z "$postgres_user" ]; then
+                echo "You should fill postgres username"
+                exit_install
+            fi
+
+
+            read -p "Active postgres database password : " postgres_password
+            
+            if [ -z "$postgres_password" ]; then
+                echo "You should fill postgres password"
+                exit_install
+            fi
         fi
     else
         create_database
