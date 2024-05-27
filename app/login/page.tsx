@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  Button,
-  Input,
-} from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaKey } from "react-icons/fa";
@@ -18,8 +15,8 @@ export default function LoginPage() {
 
   const router = useRouter();
 
-  const alertContext = useAlertContext()
-  
+  const alertContext = useAlertContext();
+
   const login = () => {
     setIsLoading(true);
     http_login(username, password)
@@ -30,14 +27,20 @@ export default function LoginPage() {
         }, 1000);
       })
       .catch((err) => {
-        handle_error(err,alertContext.toast,router)
-      }).finally(()=>{
+        handle_error(err, alertContext.toast, router);
+      })
+      .finally(() => {
         setIsLoading(false);
       });
   };
 
   return (
-    <>
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        
+      }}
+    >
       <main className="flex h-screen justify-center mt-16 md:mt-0 md:items-center">
         <div className="hidden md:flex flex-col w-[380px] gap-4 border-1 pb-6 p-4 rounded-xl ">
           <div>
@@ -99,6 +102,7 @@ export default function LoginPage() {
             ></Input>
             <div className="flex w-full flex-col gap-4">
               <Button
+                type="submit"
                 color="primary"
                 isLoading={isLoading}
                 onPress={() => login()}
@@ -112,6 +116,6 @@ export default function LoginPage() {
           </div>
         </div>
       </main>
-    </>
+    </form>
   );
 }
