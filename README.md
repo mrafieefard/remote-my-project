@@ -36,3 +36,4 @@ Contributors are welcome <3
 - [ ] Allow create widget for overview page
 - [ ] Add an authentication page to manage users and permissions
 - [ ] Add python sdk to pypi page
+- [x] Migrate sqlite to postgresql
