@@ -26,6 +26,8 @@ create_database(){
 
 }
 
+rm -rf remote-my-project
+
 git clone https://github.com/mrafieefard/remote-my-project
 cd remote-my-project
 
