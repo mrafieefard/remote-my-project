@@ -1,17 +1,16 @@
 import { Button, Input } from "@nextui-org/react";
 import { FaMagnifyingGlass, FaPlus, FaRotate } from "react-icons/fa6";
-import CreateProjectModal from "../../modal/modal-views/create-project-modal";
 import { UseQueryResult } from "react-query";
-import useModal, { ModalView } from "../../modal/modal-base";
 import toast from "react-hot-toast";
+import { useAlertContext } from "@/app/contexts/alert-context";
+import CreateProjectModal from "@/app/modal/modal-views/create-project-modal"
 
 interface props {
     queryData : UseQueryResult<any, any>
-    view : ModalView
 }
 
 export default function TableHeader(props: props) {
-    
+    const alertContext = useAlertContext()
     return (
         <div className="flex justify-between">
             <div>
@@ -35,9 +34,8 @@ export default function TableHeader(props: props) {
                 className="hidden md:flex"
                 color="primary"
                 onPress={() => {
-                  props.view.modal.openModal(
+                  alertContext.modal.openModal(
                     <CreateProjectModal
-                      view={props.view}
                      
                       refetchProjects={props.queryData.refetch}
                     />
@@ -52,9 +50,8 @@ export default function TableHeader(props: props) {
                 isIconOnly
                 color="primary"
                 onPress={() => {
-                  props.view.modal.openModal(
+                  alertContext.modal.openModal(
                     <CreateProjectModal
-                      view={props.view}
                       refetchProjects={props.queryData.refetch}
                     />
                   );

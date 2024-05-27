@@ -17,30 +17,29 @@ import { Key, useCallback } from "react";
 import { ProjectResponse } from "../../http/base";
 import { FaEye, FaPen, FaScroll, FaTrash } from "react-icons/fa";
 import { FaCirclePlay, FaEllipsisVertical } from "react-icons/fa6";
-import { ModalView } from "../modal/modal-base";
-import DetailModal from "../modal/modal-views/detail-project-modal";
-import DeleteModal from "../modal/modal-views/delete-project-modal";
 import toast from "react-hot-toast";
-import UseProjectModal from "../modal/modal-views/use-project-modal";
-import EditProjectModal from "../modal/modal-views/edit-project-modal";
+import { useAlertContext } from "@/app/contexts/alert-context";
+import DetailProjectModal from "@/app/modal/modal-views/detail-project-modal";
+import UseProjectModal from "@/app/modal/modal-views/use-project-modal";
+import EditProjectModal from "@/app/modal/modal-views/edit-project-modal";
+import DeleteProjectModal from "@/app/modal/modal-views/delete-project-modal";
 
 interface props {
   projects: ProjectResponse[];
   isLoading: boolean;
-  view : ModalView
   refetchProjects: () => void;
 }
 
 export default function ProjectPage(props: props) {
+  const alertContext = useAlertContext()
   const actions = [
     {
       name: "Details",
       icon: <FaEye />,
       onPress: (project: ProjectResponse) => {
-        props.view.modal.openModal(
-          <DetailModal
+        alertContext.modal.openModal(
+          <DetailProjectModal
             project={project}
-            view={props.view}
           />
         );
       },
@@ -50,10 +49,9 @@ export default function ProjectPage(props: props) {
       icon: <FaCirclePlay />,
       
       onPress: (project: ProjectResponse) => {
-        props.view.modal.openModal(
+        alertContext.modal.openModal(
           
           <UseProjectModal
-            view={props.view}
             project={project}
           />
         ,"5xl");
@@ -63,11 +61,10 @@ export default function ProjectPage(props: props) {
       name: "Edit",
       icon: <FaPen />,
       onPress: (project: ProjectResponse) => {
-        props.view.modal.openModal(
+        alertContext.modal.openModal(
           <EditProjectModal
             refetchProjects={props.refetchProjects}
             project={project}
-            view={props.view}
           />
         );
       },
@@ -76,11 +73,10 @@ export default function ProjectPage(props: props) {
       name: "Delete",
       icon: <FaTrash />,
       onPress: (project: ProjectResponse) => {
-        props.view.modal.openModal(
-          <DeleteModal
+        alertContext.modal.openModal(
+          <DeleteProjectModal
             refetchProjects={props.refetchProjects}
             project={project}
-            view={props.view}
           />
         );
       },
