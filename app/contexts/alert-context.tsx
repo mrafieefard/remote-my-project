@@ -36,17 +36,33 @@ export function AlertProvider({ children }: ProviderProps) {
       }}
     >
       <ModalBase modal={modal} />
-      <Toaster
-        position="bottom-right"
-        reverseOrder={false}
-        toastOptions={{
-          style: {
-            border: "10px",
-            background: "#27272A",
-            color: "#fff",
-          },
-        }}
-      />
+      <div className="hidden md:flex">
+        <Toaster
+          position="bottom-right"
+          reverseOrder={false}
+          toastOptions={{
+            style: {
+              border: "10px",
+              background: "#27272A",
+              color: "#fff",
+            },
+          }}
+        />
+      </div>
+
+      <div className="flex md:hidden">
+        <Toaster
+          position="top-center"
+          reverseOrder={false}
+          toastOptions={{
+            style: {
+              border: "10px",
+              background: "#27272A",
+              color: "#fff",
+            },
+          }}
+        />
+      </div>
       {children}
     </AlertContext.Provider>
   );
