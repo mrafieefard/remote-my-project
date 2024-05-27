@@ -27,13 +27,17 @@ docker build -t rmp remote-my-project/
 docker run -d -p 3000:3000 rmp
 ```
 
-## Contribution
-
-Contributors are welcome <3
-
 ## Todo
 - [ ] Optimization
 - [ ] Allow create widget for overview page
 - [ ] Add an authentication page to manage users and permissions
 - [ ] Add python sdk to pypi page
 - [x] Migrate sqlite to postgresql
+
+
+## Contributors
+
+Right now there is no contributors in this project. you can be first :)
+
+If you want to contribute email me at mrafieefard@gmail.com
+
