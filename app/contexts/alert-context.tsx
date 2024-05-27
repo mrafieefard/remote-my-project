@@ -1,6 +1,12 @@
 "use client";
 
-import { ReactNode, createContext, useContext } from "react";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useModal, ModalBase } from "../modal/modal-base";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -25,9 +31,26 @@ export function useAlertContext() {
   return context;
 }
 
+function useMedia(query: string) {
+  const [matches, setMatches] = useState(window.matchMedia(query).matches);
+
+  useEffect(() => {
+    const media = window.matchMedia(query);
+    if (media.matches !== matches) {
+      setMatches(media.matches);
+    }
+    const listener = () => setMatches(media.matches);
+    media.addListener(listener);
+    return () => media.removeListener(listener);
+  }, [query, matches]);
+
+  return matches;
+}
+
 export function AlertProvider({ children }: ProviderProps) {
   const modal = useModal();
-
+  const small = useMedia("(max-width: 640px)");
+  
   return (
     <AlertContext.Provider
       value={{
@@ -36,33 +59,18 @@ export function AlertProvider({ children }: ProviderProps) {
       }}
     >
       <ModalBase modal={modal} />
-      <div className="hidden md:flex">
-        <Toaster
-          position="bottom-right"
-          reverseOrder={false}
-          toastOptions={{
-            style: {
-              border: "10px",
-              background: "#27272A",
-              color: "#fff",
-            },
-          }}
-        />
-      </div>
+      <Toaster
+        position={small ? "top-center" : "bottom-right"}
+        reverseOrder={false}
+        toastOptions={{
+          style: {
+            border: "10px",
+            background: "#27272A",
+            color: "#fff",
+          },
+        }}
+      />
 
-      <div className="flex md:hidden">
-        <Toaster
-          position="top-center"
-          reverseOrder={false}
-          toastOptions={{
-            style: {
-              border: "10px",
-              background: "#27272A",
-              color: "#fff",
-            },
-          }}
-        />
-      </div>
       {children}
     </AlertContext.Provider>
   );
