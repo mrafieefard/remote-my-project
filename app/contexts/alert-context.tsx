@@ -32,7 +32,11 @@ export function useAlertContext() {
 }
 
 function useMedia(query: string) {
-  const [matches, setMatches] = useState(window.matchMedia(query).matches);
+  const [matches, setMatches] = useState(false);
+
+  useEffect(()=>{
+    setMatches(window.matchMedia(query).matches)
+  },[])
 
   useEffect(() => {
     const media = window.matchMedia(query);
