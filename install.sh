@@ -29,6 +29,9 @@ create_database(){
 
 }
 
+git clone https://github.com/mrafieefard/remote-my-project
+cd remote-my-project
+
 if [ -x "$(command -v docker)" ]; then
     if docker ps -a --format '{{.Names}}' | grep -q "^rmp-web$"; then
         echo "You have running web docker"
