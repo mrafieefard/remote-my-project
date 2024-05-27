@@ -7,9 +7,6 @@ interface ContextModal {
   modal: ReturnType<typeof useModal>;
 }
 
-interface ModalView {
-  modal: ReturnType<typeof useModal>;
-}
 
 export function ModalBase(props: ContextModal) {
   const modal = props.modal
@@ -45,4 +42,4 @@ export function useModal() {
   };
 }
 
-export type { ModalView, ContextModal };
+export type { ContextModal };

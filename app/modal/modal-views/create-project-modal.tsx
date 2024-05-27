@@ -6,7 +6,6 @@ import {
   ModalHeader,
   Textarea,
 } from "@nextui-org/react";
-import { ModalView } from "../modal-base";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { ProjectResponse } from "@/app/http/base";
 import { useEffect, useState } from "react";

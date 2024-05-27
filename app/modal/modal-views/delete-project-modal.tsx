@@ -6,7 +6,6 @@ import {
   ModalFooter,
   ModalHeader,
 } from "@nextui-org/react";
-import { ModalView } from "../modal-base";
 import { useEffect, useState } from "react";
 import { ProjectResponse } from "@/app/http/base";
 import {handle_error, http_delete_project} from "@/app/http/client";

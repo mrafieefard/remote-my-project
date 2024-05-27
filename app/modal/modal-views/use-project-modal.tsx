@@ -1,5 +1,4 @@
 import { Button, Code, ModalBody, ModalFooter, ModalHeader } from "@nextui-org/react";
-import { ModalView } from "../modal-base";
 import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import { ProjectResponse } from "@/app/http/base";
 import { usePathname } from "next/navigation";
