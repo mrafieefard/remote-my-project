@@ -30,6 +30,11 @@ create_database(){
 }
 
 if [ -x "$(command -v docker)" ]; then
+    if docker ps -a --format '{{.Names}}' | grep -q "^rmp-web$"; then
+        echo "You have running web docker"
+        exit_install
+    fi
+
     docker network inspect rmp-network >/dev/null 2>&1 || \
     docker network create rmp-network
 
@@ -47,8 +52,11 @@ if [ -x "$(command -v docker)" ]; then
         create_database
     fi
 
-    
-    
+    docker build -t rmp-web-image .
+    docker run --name rmp-web \
+               --network rmp-network \
+               -e DATABASE_URL="postgresql://$postgres_user:$postgres_password@rmp-database/rmpdb" \
+               -p 3000:3000 -d rmp-web-image
     
 
 else
