@@ -4,7 +4,7 @@ Remote My Project is a straightforward tool that allows you to connect your Pyth
 ## One-click Installation
 
 ```bash 
-<(curl -Ls https://raw.githubusercontent.com/mrafieefard/remote-my-project/master/install.sh)
+bash <(curl -Ls https://raw.githubusercontent.com/mrafieefard/remote-my-project/master/install.sh)
 ```
 
 ## Manual Installation
