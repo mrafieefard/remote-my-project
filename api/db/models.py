@@ -6,7 +6,6 @@ from datetime import datetime
 import uuid
 
 class Base(DeclarativeBase):
-
     pass
 
 

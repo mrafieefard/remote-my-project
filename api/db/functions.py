@@ -6,10 +6,10 @@ import uuid
 from datetime import datetime
 
 from .models import Base, Project, Log, Client
-from .base import conn, session
+from .base import engine, session
 
 
-Base.metadata.create_all(bind=conn)
+Base.metadata.create_all(bind=engine)
 
 
 def db_create_project(id, title, description) -> Project:
