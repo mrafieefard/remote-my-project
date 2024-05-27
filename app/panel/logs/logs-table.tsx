@@ -17,22 +17,19 @@ import { Key, useCallback } from "react";
 import { LogData, LogsResponse } from "../../http/base";
 import { FaTrash } from "react-icons/fa";
 import { FaEllipsisVertical } from "react-icons/fa6";
-import { ModalViewProps } from "../modal/modal-base";
 
-import toast from "react-hot-toast";
 import { http_delete_log } from "@/app/http/client";
+import { useAlertContext } from "@/app/contexts/alert-context";
 
 interface props {
   logs: LogData[];
   isLoading: boolean;
-  modal: ModalViewProps;
-  toastContext : typeof toast
   refetchLogs: () => void;
   pagination : JSX.Element
 }
 
 export default function LogsTable(props: props) {
-  
+  const alertContext = useAlertContext()
   const actions = [
     {
       name: "Delete",
@@ -40,7 +37,7 @@ export default function LogsTable(props: props) {
       onPress: (log: LogData) => {
         http_delete_log(log.id).then(() => {
           props.refetchLogs();
-          props.toastContext.success("Log delted")
+          alertContext.toast.success("Log delted")
           
         });
       },
