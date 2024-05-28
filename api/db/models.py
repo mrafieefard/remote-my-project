@@ -116,7 +116,7 @@ class Widget(Base):
 
     id: Mapped[str] = mapped_column(primary_key=True,unique=True)
     name: Mapped[str] = mapped_column(primary_key=True,unique=True)
-    project_id: Mapped[str] = mapped_column(primary_key=True,unique=True)
+    project_id: Mapped[str] = mapped_column(primary_key=True)
     title : Mapped[str] = mapped_column(default="")
     type : Mapped[int]
     content : Mapped[JSON] = mapped_column(type_=JSON)

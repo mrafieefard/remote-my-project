@@ -35,8 +35,9 @@ async def sync_functions(id: str, payload: UpdateFunction, response: Response,pr
 
 @route.post("/{id}/widgets")
 async def sync_widgets(id: str, payload: UpdateWidget, response: Response,project : Annotated[Project, Depends(verify_secret)]):
-    
+    db_delete_all_widget(id)
     for widget in payload.widget:
+        print(widget)
         db_create_widget(widget["name"],id,widget["title"],widget["type"],widget["content"])
 
     return
