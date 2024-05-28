@@ -36,6 +36,19 @@ interface LogData{
   content : string
 }
 
+interface WidgetResponse{
+  id : string,
+  name : string,
+  project_id : string,
+  title : string,
+  type : number,
+  content : TextWidgetContent
+}
+
+interface TextWidgetContent{
+  text : string
+}
+
 function return_data<T>(success: boolean, data: T | undefined = undefined,error : string | undefined = undefined) {
   if (success) {
     
@@ -55,5 +68,5 @@ function return_data<T>(success: boolean, data: T | undefined = undefined,error 
   }
 }
 
-export type {TokenResponse,ProjectResponse,LogsResponse,LogData}
+export type {TokenResponse,ProjectResponse,LogsResponse,LogData,WidgetResponse}
 export {return_data}

@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { ProjectResponse, TokenResponse, LogsResponse } from "./base";
+import { ProjectResponse, TokenResponse, LogsResponse, WidgetResponse } from "./base";
 import toast from "react-hot-toast";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
@@ -101,6 +101,12 @@ async function http_clear_logs() {
   return true;
 }
 
+async function http_get_widgets() {
+  const response = await client.get<WidgetResponse[]>(`/client/widgets`);
+  return response.data;
+}
+
+
 export {
   handle_error,
   http_login,
@@ -111,4 +117,5 @@ export {
   http_delete_project,
   http_create_project,
   http_clear_logs,
+  http_get_widgets
 };
