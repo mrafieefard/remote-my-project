@@ -38,4 +38,5 @@ class GetLogsForm(BaseModel):
     size: int
     level: str | list
     project: str | list
+    search : str
 

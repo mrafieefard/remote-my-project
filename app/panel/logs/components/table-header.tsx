@@ -10,6 +10,7 @@ import React from "react";
 import Filters from "./filters";
 import ClearLogConfirmModal from "@/app/modal/modal-views/clear-log-confirm-modal";
 import { useAlertContext } from "@/app/contexts/alert-context";
+import { useLogsContext } from "@/app/contexts/log-context";
 
 interface props {
   logsData: UseQueryResult<LogsResponse | undefined, unknown>;
@@ -17,6 +18,7 @@ interface props {
 
 export default function TableHeader(props: props) {
   const alertContext = useAlertContext()
+  const logsContext = useLogsContext()
   const clearLogs = () => {
     alertContext.modal.openModal(
       <ClearLogConfirmModal
@@ -32,6 +34,8 @@ export default function TableHeader(props: props) {
           <Input
             placeholder="Search in logs"
             startContent={<FaMagnifyingGlass />}
+            value={logsContext.filters.search.value}
+            onValueChange={logsContext.filters.search.set}
           />
           <div className="flex flex-row gap-2">
             <Filters />
@@ -41,6 +45,8 @@ export default function TableHeader(props: props) {
           <Input
             placeholder="Search in logs"
             startContent={<FaMagnifyingGlass />}
+            value={logsContext.filters.search.value}
+            onValueChange={logsContext.filters.search.set}
           />
           <Filters />
         </div>

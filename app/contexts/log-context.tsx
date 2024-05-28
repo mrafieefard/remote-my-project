@@ -14,9 +14,16 @@ interface LevelFilter {
   set: React.Dispatch<React.SetStateAction<Selection>>;
 }
 
+interface SearchFilter {
+  value: string;
+  set: React.Dispatch<React.SetStateAction<string>>;
+}
+
+
 interface Filters {
   project: ProjectFilter;
   level: LevelFilter;
+  search : SearchFilter
 }
 
 interface LogsContext {
@@ -43,6 +50,7 @@ export function useLogsContext() {
 export function LogsProvider({ children }: ProviderProps) {
   const [levelFilter, setLevelFilter] = useState<Selection>("all");
   const [projectFilter, setProjectFilter] = useState<Selection>("all");
+  const [searchFilter, setSearchFilter] = useState<string>("");
 
   const queryClient = new QueryClient();
     
@@ -58,6 +66,10 @@ export function LogsProvider({ children }: ProviderProps) {
             value: projectFilter,
             set: setProjectFilter,
           },
+          search : {
+            value : searchFilter,
+            set : setSearchFilter
+          }
         },
         query : queryClient
       }}

@@ -1,8 +1,6 @@
 "use client";
 
-import {
-  Pagination,
-} from "@nextui-org/react";
+import { Pagination } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
@@ -19,10 +17,10 @@ import { LogsProvider, useLogsContext } from "../../contexts/log-context";
 import { useAlertContext } from "@/app/contexts/alert-context";
 
 export default function LogsPage() {
-  const alertContext = useAlertContext()
+  const alertContext = useAlertContext();
 
   const [page, setPage] = useState(1);
-  const context = useLogsContext();
+  const logsContext = useLogsContext();
   const router = useRouter();
 
   const logs_res = useQuery(
@@ -32,16 +30,17 @@ export default function LogsPage() {
         return await http_get_logs(
           page,
           25,
-          context.filters.level.value !== "all"
-            ? Array.from(context.filters.level.value).map((value) =>
+          logsContext.filters.level.value !== "all"
+            ? Array.from(logsContext.filters.level.value).map((value) =>
                 value.toString()
               )
-            : context.filters.level.value,
-          context.filters.project.value !== "all"
-            ? Array.from(context.filters.project.value).map((value) =>
+            : logsContext.filters.level.value,
+          logsContext.filters.project.value !== "all"
+            ? Array.from(logsContext.filters.project.value).map((value) =>
                 value.toString()
               )
-            : context.filters.project.value
+            : logsContext.filters.project.value,
+          logsContext.filters.search.value
         );
       } catch (error) {
         handle_error(error, toast, router);
@@ -52,18 +51,20 @@ export default function LogsPage() {
     }
   );
 
-
   useEffect(() => {
     logs_res.refetch();
-  }, [page, context.filters.level.value, context.filters.project.value]);
+  }, [
+    page,
+    logsContext.filters.level.value,
+    logsContext.filters.project.value,
+    logsContext.filters.search.value,
+  ]);
 
   return (
     <>
       <main className="flex flex-col w-full h-full p-2 md:py-1 md:px-8 gap-4">
         <div className="flex flex-col gap-4">
-          <TableHeader
-            logsData={logs_res}
-          />
+          <TableHeader logsData={logs_res} />
           <LogsTable
             refetchLogs={logs_res.refetch}
             logs={logs_res.data ? logs_res.data.data : []}

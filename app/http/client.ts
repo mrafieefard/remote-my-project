@@ -47,13 +47,15 @@ async function http_get_logs(
   page: number,
   size: number,
   levelFilter: string | Array<string>,
-  projectFilter: string | Array<string>
+  projectFilter: string | Array<string>,
+  search : string
 ) {
   const response = await client.post<LogsResponse>(`/client/logs`, {
     page: page,
     size: size,
     level: levelFilter,
     project: projectFilter,
+    search : search
   });
   return response.data;
 }
