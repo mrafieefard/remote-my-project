@@ -20,7 +20,7 @@ export function Filters() {
     "projects",
     async () => {
       try {
-        return await http_get_projects();
+        return await http_get_projects("");
       } catch (error) {
         // handle_error(error, toast, router);
       }
