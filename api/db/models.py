@@ -110,3 +110,22 @@ class Client(Base):
             "username": self.username,
             "hashed_password": self.hashed_password,
         }
+
+class Widget(Base):
+    __tablename__ = "widgets"
+
+    id: Mapped[str] = mapped_column(primary_key=True,unique=True)
+    name: Mapped[str] = mapped_column(primary_key=True,unique=True)
+    project_id: Mapped[str] = mapped_column(primary_key=True,unique=True)
+    title : Mapped[str] = mapped_column(default="")
+    type : Mapped[int]
+    content : Mapped[JSON] = mapped_column(type_=JSON)
+
+    def get_data(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "project_id": self.project_id,
+            "type": self.type,
+            "content": self.content,
+        }

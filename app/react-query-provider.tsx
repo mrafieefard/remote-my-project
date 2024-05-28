@@ -6,7 +6,7 @@ import { QueryClientProvider, QueryClient } from "react-query";
  
 export function ReactQueryProvider({ children }: React.PropsWithChildren) {
   const [client] = React.useState(new QueryClient());
- 
+  
   return (
     <QueryClientProvider client={client}>
       {children}

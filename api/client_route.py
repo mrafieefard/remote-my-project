@@ -119,6 +119,7 @@ async def delete_project(id: str, response: Response, current_user: Annotated[Cl
         project_connection = websocket_handler.get_connected_project(id)
         if project_connection:
             await websocket_handler.force_remove_project_connection(project_connection)
+        db_delete_all_widget(id)
         return {
             "success": True,
         }
@@ -188,6 +189,13 @@ async def get_project_log(id: str, current_user: Annotated[Client, Depends(http_
         "data": data
     }
 
+
+
+@route.get("/widgets")
+async def get_widgets(current_user: Annotated[Client, Depends(http_auth)]):
+    widgets = db_get_widgets()
+
+    return [widget.get_data() for widget in widgets]
 
 @route.websocket("/project/{id}/ws")
 async def client_websocket(websocket: WebSocket, id: str, token: Annotated[str, Header(alias="Authorization")]):

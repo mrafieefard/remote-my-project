@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError
 import uuid
 from datetime import datetime
 
-from .models import Base, Project, Log, Client
+from .models import Base, Project, Log, Client, Widget
 from .base import engine, session
 
 
@@ -13,10 +13,11 @@ Base.metadata.create_all(bind=engine)
 
 
 def db_create_project(id, title, description) -> Project:
-    try :
+    try:
         secret = "".join(
             [random.choice("abcde1234567890") for _ in range(32)])
-        project = Project(id=id, title=title, description=description, secret=secret)
+        project = Project(id=id, title=title,
+                          description=description, secret=secret)
         session.add(project)
         session.commit()
 
@@ -25,7 +26,7 @@ def db_create_project(id, title, description) -> Project:
         return "unique"
     except:
         return False
-    finally :
+    finally:
         session.rollback()
 
 
@@ -157,4 +158,27 @@ def db_create_client(username, password):
     client = Client(username=username, hashed_password=password)
 
     session.add(client)
+    session.commit()
+
+
+def db_create_widget(name, project_id, title, type, content):
+    try:
+        widget = Widget(id=str(uuid.uuid4()), name=name, title=title,
+                        project_id=project_id, type=type, content=content)
+        session.add(widget)
+        session.commit()
+    except:
+        return False
+    finally:
+        session.rollback()
+
+def db_get_widgets():
+    stmt = select(Widget)
+    data = session.scalars(stmt)
+
+    return data.fetchall()
+
+def db_delete_all_widget(project_id):
+    session.query(Widget).where(Widget.project_id == project_id).delete()
+
     session.commit()

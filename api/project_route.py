@@ -1,6 +1,6 @@
 from fastapi import APIRouter, WebSocket, Response, status,Depends,Header,HTTPException
 from typing_extensions import Annotated
-from base_models import UpdateFunction,UpdateReady
+from base_models import UpdateFunction,UpdateReady, UpdateWidget
 from websocket_manager import websocket_handler, ProjectWebsocket
 from db import *
 
@@ -32,6 +32,15 @@ async def sync_functions(id: str, payload: UpdateFunction, response: Response,pr
     data = db_update_project(id, project)
 
     return data
+
+@route.post("/{id}/widgets")
+async def sync_widgets(id: str, payload: UpdateWidget, response: Response,project : Annotated[Project, Depends(verify_secret)]):
+    
+    for widget in payload.widget:
+        db_create_widget(widget["name"],id,widget["title"],widget["type"],widget["content"])
+
+    return
+
 
 @route.put("/{id}/ready")
 async def update_ready(id: str, payload: UpdateReady, response: Response,project : Annotated[Project, Depends(verify_secret)]):

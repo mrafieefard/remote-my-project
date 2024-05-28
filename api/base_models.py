@@ -19,6 +19,8 @@ class UpdateReady(BaseModel):
 class UpdateFunction(BaseModel):
     function: list
 
+class UpdateWidget(BaseModel):
+    widget : list
 
 class TokenData(BaseModel):
     username: str | None = None
