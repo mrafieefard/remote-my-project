@@ -125,6 +125,7 @@ class Widget(Base):
         return {
             "id": self.id,
             "name": self.name,
+            "title": self.title,
             "project_id": self.project_id,
             "type": self.type,
             "content": self.content,
