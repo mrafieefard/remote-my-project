@@ -52,7 +52,10 @@ export default function LogsPage() {
   );
 
   useEffect(() => {
-    logs_res.refetch();
+    const timeoutId = setTimeout(() => {
+      logs_res.refetch();
+    },500)
+    return () => clearTimeout(timeoutId);
   }, [
     page,
     logsContext.filters.level.value,

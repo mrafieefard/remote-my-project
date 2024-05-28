@@ -31,7 +31,10 @@ export default function ProjectPage() {
   );
 
   useEffect(()=>{
-    projects_res.refetch()
+    const timeoutId = setTimeout(() => {
+      projects_res.refetch()
+    },500)
+    return () => clearTimeout(timeoutId);
   },[projectsContext.filters.search])
 
   if (projects_res.isError) {
