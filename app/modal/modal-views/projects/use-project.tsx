@@ -10,7 +10,7 @@ interface props {
   project: ProjectResponse;
 }
 
-export default function UseProjectModal(props: props) {
+export default function UseProject(props: props) {
   const alertContext = useAlertContext()
   const { onClose } = alertContext.modal.disclosure;;
   const pathname = usePathname()

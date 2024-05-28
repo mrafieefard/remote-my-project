@@ -8,7 +8,7 @@ interface props {
   project : ProjectResponse
 }
 
-export default function DetailProjectModal(props: props) {
+export default function DetailProject(props: props) {
   const alertContext = useAlertContext()
   const { onClose } = alertContext.modal.disclosure;
   const [showSecret,setShowSecret] = useState(false)

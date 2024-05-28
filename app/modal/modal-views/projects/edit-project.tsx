@@ -19,7 +19,7 @@ interface props {
   
 }
 
-export default function EditProjectModal(props: props) {
+export default function EditProject(props: props) {
   const alertContext = useAlertContext()
   const { onClose } = alertContext.modal.disclosure;
   const router = useRouter()

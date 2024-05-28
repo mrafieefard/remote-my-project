@@ -2,7 +2,7 @@ import { Button, Input } from "@nextui-org/react";
 import { FaMagnifyingGlass, FaPlus, FaRotate } from "react-icons/fa6";
 import { UseQueryResult } from "react-query";
 import { useAlertContext } from "@/app/contexts/alert-context";
-import CreateProjectModal from "@/app/modal/modal-views/create-project-modal"
+import CreateProject from "@/app/modal/modal-views/projects/create-project"
 import { useProjectsContext } from "@/app/contexts/project-context";
 
 interface props {
@@ -38,7 +38,7 @@ export default function TableHeader(props: props) {
                 color="primary"
                 onPress={() => {
                   alertContext.modal.openModal(
-                    <CreateProjectModal
+                    <CreateProject
                      
                       refetchProjects={props.queryData.refetch}
                     />
@@ -54,7 +54,7 @@ export default function TableHeader(props: props) {
                 color="primary"
                 onPress={() => {
                   alertContext.modal.openModal(
-                    <CreateProjectModal
+                    <CreateProject
                       refetchProjects={props.queryData.refetch}
                     />
                   );

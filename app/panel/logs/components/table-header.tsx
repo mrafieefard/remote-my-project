@@ -8,7 +8,7 @@ import { FaMagnifyingGlass, FaRotate } from "react-icons/fa6";
 import { UseQueryResult } from "react-query";
 import React from "react";
 import Filters from "./filters";
-import ClearLogConfirmModal from "@/app/modal/modal-views/clear-log-confirm-modal";
+import ClearLogConfirm from "@/app/modal/modal-views/logs/clear-log-confirm";
 import { useAlertContext } from "@/app/contexts/alert-context";
 import { useLogsContext } from "@/app/contexts/log-context";
 
@@ -21,7 +21,7 @@ export default function TableHeader(props: props) {
   const logsContext = useLogsContext()
   const clearLogs = () => {
     alertContext.modal.openModal(
-      <ClearLogConfirmModal
+      <ClearLogConfirm
         refetchLogs={props.logsData.refetch}
       />
     );

@@ -17,7 +17,7 @@ interface props {
   refetchProjects: () => void;
 }
 
-export default function DeleteProjectModal(props: props) {
+export default function DeleteProject(props: props) {
   const alertContext = useAlertContext()
   const { onClose } = alertContext.modal.disclosure;
   const router = useRouter()

@@ -18,10 +18,10 @@ import { ProjectResponse } from "../../http/base";
 import { FaEye, FaPen, FaTrash } from "react-icons/fa";
 import { FaCirclePlay, FaEllipsisVertical } from "react-icons/fa6";
 import { useAlertContext } from "@/app/contexts/alert-context";
-import DetailProjectModal from "@/app/modal/modal-views/detail-project-modal";
-import UseProjectModal from "@/app/modal/modal-views/use-project-modal";
-import EditProjectModal from "@/app/modal/modal-views/edit-project-modal";
-import DeleteProjectModal from "@/app/modal/modal-views/delete-project-modal";
+import DetailProject from "@/app/modal/modal-views/projects/detail-project";
+import UseProject from "@/app/modal/modal-views/projects/use-project";
+import EditProject from "@/app/modal/modal-views/projects/edit-project";
+import DeleteProject from "@/app/modal/modal-views/projects/delete-project";
 
 interface props {
   projects: ProjectResponse[];
@@ -37,7 +37,7 @@ export default function ProjectPage(props: props) {
       icon: <FaEye />,
       onPress: (project: ProjectResponse) => {
         alertContext.modal.openModal(
-          <DetailProjectModal
+          <DetailProject
             project={project}
           />
         );
@@ -50,7 +50,7 @@ export default function ProjectPage(props: props) {
       onPress: (project: ProjectResponse) => {
         alertContext.modal.openModal(
           
-          <UseProjectModal
+          <UseProject
             project={project}
           />
         ,"5xl");
@@ -61,7 +61,7 @@ export default function ProjectPage(props: props) {
       icon: <FaPen />,
       onPress: (project: ProjectResponse) => {
         alertContext.modal.openModal(
-          <EditProjectModal
+          <EditProject
             refetchProjects={props.refetchProjects}
             project={project}
           />
@@ -73,7 +73,7 @@ export default function ProjectPage(props: props) {
       icon: <FaTrash />,
       onPress: (project: ProjectResponse) => {
         alertContext.modal.openModal(
-          <DeleteProjectModal
+          <DeleteProject
             refetchProjects={props.refetchProjects}
             project={project}
           />
