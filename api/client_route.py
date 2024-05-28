@@ -39,17 +39,20 @@ async def login(payload: LoginForm):
 
 
 @route.get("/project")
-async def get_projects(current_user: Annotated[Client, Depends(http_auth)]):
+async def get_projects(search: str, current_user: Annotated[Client, Depends(http_auth)]):
     projects = db_get_projects()
+    search_lower = search.lower()
     datas = []
     for data in projects:
-        project_connection = websocket_handler.get_connected_project(data.id)
-        if project_connection:
-            active_time = datetime.now().timestamp() - \
-                project_connection.connect_time.timestamp()
-            datas.append(data.get_data(additional_time=active_time))
-        else:
-            datas.append(data.get_data())
+        if not search or search_lower in data.id.lower() or search_lower in data.title.lower() or search_lower in data.description.lower():
+            project_connection = websocket_handler.get_connected_project(
+                data.id)
+            if project_connection:
+                active_time = datetime.now().timestamp() - \
+                    project_connection.connect_time.timestamp()
+                datas.append(data.get_data(additional_time=active_time))
+            else:
+                datas.append(data.get_data())
 
     return datas
 
@@ -140,7 +143,7 @@ async def get_project_log(payload: GetLogsForm, current_user: Annotated[Client, 
 
     logs_dict = []
     for log in logs:
-        if (convert_level(log.level) in list(map(str.lower, payload.level)) or payload.level == "all") and (log.project_id in payload.project or payload.project == "all") and (payload.search == "" or payload.search.lower() in log.content.lower()):
+        if (convert_level(log.level) in list(map(str.lower, payload.level)) or payload.level == "all") and (log.project_id in payload.project or payload.project == "all") and (not payload.search or payload.search.lower() in log.content.lower()):
             logs_dict.append(log.get_data())
     logs_dict.reverse()
     total_pages = calculate_total_pages(len(logs_dict), payload.size)

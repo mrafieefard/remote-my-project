@@ -3,6 +3,7 @@ import { FaMagnifyingGlass, FaPlus, FaRotate } from "react-icons/fa6";
 import { UseQueryResult } from "react-query";
 import { useAlertContext } from "@/app/contexts/alert-context";
 import CreateProjectModal from "@/app/modal/modal-views/create-project-modal"
+import { useProjectsContext } from "@/app/contexts/project-context";
 
 interface props {
     queryData : UseQueryResult<any, any>
@@ -10,12 +11,15 @@ interface props {
 
 export default function TableHeader(props: props) {
     const alertContext = useAlertContext()
+    const projectContext = useProjectsContext()
     return (
         <div className="flex justify-between">
             <div>
               <Input
                 placeholder="Search in projects"
                 startContent={<FaMagnifyingGlass />}
+                value={projectContext.filters.search.value}
+                onValueChange={projectContext.filters.search.set}
               />
             </div>
             <div className="flex flex-row gap-2">

@@ -38,8 +38,12 @@ async function http_login(username: string, password: string) {
   return response.data;
 }
 
-async function http_get_projects() {
-  const response = await client.get<ProjectResponse[]>(`/client/project`);
+async function http_get_projects(search : string) {
+  const response = await client.get<ProjectResponse[]>(`/client/project`,{
+    params : {
+      search : search
+    }
+  });
   return response.data;
 }
 
