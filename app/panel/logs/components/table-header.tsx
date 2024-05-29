@@ -11,16 +11,17 @@ import Filters from "./filters";
 import ClearLogConfirm from "@/app/modal/modal-views/logs/clear-log-confirm";
 import { useAlertContext } from "@/app/contexts/alert-context";
 import { useLogsContext } from "@/app/contexts/log-context";
+import { useModalContext } from "@/app/contexts/modal-context";
 
 interface props {
   logsData: UseQueryResult<LogsResponse | undefined, unknown>;
 }
 
 export default function TableHeader(props: props) {
-  const alertContext = useAlertContext()
+  const modalContext = useModalContext()
   const logsContext = useLogsContext()
   const clearLogs = () => {
-    alertContext.modal.openModal(
+    modalContext.modal.openModal(
       <ClearLogConfirm
         refetchLogs={props.logsData.refetch}
       />
