@@ -32,8 +32,8 @@ export default function ForgotPassword() {
             execute this function in your server
           </p>
           <Snippet symbol="" className="break-words" variant="bordered">
-            <span>docker exec -it rmp-database psql -U postgres -d rmpdb -c "DELETE
-            FROM clients;"</span>
+            <span>docker exec -it rmp-database psql -U postgres -d rmpdb -c &apos;DELETE
+            FROM clients;&apos;</span>
           </Snippet>
         </div>
       </ModalBody>
