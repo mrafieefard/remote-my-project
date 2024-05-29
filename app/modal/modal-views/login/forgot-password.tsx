@@ -11,10 +11,11 @@ import { usePathname } from "next/navigation";
 import { CopyBlock, dracula } from "react-code-blocks";
 import { useAlertContext } from "@/app/contexts/alert-context";
 import { FaCircleInfo } from "react-icons/fa6";
+import { useModalContext } from "@/app/contexts/modal-context";
 
 export default function ForgotPassword() {
-  const alertContext = useAlertContext();
-  const { onClose } = alertContext.modal.disclosure;
+  const modalContext = useModalContext();
+  const { onClose } = modalContext.modal.disclosure;
 
   //   docker exec -it rmp-database psql -U postgres -d rmpdb -c "DELETE FROM clients;"
   return (

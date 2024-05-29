@@ -22,6 +22,7 @@ import DetailProject from "@/app/modal/modal-views/projects/detail-project";
 import UseProject from "@/app/modal/modal-views/projects/use-project";
 import EditProject from "@/app/modal/modal-views/projects/edit-project";
 import DeleteProject from "@/app/modal/modal-views/projects/delete-project";
+import { useModalContext } from "@/app/contexts/modal-context";
 
 interface props {
   projects: ProjectResponse[];
@@ -30,49 +31,43 @@ interface props {
 }
 
 export default function ProjectPage(props: props) {
-  const alertContext = useAlertContext()
+  const modalContext = useModalContext()
+  
   const actions = [
     {
       name: "Details",
       icon: <FaEye />,
       onPress: (project: ProjectResponse) => {
-        alertContext.modal.openModal(
-          <DetailProject
-            project={project}
-          />
-        );
+        modalContext.modal.openModal(<DetailProject project={project} />);
       },
     },
     {
       name: "Use project",
       icon: <FaCirclePlay />,
-      
+
       onPress: (project: ProjectResponse) => {
-        alertContext.modal.openModal(
-          
-          <UseProject
-            project={project}
-          />
-        ,"5xl");
+        modalContext.modal.openModal(<UseProject project={project} />, "5xl");
       },
     },
     {
       name: "Edit",
       icon: <FaPen />,
       onPress: (project: ProjectResponse) => {
-        alertContext.modal.openModal(
-          <EditProject
-            refetchProjects={props.refetchProjects}
-            project={project}
-          />
-        );
+        if (!project.is_active) {
+          modalContext.modal.openModal(
+            <EditProject
+              refetchProjects={props.refetchProjects}
+              project={project}
+            />
+          );
+        }
       },
     },
     {
       name: "Delete",
       icon: <FaTrash />,
       onPress: (project: ProjectResponse) => {
-        alertContext.modal.openModal(
+        modalContext.modal.openModal(
           <DeleteProject
             refetchProjects={props.refetchProjects}
             project={project}
@@ -133,10 +128,7 @@ export default function ProjectPage(props: props) {
                         ? "text-danger cursor-pointer "
                         : "text-default-400 cursor-pointer "
                     } active:opacity-50`}
-                    onClick={() => {
-                      if (project.is_active && value.name == "Edit") return;
-                      value.onPress(project);
-                    }}
+                    onClick={() => value.onPress(project)}
                   >
                     {value.icon}
                   </span>

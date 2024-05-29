@@ -2,16 +2,15 @@ import { Button, ModalBody, ModalFooter, ModalHeader } from "@nextui-org/react";
 import { Tabs, Tab } from "@nextui-org/react";
 import { ProjectResponse } from "@/app/http/base";
 import { CopyBlock, dracula } from 'react-code-blocks';
-import { useAlertContext } from "@/app/contexts/alert-context";
-
+import { useModalContext } from "@/app/contexts/modal-context";
 
 interface props {
   project: ProjectResponse;
 }
 
 export default function UseProject(props: props) {
-  const alertContext = useAlertContext()
-  const { onClose } = alertContext.modal.disclosure;;
+  const modalContext = useModalContext()
+  const { onClose } = modalContext.modal.disclosure;;
   const codes = {
     python : `from rmp_py import Client,Context,Function,Argument
 from rmp_py.types import String,Log

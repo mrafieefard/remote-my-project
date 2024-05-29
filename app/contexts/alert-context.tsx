@@ -7,11 +7,9 @@ import {
   useEffect,
   useState,
 } from "react";
-import { useModal, ModalBase } from "../modal/modal-base";
 import toast, { Toaster } from "react-hot-toast";
 
 interface AlertContext {
-  modal: ReturnType<typeof useModal>;
   toast: typeof toast;
 }
 
@@ -25,7 +23,7 @@ export function useAlertContext() {
   const context = useContext(AlertContext);
 
   if (context === undefined) {
-    throw new Error("Define log provider in parent node");
+    throw new Error("Define alert provider in parent node");
   }
 
   return context;
@@ -52,17 +50,14 @@ function useMedia(query: string) {
 }
 
 export function AlertProvider({ children }: ProviderProps) {
-  const modal = useModal();
   const small = useMedia("(max-width: 640px)");
   
   return (
     <AlertContext.Provider
       value={{
-        modal: modal,
         toast: toast,
       }}
     >
-      <ModalBase modal={modal} />
       <Toaster
         position={small ? "top-center" : "bottom-right"}
         reverseOrder={false}

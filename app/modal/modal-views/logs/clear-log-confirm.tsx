@@ -8,15 +8,17 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAlertContext } from "@/app/contexts/alert-context";
 import { useHttpContext } from "@/app/contexts/http-context";
+import { useModalContext } from "@/app/contexts/modal-context";
 
 interface props {
   refetchLogs: () => void;
 }
 
 export default function ClearLogConfirmModal(props: props) {
+  const modalContext = useModalContext()
   const alertContext = useAlertContext()
   const httpContext = useHttpContext()
-  const { onClose } = alertContext.modal.disclosure;
+  const { onClose } = modalContext.modal.disclosure;
   const [isLoading,setIsLoading] = useState(false)
   const router = useRouter()
   return (

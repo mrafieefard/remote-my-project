@@ -7,6 +7,7 @@ import { FaKey } from "react-icons/fa";
 import { useAlertContext } from "../contexts/alert-context";
 import ForgotPassword from "../modal/modal-views/login/forgot-password";
 import { useHttpContext } from "../contexts/http-context";
+import { useModalContext } from "../contexts/modal-context";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -16,6 +17,7 @@ export default function LoginPage() {
 
   const router = useRouter();
   const httpContext = useHttpContext()
+  const modalContext = useModalContext();
   const alertContext = useAlertContext();
 
   const login = () => {
@@ -72,7 +74,7 @@ export default function LoginPage() {
                 Login
               </Button>
               <Button className="self-center" variant="light" onClick={()=>{
-                alertContext.modal.openModal(<ForgotPassword/>,"4xl")
+                modalContext.modal.openModal(<ForgotPassword/>,"4xl")
               }}>
                 <FaKey /> Forgot password
               </Button>
@@ -111,7 +113,7 @@ export default function LoginPage() {
                 Login
               </Button>
               <Button className="self-center" variant="light" onClick={()=>{
-                alertContext.modal.openModal(<ForgotPassword/>,"4xl")
+                modalContext.modal.openModal(<ForgotPassword/>,"4xl")
               }}>
                 <FaKey /> Forgot password
               </Button>

@@ -5,6 +5,7 @@ import { ReactQueryProvider } from "./contexts/react-query-provider";
 import AnimatedLayout from "./animated-layout";
 import { AlertProvider } from "./contexts/alert-context";
 import { HttpProvider } from "./contexts/http-context";
+import { ModalProvider } from "./contexts/modal-context";
 
 export const metadata: Metadata = {
   title: "Remote my project",
@@ -22,7 +23,9 @@ export default function RootLayout({
         <Providers>
           <AlertProvider>
             <HttpProvider>
-              <AnimatedLayout>{children}</AnimatedLayout>
+              <AnimatedLayout>
+                <ModalProvider>{children}</ModalProvider>
+              </AnimatedLayout>
             </HttpProvider>
           </AlertProvider>
         </Providers>

@@ -2,15 +2,15 @@ import { Button, Chip, Input, ModalBody, ModalFooter, ModalHeader, Textarea } fr
 import { ProjectResponse } from "@/app/http/base";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useAlertContext } from "@/app/contexts/alert-context";
+import { useModalContext } from "@/app/contexts/modal-context";
 
 interface props {
   project : ProjectResponse
 }
 
 export default function DetailProject(props: props) {
-  const alertContext = useAlertContext()
-  const { onClose } = alertContext.modal.disclosure;
+  const modalContext = useModalContext()
+  const { onClose } = modalContext.modal.disclosure;
   const [showSecret,setShowSecret] = useState(false)
   return (
     <>

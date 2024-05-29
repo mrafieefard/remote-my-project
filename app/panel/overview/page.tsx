@@ -22,7 +22,7 @@ export default function OverviewPage() {
   return (
     <main className="flex gap-4 flex-col px-6">
         <WidgetsHeader queryData={widget_res}/>
-      <div className="flex gap-2 flex-col md:flex-row">
+      <div className="flex gap-2 flex-col flex-wrap md:flex-row">
         {widget_res.data?.map((value) => {
           switch (value.type) {
             case 0:

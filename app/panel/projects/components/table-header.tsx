@@ -4,13 +4,14 @@ import { UseQueryResult } from "react-query";
 import { useAlertContext } from "@/app/contexts/alert-context";
 import CreateProject from "@/app/modal/modal-views/projects/create-project"
 import { useProjectsContext } from "@/app/contexts/project-context";
+import { useModalContext } from "@/app/contexts/modal-context";
 
 interface props {
     queryData : UseQueryResult<any, any>
 }
 
 export default function TableHeader(props: props) {
-    const alertContext = useAlertContext()
+    const modalContext = useModalContext()
     const projectContext = useProjectsContext()
     return (
         <div className="flex justify-between">
@@ -37,7 +38,7 @@ export default function TableHeader(props: props) {
                 className="hidden md:flex"
                 color="primary"
                 onPress={() => {
-                  alertContext.modal.openModal(
+                  modalContext.modal.openModal(
                     <CreateProject
                      
                       refetchProjects={props.queryData.refetch}
@@ -53,7 +54,7 @@ export default function TableHeader(props: props) {
                 isIconOnly
                 color="primary"
                 onPress={() => {
-                  alertContext.modal.openModal(
+                  modalContext.modal.openModal(
                     <CreateProject
                       refetchProjects={props.queryData.refetch}
                     />

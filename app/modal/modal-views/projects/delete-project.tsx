@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { ProjectResponse } from "@/app/http/base";
 import { useAlertContext } from "@/app/contexts/alert-context";
 import { useHttpContext } from "@/app/contexts/http-context";
+import { useModalContext } from "@/app/contexts/modal-context";
 
 interface props {
   project: ProjectResponse;
@@ -17,8 +18,9 @@ interface props {
 }
 
 export default function DeleteProject(props: props) {
+  const modalContext = useModalContext()
   const alertContext = useAlertContext()
-  const { onClose } = alertContext.modal.disclosure;
+  const { onClose } = modalContext.modal.disclosure;
   const httpContext = useHttpContext()
   const [confirmValue, setConfirmValue] = useState("");
   const [allowDelete, setAllowDelete] = useState(false);
