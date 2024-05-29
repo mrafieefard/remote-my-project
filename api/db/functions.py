@@ -178,6 +178,23 @@ def db_get_widgets():
 
     return data.fetchall()
 
+def db_get_widget(name):
+    widget = session.query(Widget).where(Widget.name == name)
+
+    return widget.first()
+
+def db_update_widget(name,content):
+    widget = db_get_widget(name)
+    if not widget:
+        return
+
+    widget.content = content
+
+    session.commit()
+
+    return widget
+
+
 def db_delete_all_widget(project_id):
     session.query(Widget).where(Widget.project_id == project_id).delete()
 

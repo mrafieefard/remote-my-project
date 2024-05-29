@@ -1,22 +1,22 @@
 from fastapi import APIRouter, WebSocket, Response, status,Depends,Header,HTTPException
 from typing_extensions import Annotated
-from base_models import UpdateFunction,UpdateReady, UpdateWidget
+from base_models import UpdateFunction,UpdateReady, UpdateTextWidget, UpdateWidgets
 from websocket_manager import websocket_handler, ProjectWebsocket
 from db import *
 
 import uuid
 
-route = APIRouter(prefix="/project",
+route = APIRouter(prefix="/app",
                   responses={404: {"error": "Not found"}})
 
-async def verify_secret(id : str,secret: Annotated[str, Header()]):
-    project = db_get_project(id)
+async def verify_secret(project_id: Annotated[str, Header()],secret: Annotated[str, Header()]):
+    project = db_get_project(project_id)
     if not project : raise HTTPException(401,detail="Unauthorized")
     if project.secret != secret:
         raise HTTPException(401,detail="Unauthorized")
     return project
 
-@route.get("/{id}")
+@route.get("/project/{id}")
 async def get_project(id: str, response: Response,project : Annotated[Project, Depends(verify_secret)]):
 
     return project
@@ -25,7 +25,7 @@ async def get_project(id: str, response: Response,project : Annotated[Project, D
 
 
 
-@route.post("/{id}/functions")
+@route.post("/project/{id}/functions")
 async def sync_functions(id: str, payload: UpdateFunction, response: Response,project : Annotated[Project, Depends(verify_secret)]):
 
     project.functions = payload.function
@@ -33,8 +33,8 @@ async def sync_functions(id: str, payload: UpdateFunction, response: Response,pr
 
     return data
 
-@route.post("/{id}/widgets")
-async def sync_widgets(id: str, payload: UpdateWidget, response: Response,project : Annotated[Project, Depends(verify_secret)]):
+@route.post("/project/{id}/widgets")
+async def sync_widgets(id: str, payload: UpdateWidgets, response: Response,project : Annotated[Project, Depends(verify_secret)]):
     db_delete_all_widget(id)
     for widget in payload.widget:
         print(widget)
@@ -42,8 +42,17 @@ async def sync_widgets(id: str, payload: UpdateWidget, response: Response,projec
 
     return
 
+@route.put("/widget/{name}")
+async def update_widget(name: str, payload: UpdateTextWidget, response: Response,project : Annotated[Project, Depends(verify_secret)]): 
+    data = db_update_widget(name,{
+        "text" : payload.text
+    })
+    if not data :
+        HTTPException(status.HTTP_404_NOT_FOUND,"Widget not found")
 
-@route.put("/{id}/ready")
+    return data
+
+@route.put("/project/{id}/ready")
 async def update_ready(id: str, payload: UpdateReady, response: Response,project : Annotated[Project, Depends(verify_secret)]):
 
     project.is_ready = payload.is_ready
@@ -53,7 +62,7 @@ async def update_ready(id: str, payload: UpdateReady, response: Response,project
     return {"is_ready" : data.is_ready}
 
 
-@route.websocket("/{id}/ws",dependencies=[Depends(verify_secret)])
+@route.websocket("/project/{id}/ws",dependencies=[Depends(verify_secret)])
 async def project_websocket(websocket: WebSocket, id: str):
     await websocket.accept()
     websocket_project = ProjectWebsocket(id, websocket,)

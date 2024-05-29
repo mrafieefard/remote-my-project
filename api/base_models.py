@@ -1,4 +1,6 @@
+from typing import Annotated
 from pydantic import BaseModel
+from fastapi import Form
 
 
 class CreateProject(BaseModel):
@@ -19,8 +21,11 @@ class UpdateReady(BaseModel):
 class UpdateFunction(BaseModel):
     function: list
 
-class UpdateWidget(BaseModel):
+class UpdateWidgets(BaseModel):
     widget : list
+
+class UpdateTextWidget(BaseModel):
+    text : str
 
 class TokenData(BaseModel):
     username: str | None = None
