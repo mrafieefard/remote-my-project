@@ -1,6 +1,6 @@
 from fastapi import APIRouter, WebSocket, Response, status,Depends,Header,HTTPException
 from typing_extensions import Annotated
-from base_models import UpdateFunction,UpdateReady, UpdateTextWidget, UpdateWidgets
+from base_models import UpdateFunction, UpdateProgressWidget,UpdateReady, UpdateTextWidget, UpdateWidgets
 from websocket_manager import websocket_handler, ProjectWebsocket
 from db import *
 
@@ -37,18 +37,42 @@ async def sync_functions(id: str, payload: UpdateFunction, response: Response,pr
 async def sync_widgets(id: str, payload: UpdateWidgets, response: Response,project : Annotated[Project, Depends(verify_secret)]):
     db_delete_all_widget(id)
     for widget in payload.widget:
-        print(widget)
+
         db_create_widget(widget["name"],id,widget["title"],widget["type"],widget["content"])
 
     return
 
-@route.put("/widget/{name}")
-async def update_widget(name: str, payload: UpdateTextWidget, response: Response,project : Annotated[Project, Depends(verify_secret)]): 
+@route.put("/widget/text/{name}")
+async def update_widget(name: str, payload: UpdateTextWidget, response: Response,project : Annotated[Project, Depends(verify_secret)]):
+    widget = db_get_widget(name)
+
+    if not widget :
+        raise HTTPException(status.HTTP_404_NOT_FOUND,"Widget not found")
+    
+    if widget.type != 0:
+        raise HTTPException(status.HTTP_403_FORBIDDEN,f"{name.capitalize()} its not a text widget")
+    
     data = db_update_widget(name,{
         "text" : payload.text
     })
-    if not data :
-        HTTPException(status.HTTP_404_NOT_FOUND,"Widget not found")
+    
+
+    return data
+
+@route.put("/widget/progress/{name}")
+async def update_widget(name: str, payload: UpdateProgressWidget, response: Response,project : Annotated[Project, Depends(verify_secret)]):
+    widget = db_get_widget(name)
+
+    if not widget :
+        raise HTTPException(status.HTTP_404_NOT_FOUND,"Widget not found")
+    
+    if widget.type != 1:
+        raise HTTPException(status.HTTP_403_FORBIDDEN,f"{name.capitalize()} its not a progress widget")
+    
+    data = db_update_widget(name,{
+        "amont" : payload.amont
+    })
+    
 
     return data
 

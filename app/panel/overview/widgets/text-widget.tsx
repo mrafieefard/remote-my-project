@@ -12,7 +12,7 @@ export default function TextWidget(props: props) {
         <p className="font-bold">{props.title}</p>
       </CardHeader>
       <Divider />
-      <CardBody className="flex items-center justify-center min-h-24">
+      <CardBody className="flex items-center justify-center min-h-24 px-4">
         <p>{props.text}</p>
       </CardBody>
     </Card>

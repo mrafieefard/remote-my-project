@@ -27,6 +27,9 @@ class UpdateWidgets(BaseModel):
 class UpdateTextWidget(BaseModel):
     text : str
 
+class UpdateProgressWidget(BaseModel):
+    amont : int
+
 class TokenData(BaseModel):
     username: str | None = None
 

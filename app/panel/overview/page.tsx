@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useQuery } from "react-query";
 import TextWidget from "./widgets/text-widget";
 import WidgetsHeader from "./components/widgets-header";
+import ProgressWidget from "./widgets/progress-widget";
 
 export default function OverviewPage() {
   const alertContext = useAlertContext();
@@ -34,6 +35,10 @@ export default function OverviewPage() {
               return (
                 <TextWidget key={value.id} title={value.title} text={value.content.text} />
               );
+            case 1:
+              return(
+                <ProgressWidget key={value.id} title={value.title} amont={value.content.amont} />
+              )
           }
         })}
       </div>

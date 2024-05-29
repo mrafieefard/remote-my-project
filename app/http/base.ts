@@ -36,18 +36,43 @@ interface LogData{
   content : string
 }
 
-interface WidgetResponse{
-  id : string,
-  name : string,
-  project_id : string,
-  title : string,
-  type : number,
-  content : TextWidgetContent
-}
 
 interface TextWidgetContent{
   text : string
 }
+
+interface ProgressWidgetContent{
+  amont : number
+}
+
+interface TextWidgetContent {
+  text: string;
+}
+
+interface ProgressWidgetContent {
+  progress: number;
+}
+
+interface BaseWidgetResponse {
+  id: string;
+  name: string;
+  project_id: string;
+  title: string;
+}
+
+interface TextWidgetResponse extends BaseWidgetResponse {
+  type: 0;
+  content: TextWidgetContent;
+}
+
+interface ProgressWidgetResponse extends BaseWidgetResponse {
+  type: 1;
+  content: ProgressWidgetContent;
+}
+
+type WidgetResponse = TextWidgetResponse | ProgressWidgetResponse;
+
+
 
 function return_data<T>(success: boolean, data: T | undefined = undefined,error : string | undefined = undefined) {
   if (success) {
