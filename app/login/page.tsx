@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { FaKey } from "react-icons/fa";
 import { handle_error, http_login } from "../http/client";
 import { useAlertContext } from "../contexts/alert-context";
+import ForgotPassword from "../modal/modal-views/login/forgot-password";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -72,7 +73,9 @@ export default function LoginPage() {
               >
                 Login
               </Button>
-              <Button className="self-center" variant="light">
+              <Button className="self-center" variant="light" onClick={()=>{
+                alertContext.modal.openModal(<ForgotPassword/>,"4xl")
+              }}>
                 <FaKey /> Forgot password
               </Button>
             </div>
@@ -109,7 +112,9 @@ export default function LoginPage() {
               >
                 Login
               </Button>
-              <Button className="self-center" variant="light">
+              <Button className="self-center" variant="light" onClick={()=>{
+                alertContext.modal.openModal(<ForgotPassword/>,"4xl")
+              }}>
                 <FaKey /> Forgot password
               </Button>
             </div>
