@@ -7,9 +7,8 @@ import {
   Textarea,
 } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import { handle_error, http_create_project } from "@/app/http/client";
-import { useRouter } from "next/navigation";
 import { useAlertContext } from "@/app/contexts/alert-context";
+import { useHttpContext } from "@/app/contexts/http-context";
 
 interface props {
   refetchProjects: () => void;
@@ -18,7 +17,7 @@ interface props {
 export default function CreateProject(props: props) {
   const alertContext = useAlertContext()
   const { onClose } = alertContext.modal.disclosure;
-  const router = useRouter()
+  const httpContext = useHttpContext()
   const [isLoading,setIsLoading] = useState(false);
   const [createData, setCreateData] = useState({
     title: "",
@@ -64,7 +63,7 @@ export default function CreateProject(props: props) {
           onPress={() => {
             if (allowApply) {
               setIsLoading(true)
-              http_create_project(
+              httpContext.httpClient.http_create_project(
                 createData.title,
                 createData.description
               ).then(() => {
@@ -72,10 +71,7 @@ export default function CreateProject(props: props) {
                 props.refetchProjects();
                 onClose();
                 alertContext.toast.success("Project created");
-              }).catch((error)=>{
-                setIsLoading(false)
-                handle_error(error,alertContext.toast,router)
-              });
+              })
             }
           }}
           isDisabled={!allowApply}

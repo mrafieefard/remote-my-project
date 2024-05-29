@@ -5,9 +5,9 @@ import {
   ModalHeader,
 } from "@nextui-org/react";
 import { useState } from "react";
-import { handle_error, http_clear_logs } from "@/app/http/client";
 import { useRouter } from "next/navigation";
 import { useAlertContext } from "@/app/contexts/alert-context";
+import { useHttpContext } from "@/app/contexts/http-context";
 
 interface props {
   refetchLogs: () => void;
@@ -15,6 +15,7 @@ interface props {
 
 export default function ClearLogConfirmModal(props: props) {
   const alertContext = useAlertContext()
+  const httpContext = useHttpContext()
   const { onClose } = alertContext.modal.disclosure;
   const [isLoading,setIsLoading] = useState(false)
   const router = useRouter()
@@ -31,15 +32,12 @@ export default function ClearLogConfirmModal(props: props) {
         <Button onPress={()=>onClose()}>No</Button>
         <Button isLoading={isLoading} onPress={()=>{
           setIsLoading(true)
-            http_clear_logs().then(()=>{
+            httpContext.httpClient.http_clear_logs().then(()=>{
               setIsLoading(false)
                 onClose()
                 alertContext.toast.success("Logs cleared")
                 props.refetchLogs()
 
-            }).catch((error)=>{
-              setIsLoading(false)
-              handle_error(error,alertContext.toast,router)
             })
         }} color="danger">Yes</Button>
       </ModalFooter>

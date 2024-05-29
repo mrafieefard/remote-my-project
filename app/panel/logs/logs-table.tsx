@@ -18,8 +18,8 @@ import { LogData } from "../../http/base";
 import { FaTrash } from "react-icons/fa";
 import { FaEllipsisVertical } from "react-icons/fa6";
 
-import { http_delete_log } from "@/app/http/client";
 import { useAlertContext } from "@/app/contexts/alert-context";
+import { useHttpContext } from "@/app/contexts/http-context";
 
 interface props {
   logs: LogData[];
@@ -30,12 +30,13 @@ interface props {
 
 export default function LogsTable(props: props) {
   const alertContext = useAlertContext()
+  const httpContext = useHttpContext()
   const actions = [
     {
       name: "Delete",
       icon: <FaTrash />,
       onPress: (log: LogData) => {
-        http_delete_log(log.id).then(() => {
+        httpContext.httpClient.http_delete_log(log.id).then(() => {
           props.refetchLogs();
           alertContext.toast.success("Log delted")
           

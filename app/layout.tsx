@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "./providers";
-import { ReactQueryProvider } from "./react-query-provider";
+import { ReactQueryProvider } from "./contexts/react-query-provider";
 import AnimatedLayout from "./animated-layout";
 import { AlertProvider } from "./contexts/alert-context";
+import { HttpProvider } from "./contexts/http-context";
 
 export const metadata: Metadata = {
   title: "Remote my project",
@@ -19,11 +20,11 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body>
         <Providers>
-          <ReactQueryProvider>
-            <AnimatedLayout>
-              <AlertProvider>{children}</AlertProvider>
-            </AnimatedLayout>
-          </ReactQueryProvider>
+          <AlertProvider>
+            <HttpProvider>
+              <AnimatedLayout>{children}</AnimatedLayout>
+            </HttpProvider>
+          </AlertProvider>
         </Providers>
       </body>
     </html>

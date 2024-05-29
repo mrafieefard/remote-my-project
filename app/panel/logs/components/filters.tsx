@@ -9,24 +9,18 @@ import { memo } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import { useLogsContext } from "../../../contexts/log-context";
 import {  useQuery } from "react-query";
-import { handle_error, http_get_projects } from "@/app/http/client";
-import { useAlertContext } from "@/app/contexts/alert-context";
-import { useRouter } from "next/navigation";
+import { useHttpContext } from "@/app/contexts/http-context";
+
 
 const LOG_LEVELS = ["Info", "Debug", "Success", "Warning", "Error"];
 
 export function Filters() {
   const context = useLogsContext();
-  const alertContext = useAlertContext()
-  const router = useRouter()
+  const httpContext = useHttpContext()
   const projects_res = useQuery(
     "projects",
     async () => {
-      try {
-        return await http_get_projects("");
-      } catch (error) {
-        handle_error(error, alertContext.toast, router);
-      }
+      return await httpContext.httpClient.http_get_projects("");
     },
     {
       refetchOnWindowFocus: false,

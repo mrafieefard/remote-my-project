@@ -4,9 +4,9 @@ import { Button, Input } from "@nextui-org/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaKey } from "react-icons/fa";
-import { handle_error, http_login } from "../http/client";
 import { useAlertContext } from "../contexts/alert-context";
 import ForgotPassword from "../modal/modal-views/login/forgot-password";
+import { useHttpContext } from "../contexts/http-context";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -15,21 +15,19 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
-
+  const httpContext = useHttpContext()
   const alertContext = useAlertContext();
 
   const login = () => {
     setIsLoading(true);
-    http_login(username, password)
+    httpContext.httpClient.http_login(username, password)
       .then(() => {
         alertContext.toast.success("Welcome");
         setTimeout(() => {
           router.push("/panel/overview", { scroll: false });
         }, 1000);
       })
-      .catch((err) => {
-        handle_error(err, alertContext.toast, router);
-      })
+      
       .finally(() => {
         setIsLoading(false);
       });

@@ -1,50 +1,37 @@
 "use client";
 
 import { Pagination } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import toast from "react-hot-toast";
 import LogsTable from "./logs-table";
-import {
-  http_get_logs,
-  handle_error,
-  http_get_projects,
-} from "@/app/http/client";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import TableHeader from "./components/table-header";
-import { LogsProvider, useLogsContext } from "../../contexts/log-context";
-import { useAlertContext } from "@/app/contexts/alert-context";
+import { useLogsContext } from "../../contexts/log-context";;
+import { useHttpContext } from "@/app/contexts/http-context";
 
 export default function LogsPage() {
-  const alertContext = useAlertContext();
+  const httpContext = useHttpContext();
 
   const [page, setPage] = useState(1);
   const logsContext = useLogsContext();
-  const router = useRouter();
 
   const logs_res = useQuery(
     "logs",
     async () => {
-      try {
-        return await http_get_logs(
-          page,
-          25,
-          logsContext.filters.level.value !== "all"
-            ? Array.from(logsContext.filters.level.value).map((value) =>
-                value.toString()
-              )
-            : logsContext.filters.level.value,
-          logsContext.filters.project.value !== "all"
-            ? Array.from(logsContext.filters.project.value).map((value) =>
-                value.toString()
-              )
-            : logsContext.filters.project.value,
-          logsContext.filters.search.value
-        );
-      } catch (error) {
-        handle_error(error, toast, router);
-      }
+      return await httpContext.httpClient.http_get_logs(
+        page,
+        25,
+        logsContext.filters.level.value !== "all"
+          ? Array.from(logsContext.filters.level.value).map((value) =>
+              value.toString()
+            )
+          : logsContext.filters.level.value,
+        logsContext.filters.project.value !== "all"
+          ? Array.from(logsContext.filters.project.value).map((value) =>
+              value.toString()
+            )
+          : logsContext.filters.project.value,
+        logsContext.filters.search.value
+      );
     },
     {
       refetchOnWindowFocus: false,
@@ -54,7 +41,7 @@ export default function LogsPage() {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       logs_res.refetch();
-    },500)
+    }, 500);
     return () => clearTimeout(timeoutId);
   }, [
     page,

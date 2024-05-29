@@ -1,24 +1,18 @@
 "use client";
 
 import { useAlertContext } from "@/app/contexts/alert-context";
-import { handle_error, http_get_widgets } from "@/app/http/client";
-import { useRouter } from "next/navigation";
 import { useQuery } from "react-query";
 import TextWidget from "./widgets/text-widget";
 import WidgetsHeader from "./components/widgets-header";
 import ProgressWidget from "./widgets/progress-widget";
+import { useHttpContext } from "@/app/contexts/http-context";
 
 export default function OverviewPage() {
-  const alertContext = useAlertContext();
-  const router = useRouter();
+  const httpContext = useHttpContext()
   const widget_res = useQuery(
     "widgets",
     async () => {
-      try {
-        return await http_get_widgets();
-      } catch (error) {
-        handle_error(error, alertContext.toast, router);
-      }
+      return await httpContext.httpClient.http_get_widgets();
     },
     {
       refetchOnWindowFocus: false,

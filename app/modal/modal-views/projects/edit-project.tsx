@@ -8,9 +8,8 @@ import {
 } from "@nextui-org/react";
 import { ProjectResponse } from "@/app/http/base";
 import { useEffect, useState } from "react";
-import {handle_error, http_edit_project} from "@/app/http/client";
-import { useRouter } from "next/navigation";
 import { useAlertContext } from "@/app/contexts/alert-context";
+import { useHttpContext } from "@/app/contexts/http-context";
 
 
 interface props {
@@ -22,7 +21,7 @@ interface props {
 export default function EditProject(props: props) {
   const alertContext = useAlertContext()
   const { onClose } = alertContext.modal.disclosure;
-  const router = useRouter()
+  const httpContext = useHttpContext()
   const [editedData, setEditData] = useState({
     title: props.project.title,
     description: props.project.description,
@@ -77,7 +76,7 @@ export default function EditProject(props: props) {
           onPress={() => {
             if (allowApply) {
               setIsLoading(true)
-              http_edit_project(
+              httpContext.httpClient.http_edit_project(
                   props.project.id,
                   editedData.title,
                   editedData.description,
@@ -88,10 +87,7 @@ export default function EditProject(props: props) {
                   props.refetchProjects();
                   onClose();
                   alertContext.toast.success("Project edited");
-                }).catch((error)=>{
-                  setIsLoading(false)
-                  handle_error(error,alertContext.toast,router)
-                });
+                })
             }
           }}
           isDisabled={!allowApply}

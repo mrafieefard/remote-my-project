@@ -8,9 +8,8 @@ import {
 } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { ProjectResponse } from "@/app/http/base";
-import {handle_error, http_delete_project} from "@/app/http/client";
-import { useRouter } from "next/navigation";
 import { useAlertContext } from "@/app/contexts/alert-context";
+import { useHttpContext } from "@/app/contexts/http-context";
 
 interface props {
   project: ProjectResponse;
@@ -20,7 +19,7 @@ interface props {
 export default function DeleteProject(props: props) {
   const alertContext = useAlertContext()
   const { onClose } = alertContext.modal.disclosure;
-  const router = useRouter()
+  const httpContext = useHttpContext()
   const [confirmValue, setConfirmValue] = useState("");
   const [allowDelete, setAllowDelete] = useState(false);
   const [isLoading,setIsLoading] = useState(false);
@@ -53,14 +52,11 @@ export default function DeleteProject(props: props) {
           color="danger"
           onPress={() => {
             setIsLoading(true)
-            http_delete_project(props.project.id).then(() => {
+            httpContext.httpClient.http_delete_project(props.project.id).then(() => {
               setIsLoading(false)
               onClose();
               props.refetchProjects();
               alertContext.toast.success("Project delted");
-            }).catch((error)=>{
-              setIsLoading(false)
-              handle_error(error,alertContext.toast,router)
             })
           }}
         >

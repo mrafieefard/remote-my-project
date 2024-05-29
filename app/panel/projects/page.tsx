@@ -2,28 +2,22 @@
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 
 import ProjectTable from "./project-table";
-import {  useEffect, useState } from "react";
+import {  useEffect } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { handle_error, http_get_projects } from "@/app/http/client";
 import TableHeader from "./components/table-header";
 import { useProjectsContext } from "@/app/contexts/project-context";
+import { useHttpContext } from "@/app/contexts/http-context";
 
 export default function ProjectPage() {
-  const router = useRouter();
-
   const projectsContext = useProjectsContext()
-
+  const httpContext = useHttpContext()
   const queryClient = new QueryClient();
 
   const projects_res = useQuery(
     "projects",
     async () => {
-      try {
-        return await http_get_projects(projectsContext.filters.search.value);
-      } catch (error) {
-        handle_error(error, toast, router);
-      }
+        return await httpContext.httpClient.http_get_projects(projectsContext.filters.search.value);
     },
     {
       refetchOnWindowFocus: false,
@@ -37,9 +31,6 @@ export default function ProjectPage() {
     return () => clearTimeout(timeoutId);
   },[projectsContext.filters.search])
 
-  if (projects_res.isError) {
-    handle_error(projects_res.error, toast, router);
-  }
 
   return (
     <QueryClientProvider client={queryClient}>

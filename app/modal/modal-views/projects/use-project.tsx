@@ -1,7 +1,6 @@
 import { Button, ModalBody, ModalFooter, ModalHeader } from "@nextui-org/react";
 import { Tabs, Tab } from "@nextui-org/react";
 import { ProjectResponse } from "@/app/http/base";
-import { usePathname } from "next/navigation";
 import { CopyBlock, dracula } from 'react-code-blocks';
 import { useAlertContext } from "@/app/contexts/alert-context";
 
@@ -13,7 +12,6 @@ interface props {
 export default function UseProject(props: props) {
   const alertContext = useAlertContext()
   const { onClose } = alertContext.modal.disclosure;;
-  const pathname = usePathname()
   const codes = {
     python : `from rmp_py import Client,Context,Function,Argument
 from rmp_py.types import String,Log
