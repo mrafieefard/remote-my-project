@@ -9,8 +9,8 @@ bash <(curl -Ls https://raw.githubusercontent.com/mrafieefard/remote-my-project/
 
 
 ## Todo
-- [ ] Optimization
-- [ ] Allow create widget for overview page
+- [x] Optimization
+- [x] Allow create widget for overview page
 - [ ] Add an authentication page to manage users and permissions
 - [ ] Add python sdk to pypi page
 - [x] Migrate sqlite to postgresql
