@@ -16,11 +16,11 @@ interface props {
 }
 
 export default function CreateProject(props: props) {
-  const modalContext = useModalContext()
-  const alertContext = useAlertContext()
+  const modalContext = useModalContext();
+  const alertContext = useAlertContext();
   const { onClose } = modalContext.modal.disclosure;
-  const httpContext = useHttpContext()
-  const [isLoading,setIsLoading] = useState(false);
+  const httpContext = useHttpContext();
+  const [isLoading, setIsLoading] = useState(false);
   const [createData, setCreateData] = useState({
     title: "",
     description: "",
@@ -60,20 +60,19 @@ export default function CreateProject(props: props) {
           Close
         </Button>
         <Button
-        isLoading={isLoading}
+          isLoading={isLoading}
           color="primary"
           onPress={() => {
             if (allowApply) {
-              setIsLoading(true)
-              httpContext.httpClient.http_create_project(
-                createData.title,
-                createData.description
-              ).then(() => {
-                setIsLoading(false)
-                props.refetchProjects();
-                onClose();
-                alertContext.toast.success("Project created");
-              })
+              setIsLoading(true);
+              httpContext.httpClient
+                .http_create_project(createData.title, createData.description)
+                .then(() => {
+                  props.refetchProjects();
+                  onClose();
+                  alertContext.toast.success("Project created");
+                })
+                .finally(() => setIsLoading(false));
             }
           }}
           isDisabled={!allowApply}
