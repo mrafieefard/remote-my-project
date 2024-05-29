@@ -18,7 +18,7 @@ bash <(curl -Ls https://raw.githubusercontent.com/mrafieefard/remote-my-project/
 
 ## Contributors
 
-Right now there is no contributors in this project. you can be first :)
+Right now there is no contributor in this project. you can be first :)
 
 If you want to contribute email me at mrafieefard@gmail.com
 
