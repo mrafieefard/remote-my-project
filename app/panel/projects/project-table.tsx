@@ -147,7 +147,6 @@ export default function ProjectPage(props: props) {
                   {actions.map((value, index) => (
                     <DropdownItem
                       key={`${value.name}-${index}`}
-                      isReadOnly={project.is_ready}
                       onPress={() => value.onPress(project)}
                       className={value.name == "Delete" ? "text-danger" : ""}
                     >
