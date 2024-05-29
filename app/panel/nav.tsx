@@ -23,7 +23,7 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
-  const menuItems = ["logs","projects", "overview", "settings"];
+  const menuItems = ["logs", "projects", "overview", "settings"];
   const activeItem = menuItems.indexOf(pathname.split("/")[2]);
 
   return (
@@ -34,7 +34,12 @@ export default function App() {
           className="sm:hidden"
         />
         <NavbarBrand>
-          <p className="font-bold text-inherit">RMP</p>
+          <a
+            target="_blank"
+            href="https://github.com/mrafieefard/remote-my-project"
+          >
+            <p className="font-bold text-inherit cursor-pointer">RMP</p>
+          </a>
         </NavbarBrand>
       </NavbarContent>
 
@@ -42,7 +47,7 @@ export default function App() {
         {menuItems.map((value, index) => (
           <NavbarItem key={`${value}-${index}`}>
             <Link
-            className="cursor-pointer"
+              className="cursor-pointer"
               color={activeItem == index ? "primary" : "foreground"}
               onPress={() => {
                 router.push(`/panel/${value}`, { scroll: false });
