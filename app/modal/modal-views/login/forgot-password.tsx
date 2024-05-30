@@ -17,7 +17,6 @@ export default function ForgotPassword() {
   const modalContext = useModalContext();
   const { onClose } = modalContext.modal.disclosure;
 
-  //   docker exec -it rmp-database psql -U postgres -d rmpdb -c "DELETE FROM clients;"
   return (
     <>
       <ModalHeader className="flex flex-col gap-1">Forgot password</ModalHeader>

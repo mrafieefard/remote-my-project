@@ -23,7 +23,7 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
-  const menuItems = ["logs", "projects", "overview", "settings"];
+  const menuItems = ["logs", "projects", "overview","users", "settings"];
   const activeItem = menuItems.indexOf(pathname.split("/")[2]);
 
   return (
