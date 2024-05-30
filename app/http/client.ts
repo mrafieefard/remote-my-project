@@ -46,7 +46,7 @@ class HttpClient {
   }
 
   async http_get_projects(search: string) {
-    const response = await this.client.get<ProjectResponse[]>(`/client/project`, {
+    const response = await this.client.get<ProjectResponse[]>(`/client/projects`, {
       params: {
         search: search,
       },
