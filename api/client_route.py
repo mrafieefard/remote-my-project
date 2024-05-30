@@ -62,16 +62,9 @@ async def get_project(id: str, response: Response, current_user: Annotated[Clien
     data = db_get_project(id)
 
     if data:
-        return {
-            "success": True,
-            "data": data.get_data()
-        }
+        return data.get_data()
     else:
-        response.status_code = status.HTTP_404_NOT_FOUND
-        return {
-            "success": False,
-            "error": "Project not found"
-        }
+        raise HTTPException(status.HTTP_404_NOT_FOUND,"Project not found")
 
 
 @route.put("/project/{id}")
@@ -184,6 +177,8 @@ async def get_widgets(current_user: Annotated[Client, Depends(http_auth)]):
     widgets = db_get_widgets()
 
     return [widget.get_data() for widget in widgets]
+
+
 
 @route.websocket("/project/{id}/ws")
 async def client_websocket(websocket: WebSocket, id: str, token: Annotated[str, Header(alias="Authorization")]):
