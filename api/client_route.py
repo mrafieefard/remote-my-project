@@ -174,20 +174,8 @@ async def get_project_log(id: str, current_user: Annotated[Client, Depends(http_
 @route.get("/log/{id}")
 async def get_project_log(id: str, current_user: Annotated[Client, Depends(http_auth)]):
     logs = db_get_log(id)
-    data = [
-        {
-            "level": log.level,
-            "create_at": log.create_at,
-            "content": log.content
-        } for log in logs
-    ]
 
-    sorted(data, key=lambda log: log["create_at"])
-
-    return {
-        "success": True,
-        "data": data
-    }
+    return logs.get_data()
 
 
 
