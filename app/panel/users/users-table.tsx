@@ -34,25 +34,20 @@ export default function UsersTable(props: props) {
       name: "Delete",
       icon: <FaTrash />,
       onPress: (user: UserResponse) => {
-        modalContext.modal.openModal(
-          <DeleteUserConfirm
-            refetch={props.users.refetch}
-            user={user}
-          />
-        );
+        if (!user.is_owner) {
+          modalContext.modal.openModal(
+            <DeleteUserConfirm refetch={props.users.refetch} user={user} />
+          );
+        }
       },
     },
     {
       name: "Edit",
       icon: <FaPen />,
       onPress: (user: UserResponse) => {
-          modalContext.modal.openModal(
-            <EditUser
-              refetch={props.users.refetch}
-              user={user}
-            />
-          );
-        
+        modalContext.modal.openModal(
+          <EditUser refetch={props.users.refetch} user={user} />
+        );
       },
     },
   ];
@@ -62,20 +57,31 @@ export default function UsersTable(props: props) {
 
     switch (columnKey) {
       case "roles":
-        
-        return(
+        return (
           <div className="flex flex-row gap-2">
-            {
-              user.is_owner ? <Chip size="sm" variant="flat" color="danger">Owner</Chip> : <></>
-            }
-            {
-              user.is_admin ? <Chip color="warning" variant="flat">Admin</Chip> : <></>
-            }
-            {
-              !user.is_admin && !user.is_owner ? <Chip color="default" variant="flat">User</Chip> : <></>
-            }
+            {user.is_owner ? (
+              <Chip size="sm" variant="flat" color="danger">
+                Owner
+              </Chip>
+            ) : (
+              <></>
+            )}
+            {user.is_admin ? (
+              <Chip size="sm" color="warning" variant="flat">
+                Admin
+              </Chip>
+            ) : (
+              <></>
+            )}
+            {!user.is_admin && !user.is_owner ? (
+              <Chip size="sm" color="default" variant="flat">
+                User
+              </Chip>
+            ) : (
+              <></>
+            )}
           </div>
-        )
+        );
       case "actions":
         return (
           <>
@@ -89,7 +95,9 @@ export default function UsersTable(props: props) {
                   <span
                     className={`text-lg ${
                       value.name == "Delete"
-                        ? "text-danger cursor-pointer "
+                        ? user.is_owner
+                          ? "text-danger-200 cursor-not-allowed"
+                          : "text-danger cursor-pointer "
                         : "text-default-400 cursor-pointer "
                     } active:opacity-50`}
                     onClick={() => value.onPress(user)}
@@ -134,7 +142,6 @@ export default function UsersTable(props: props) {
           { name: "USERNAME", uid: "username" },
           { name: "ROLES", uid: "roles" },
           { name: "ACTIONS", uid: "actions" },
-          
         ]}
       >
         {(column) => (
