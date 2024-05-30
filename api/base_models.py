@@ -50,3 +50,6 @@ class GetLogsForm(BaseModel):
     project: str | list
     search : str
 
+class CreateUser(BaseModel):
+    username: str
+    password : str

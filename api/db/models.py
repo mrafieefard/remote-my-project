@@ -100,15 +100,14 @@ class Log(Base):
 class Client(Base):
     __tablename__ = "clients"
 
-    id: Mapped[str] = mapped_column(primary_key=True,default=str(uuid.uuid4()))
-    username: Mapped[str] = mapped_column(primary_key=True)
+    id: Mapped[str] = mapped_column(primary_key=True,unique=True)
+    username: Mapped[str] = mapped_column(primary_key=True,unique=True)
     hashed_password: Mapped[str] = mapped_column()
 
     def get_data(self):
         return {
             "id": self.id,
             "username": self.username,
-            "hashed_password": self.hashed_password,
         }
 
 class Widget(Base):

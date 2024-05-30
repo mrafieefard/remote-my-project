@@ -72,7 +72,10 @@ interface ProgressWidgetResponse extends BaseWidgetResponse {
 
 type WidgetResponse = TextWidgetResponse | ProgressWidgetResponse;
 
-
+interface UserResponse{
+  id : string
+  username : string
+}
 
 function return_data<T>(success: boolean, data: T | undefined = undefined,error : string | undefined = undefined) {
   if (success) {
@@ -93,5 +96,5 @@ function return_data<T>(success: boolean, data: T | undefined = undefined,error 
   }
 }
 
-export type {TokenResponse,ProjectResponse,LogsResponse,LogData,WidgetResponse}
+export type {TokenResponse,ProjectResponse,LogsResponse,LogData,WidgetResponse,UserResponse}
 export {return_data}

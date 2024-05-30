@@ -199,3 +199,24 @@ def db_delete_all_widget(project_id):
     session.query(Widget).where(Widget.project_id == project_id).delete()
 
     session.commit()
+
+def db_get_users():
+    stmt = select(Client)
+    data = session.scalars(stmt)
+
+    return data.fetchall()
+
+def db_create_user(username,password):
+    try:
+        project = Client(id=str(uuid.uuid4), username=username,
+                          hashed_password=password)
+        session.add(project)
+        session.commit()
+
+        return project
+    except IntegrityError:
+        return "unique"
+    except:
+        return False
+    finally:
+        session.rollback()

@@ -4,10 +4,10 @@ import {
   TokenResponse,
   LogsResponse,
   WidgetResponse,
+  UserResponse,
 } from "./base";
 import toast from "react-hot-toast";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-
 
 function handle_error(
   error: any,
@@ -46,11 +46,14 @@ class HttpClient {
   }
 
   async http_get_projects(search: string) {
-    const response = await this.client.get<ProjectResponse[]>(`/client/projects`, {
-      params: {
-        search: search,
-      },
-    });
+    const response = await this.client.get<ProjectResponse[]>(
+      `/client/projects`,
+      {
+        params: {
+          search: search,
+        },
+      }
+    );
     return response.data;
   }
 
@@ -111,6 +114,23 @@ class HttpClient {
   }
   async http_get_widgets() {
     const response = await this.client.get<WidgetResponse[]>(`/client/widgets`);
+    return response.data;
+  }
+
+  async get_users(search: string) {
+    const response = await this.client.get<UserResponse[]>(`/client/users`, {
+      params: {
+        search: search,
+      },
+    });
+    return response.data;
+  }
+
+  async create_user(username : string,password : string){
+    const response = await this.client.post<UserResponse>(`/client/user`, {
+      username : username,
+      password : password
+    });
     return response.data;
   }
 }

@@ -1,7 +1,7 @@
 import random
 from fastapi import APIRouter, WebSocket, Response, status, Depends, Header, HTTPException, status, Request
 from fastapi.responses import JSONResponse
-from base_models import CreateProject, LoginForm, Token, UpdateProject, GetLogsForm
+from base_models import CreateProject, CreateUser, LoginForm, Token, UpdateProject, GetLogsForm
 from websocket_manager import websocket_handler, ClientWebsocket
 from db import *
 from client_authentication import *
@@ -178,7 +178,27 @@ async def get_widgets(current_user: Annotated[Client, Depends(http_auth)]):
 
     return [widget.get_data() for widget in widgets]
 
+@route.get("/users")
+async def get_projects(search: str, current_user: Annotated[Client, Depends(http_auth)]):
+    users = db_get_users()
+    search_lower = search.lower()
+    datas = []
+    for data in users:
+        if not search or search_lower in data.username:
+            datas.append(data.get_data())
 
+    return datas
+
+@route.post("/user")
+async def create_project(payload: CreateUser, current_user: Annotated[Client, Depends(http_auth)]):
+    hashed_password = get_password_hash(payload.password)
+    user = db_create_user(
+        payload.username, hashed_password)
+    if user:
+        if user == "unique":
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN, detail="Invalid username for user")
+        return user.get_data()
 
 @route.websocket("/project/{id}/ws")
 async def client_websocket(websocket: WebSocket, id: str, token: Annotated[str, Header(alias="Authorization")]):
