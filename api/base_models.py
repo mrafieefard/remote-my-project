@@ -53,3 +53,7 @@ class GetLogsForm(BaseModel):
 class CreateUser(BaseModel):
     username: str
     password : str
+
+class UpdateUser(BaseModel):
+    username: str
+    password: str

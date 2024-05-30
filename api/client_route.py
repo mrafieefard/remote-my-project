@@ -210,6 +210,28 @@ async def get_project_log(username: str, current_user: Annotated[Client, Depends
         )
     return
 
+@route.put("/user/{id}")
+async def edit_user(id: str, payload: UpdateUser, response: Response):
+    user = db_get_user(id)
+    user.username = payload.username
+    if payload.password != "" :
+        hashed_password = get_password_hash(payload.password)
+        user.hashed_password = hashed_password
+
+    data = db_update_user(id, user)
+
+    if data == "unique":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail="Invalid username")
+
+    if not data:
+        raise HTTPException(
+            status_code=400,
+            detail="Faild to edit user"
+        )
+
+    return data
+
 @route.websocket("/project/{id}/ws")
 async def client_websocket(websocket: WebSocket, id: str, token: Annotated[str, Header(alias="Authorization")]):
     user = await get_current_user(token)

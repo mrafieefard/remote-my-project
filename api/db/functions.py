@@ -231,3 +231,24 @@ def db_delete_user(username) -> bool:
     session.commit()
 
     return True
+
+def db_update_user(id, new_user: Client) -> Client | None:
+    try:
+        user = session.query(Client).where(Client.id == id).first()
+
+        if not user:
+            return
+
+        user.username = new_user.username
+        user.hashed_password = new_user.hashed_password
+        
+        session.commit()
+
+        return user
+
+    except IntegrityError:
+        return "unique"
+    except:
+        return False
+    finally:
+        session.rollback()

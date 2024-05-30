@@ -20,6 +20,7 @@ import { FaEllipsisVertical } from "react-icons/fa6";
 import { useModalContext } from "@/app/contexts/modal-context";
 import { UseQueryResult } from "react-query";
 import DeleteUserConfirm from "@/app/modal/modal-views/users/delete-user-confirm";
+import EditUser from "@/app/modal/modal-views/users/edit-user";
 
 interface props {
   users: UseQueryResult<UserResponse[] | undefined>;
@@ -39,6 +40,19 @@ export default function UsersTable(props: props) {
             user={user}
           />
         );
+      },
+    },
+    {
+      name: "Edit",
+      icon: <FaPen />,
+      onPress: (user: UserResponse) => {
+          modalContext.modal.openModal(
+            <EditUser
+              refetch={props.users.refetch}
+              user={user}
+            />
+          );
+        
       },
     },
   ];

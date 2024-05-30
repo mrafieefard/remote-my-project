@@ -134,8 +134,19 @@ class HttpClient {
     return response.data;
   }
 
-  async delete_user(username : string){
-    await this.client.delete(`/client/user/${username}`);
+  async delete_user(id :string){
+    await this.client.delete(`/client/user/${id}`);
+  }
+
+  async edit_user(id : string,username : string,password : string){
+    const response = await this.client.put<UserResponse>(
+      `/client/user/${id}`,
+      {
+        username: username,
+        password: password,
+      }
+    );
+    return response.data;
   }
 }
 
