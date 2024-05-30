@@ -15,7 +15,7 @@ import {
 } from "@nextui-org/react";
 import { Key, useCallback } from "react";
 import { UserResponse } from "../../http/base";
-import { FaEye, FaTrash } from "react-icons/fa";
+import { FaEye, FaPen, FaTrash } from "react-icons/fa";
 import { FaEllipsisVertical } from "react-icons/fa6";
 import { useModalContext } from "@/app/contexts/modal-context";
 import { UseQueryResult } from "react-query";
