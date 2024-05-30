@@ -1,3 +1,4 @@
+import AnimatedLayout from "../animated-layout";
 import Nav from "./nav";
 
 export default function PanelLayout({
@@ -8,7 +9,7 @@ export default function PanelLayout({
   return (
     <main className="flex flex-col">
       <Nav />
-      {children}
+      <AnimatedLayout>{children}</AnimatedLayout>
     </main>
   );
 }

@@ -23,9 +23,9 @@ export default function RootLayout({
         <Providers>
           <AlertProvider>
             <HttpProvider>
-              <AnimatedLayout>
+              
                 <ModalProvider>{children}</ModalProvider>
-              </AnimatedLayout>
+              
             </HttpProvider>
           </AlertProvider>
         </Providers>
