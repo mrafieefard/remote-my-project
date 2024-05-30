@@ -212,7 +212,7 @@ def db_get_users():
 
 def db_create_user(username,password):
     try:
-        project = Client(id=str(uuid.uuid4), username=username,
+        project = Client(id=str(uuid.uuid4()), username=username,
                           hashed_password=password)
         session.add(project)
         session.commit()
