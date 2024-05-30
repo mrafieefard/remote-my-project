@@ -141,11 +141,15 @@ def db_update_log_project_name(project_id):
     return True
 
 
-def db_get_user(username):
-    client = session.query(Client).where(Client.username == username)
+def db_get_user(id):
+    client = session.query(Client).where(Client.id == id)
 
     return client.first()
 
+def db_get_user_by_username(username):
+    client = session.query(Client).where(Client.username == username)
+
+    return client.first()
 
 def db_get_clients():
     clients = select(Client)
