@@ -7,7 +7,6 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { useAlertContext } from "./alert-context";
 import { useRouter } from "next/navigation";
 import { HttpClient, handle_error } from "../http/client";
-import { ReactQueryProvider } from "./react-query-provider";
 
 interface HttpContext {
   axiosClient: AxiosInstance;
@@ -35,6 +34,7 @@ export function HttpProvider({ children }: ProviderProps) {
 
   const router = useRouter();
 
+  const [client] = useState(new QueryClient());
   const axiosClient = axios.create({
     withCredentials: true,
     baseURL: "/api",
@@ -51,7 +51,7 @@ export function HttpProvider({ children }: ProviderProps) {
   );
 
   return (
-    <ReactQueryProvider>
+    <QueryClientProvider client={client}>
       <HttpContext.Provider
         value={{
           axiosClient: axiosClient,
@@ -60,6 +60,6 @@ export function HttpProvider({ children }: ProviderProps) {
       >
         {children}
       </HttpContext.Provider>
-    </ReactQueryProvider>
+    </QueryClientProvider>
   );
 }

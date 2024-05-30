@@ -1,5 +1,5 @@
 "use client";
-import { QueryClient, QueryClientProvider, useQuery } from "react-query";
+import { useQuery } from "react-query";
 
 import ProjectTable from "./project-table";
 import {  useEffect } from "react";
@@ -12,7 +12,7 @@ import { useHttpContext } from "@/app/contexts/http-context";
 export default function ProjectPage() {
   const projectsContext = useProjectsContext()
   const httpContext = useHttpContext()
-  const queryClient = new QueryClient();
+  
 
   const projects_res = useQuery(
     "projects",
@@ -33,7 +33,6 @@ export default function ProjectPage() {
 
 
   return (
-    <QueryClientProvider client={queryClient}>
       <main className="flex flex-col w-full h-full p-2 md:py-1 md:px-8 gap-4">
         <div className="flex flex-col gap-4">
           <TableHeader
@@ -46,6 +45,5 @@ export default function ProjectPage() {
           />
         </div>
       </main>
-    </QueryClientProvider>
   );
 }

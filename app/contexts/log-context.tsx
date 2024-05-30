@@ -2,7 +2,6 @@
 
 import { Selection } from "@nextui-org/react";
 import { ReactNode, createContext, useContext, useState } from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
 
 interface ProjectFilter {
   value: Selection;
@@ -28,7 +27,6 @@ interface Filters {
 
 interface LogsContext {
   filters: Filters;
-  query : QueryClient
 }
 
 interface ProviderProps {
@@ -51,8 +49,6 @@ export function LogsProvider({ children }: ProviderProps) {
   const [levelFilter, setLevelFilter] = useState<Selection>("all");
   const [projectFilter, setProjectFilter] = useState<Selection>("all");
   const [searchFilter, setSearchFilter] = useState<string>("");
-
-  const queryClient = new QueryClient();
     
   return (
     <LogsContext.Provider
@@ -71,10 +67,9 @@ export function LogsProvider({ children }: ProviderProps) {
             set : setSearchFilter
           }
         },
-        query : queryClient
       }}
     >
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      {children}
     </LogsContext.Provider>
   );
 }

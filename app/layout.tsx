@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "./providers";
-import { ReactQueryProvider } from "./contexts/react-query-provider";
 import AnimatedLayout from "./animated-layout";
 import { AlertProvider } from "./contexts/alert-context";
 import { HttpProvider } from "./contexts/http-context";

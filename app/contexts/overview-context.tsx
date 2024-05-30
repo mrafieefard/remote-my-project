@@ -1,7 +1,6 @@
 "use client";
 
 import { ReactNode, createContext, useContext, useState } from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
 
 interface SearchFilter {
   value: string;

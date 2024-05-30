@@ -11,7 +11,7 @@ interface Filters {
   search : SearchFilter
 }
 
-interface ProjectsContext {
+interface UsersContext {
   filters: Filters;
 }
 
@@ -19,23 +19,23 @@ interface ProviderProps {
   children: ReactNode;
 }
 
-export const ProjectsContext = createContext<ProjectsContext | undefined>(undefined);
+export const UsersContext = createContext<UsersContext | undefined>(undefined);
 
-export function useProjectsContext() {
-  const context = useContext(ProjectsContext);
+export function useUsersContext() {
+  const context = useContext(UsersContext);
 
   if (context === undefined) {
-    throw new Error("Define project provider in parent node");
+    throw new Error("Define users provider in parent node");
   }
 
   return context;
 }
 
-export function ProjectsProvider({ children }: ProviderProps) {
+export function UsersProvider({ children }: ProviderProps) {
   const [searchFilter, setSearchFilter] = useState<string>("");
     
   return (
-    <ProjectsContext.Provider
+    <UsersContext.Provider
       value={{
         filters: {
           search : {
@@ -46,6 +46,6 @@ export function ProjectsProvider({ children }: ProviderProps) {
       }}
     >
       {children}
-    </ProjectsContext.Provider>
+    </UsersContext.Provider>
   );
 }
