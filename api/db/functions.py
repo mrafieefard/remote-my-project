@@ -157,14 +157,6 @@ def db_get_clients():
 
     return data.fetchall()
 
-
-def db_create_client(username, password):
-    client = Client(username=username, hashed_password=password)
-
-    session.add(client)
-    session.commit()
-
-
 def db_create_widget(name, project_id, title, type, content):
     try:
         widget = Widget(id=str(uuid.uuid4()), name=name, title=title,
@@ -210,10 +202,10 @@ def db_get_users():
 
     return data.fetchall()
 
-def db_create_user(username,password):
+def db_create_user(username,password,is_owner = False,is_admin = False):
     try:
         project = Client(id=str(uuid.uuid4()), username=username,
-                          hashed_password=password)
+                          hashed_password=password,is_owner=is_owner,is_admin=is_admin)
         session.add(project)
         session.commit()
 

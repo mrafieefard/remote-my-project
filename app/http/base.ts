@@ -75,6 +75,8 @@ type WidgetResponse = TextWidgetResponse | ProgressWidgetResponse;
 interface UserResponse{
   id : string
   username : string
+  is_owner : boolean
+  is_admin : boolean
 }
 
 function return_data<T>(success: boolean, data: T | undefined = undefined,error : string | undefined = undefined) {

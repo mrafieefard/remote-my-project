@@ -61,7 +61,21 @@ export default function UsersTable(props: props) {
     const cellValue = user[columnKey as keyof UserResponse];
 
     switch (columnKey) {
-
+      case "roles":
+        
+        return(
+          <div className="flex flex-row gap-2">
+            {
+              user.is_owner ? <Chip size="sm" variant="flat" color="danger">Owner</Chip> : <></>
+            }
+            {
+              user.is_admin ? <Chip color="warning" variant="flat">Admin</Chip> : <></>
+            }
+            {
+              !user.is_admin && !user.is_owner ? <Chip color="default" variant="flat">User</Chip> : <></>
+            }
+          </div>
+        )
       case "actions":
         return (
           <>
@@ -118,6 +132,7 @@ export default function UsersTable(props: props) {
       <TableHeader
         columns={[
           { name: "USERNAME", uid: "username" },
+          { name: "ROLES", uid: "roles" },
           { name: "ACTIONS", uid: "actions" },
           
         ]}

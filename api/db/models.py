@@ -102,12 +102,17 @@ class Client(Base):
 
     id: Mapped[str] = mapped_column(primary_key=True,unique=True)
     username: Mapped[str] = mapped_column(primary_key=True,unique=True)
-    hashed_password: Mapped[str] = mapped_column()
+    hashed_password: Mapped[str]
+    is_owner : Mapped[bool]
+    is_admin : Mapped[bool]
 
     def get_data(self):
         return {
             "id": self.id,
             "username": self.username,
+            "is_owner" : self.is_owner,
+            "is_admin" : self.is_admin,
+            
         }
 
 class Widget(Base):

@@ -193,7 +193,7 @@ async def get_projects(search: str, current_user: Annotated[Client, Depends(http
 async def create_user(payload: CreateUser, current_user: Annotated[Client, Depends(http_auth)]):
     hashed_password = get_password_hash(payload.password)
     user = db_create_user(
-        payload.username, hashed_password)
+        payload.username, hashed_password,is_admin=True)
     if user:
         if user == "unique":
             raise HTTPException(
