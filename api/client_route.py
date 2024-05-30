@@ -87,7 +87,7 @@ async def edit_project(id: str, payload: UpdateProject, response: Response):
 
         data = db_update_project(id, project)
 
-        if data == "unuque":
+        if data == "unique":
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN, detail="Invalid name for project")
 

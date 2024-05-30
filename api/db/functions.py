@@ -62,7 +62,7 @@ def db_update_project(id, new_project: Project) -> Project | None:
         return project
 
     except IntegrityError:
-        return "unuque"
+        return "unique"
     except:
         return False
     finally:
