@@ -133,6 +133,10 @@ class HttpClient {
     });
     return response.data;
   }
+
+  async delete_user(username : string){
+    await this.client.delete(`/client/user/${username}`);
+  }
 }
 
 export { handle_error, HttpClient };

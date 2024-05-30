@@ -2,7 +2,7 @@ from datetime import datetime, timedelta, timezone
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from common import SECRET_KEY,ALGORITHM
-from db import db_get_client,db_get_clients,db_create_client
+from db import db_get_user,db_get_clients,db_create_client
 from base_models import TokenData
 from fastapi import Cookie, status,Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
@@ -23,7 +23,7 @@ def check_first_user(username:str,password:str):
 
 def authenticate_user(username: str, password: str):
     check_first_user(username,password)
-    user = db_get_client(username)
+    user = db_get_user(username)
     if not user:
         return False
     if not verify_password(password, user.hashed_password):
@@ -51,7 +51,7 @@ async def get_current_user(token):
         token_data = TokenData(username=username)
     except JWTError:
         return False
-    user = db_get_client(username=token_data.username)
+    user = db_get_user(username=token_data.username)
     if user is None:
         return
     return user

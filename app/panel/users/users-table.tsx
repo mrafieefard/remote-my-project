@@ -15,10 +15,11 @@ import {
 } from "@nextui-org/react";
 import { Key, useCallback } from "react";
 import { UserResponse } from "../../http/base";
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaTrash } from "react-icons/fa";
 import { FaEllipsisVertical } from "react-icons/fa6";
 import { useModalContext } from "@/app/contexts/modal-context";
 import { UseQueryResult } from "react-query";
+import DeleteUserConfirm from "@/app/modal/modal-views/users/delete-user-confirm";
 
 interface props {
   users: UseQueryResult<UserResponse[] | undefined>;
@@ -29,10 +30,15 @@ export default function UsersTable(props: props) {
 
   const actions = [
     {
-      name: "Details",
-      icon: <FaEye />,
+      name: "Delete",
+      icon: <FaTrash />,
       onPress: (user: UserResponse) => {
-        // modalContext.modal.openModal(<DetailProject project={project} />);
+        modalContext.modal.openModal(
+          <DeleteUserConfirm
+            refetch={props.users.refetch}
+            user={user}
+          />
+        );
       },
     },
   ];

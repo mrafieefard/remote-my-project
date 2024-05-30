@@ -141,7 +141,7 @@ def db_update_log_project_name(project_id):
     return True
 
 
-def db_get_client(username):
+def db_get_user(username):
     client = session.query(Client).where(Client.username == username)
 
     return client.first()
@@ -220,3 +220,14 @@ def db_create_user(username,password):
         return False
     finally:
         session.rollback()
+
+def db_delete_user(username) -> bool:
+    user = db_get_user(username)
+
+    if not user:
+        return
+
+    session.delete(user)
+    session.commit()
+
+    return True

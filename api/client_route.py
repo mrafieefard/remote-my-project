@@ -200,6 +200,16 @@ async def create_project(payload: CreateUser, current_user: Annotated[Client, De
                 status_code=status.HTTP_403_FORBIDDEN, detail="Invalid username for user")
         return user.get_data()
 
+@route.delete("/user/{username}")
+async def get_project_log(username: str, current_user: Annotated[Client, Depends(http_auth)]):
+    user = db_delete_user(username)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid username",
+        )
+    return
+
 @route.websocket("/project/{id}/ws")
 async def client_websocket(websocket: WebSocket, id: str, token: Annotated[str, Header(alias="Authorization")]):
     user = await get_current_user(token)
