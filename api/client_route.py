@@ -38,7 +38,7 @@ async def login(payload: LoginForm):
     return res
 
 
-@route.get("/project")
+@route.get("/projects")
 async def get_projects(search: str, current_user: Annotated[Client, Depends(http_auth)]):
     projects = db_get_projects()
     search_lower = search.lower()
