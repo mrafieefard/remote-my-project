@@ -202,7 +202,14 @@ async def create_user(payload: CreateUser, current_user: Annotated[Client, Depen
 
 @route.delete("/user/{id}")
 async def delete_user(id: str, current_user: Annotated[Client, Depends(http_auth)]):
+    user = db_get_user(id)
+    if user.is_owner:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="You can't delete owner user",
+        )
     user = db_delete_user(id)
+    
     if not user:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
