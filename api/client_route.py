@@ -1,7 +1,7 @@
 import random
 from fastapi import APIRouter, WebSocket, Response, status, Depends, Header, HTTPException, status, Request
 from fastapi.responses import JSONResponse
-from base_models import CreateProject, CreateUser, LoginForm, Token, UpdateProject, GetLogsForm
+from base_models import CreateProject, CreateUser, LoginForm, Token, UpdateProject, GetLogsForm, UpdateUser
 from websocket_manager import websocket_handler, ClientWebsocket
 from db import *
 from client_authentication import *
@@ -190,7 +190,7 @@ async def get_projects(search: str, current_user: Annotated[Client, Depends(http
     return datas
 
 @route.post("/user")
-async def create_project(payload: CreateUser, current_user: Annotated[Client, Depends(http_auth)]):
+async def create_user(payload: CreateUser, current_user: Annotated[Client, Depends(http_auth)]):
     hashed_password = get_password_hash(payload.password)
     user = db_create_user(
         payload.username, hashed_password)
@@ -200,9 +200,9 @@ async def create_project(payload: CreateUser, current_user: Annotated[Client, De
                 status_code=status.HTTP_403_FORBIDDEN, detail="Invalid username for user")
         return user.get_data()
 
-@route.delete("/user/{username}")
-async def get_project_log(username: str, current_user: Annotated[Client, Depends(http_auth)]):
-    user = db_delete_user(username)
+@route.delete("/user/{id}")
+async def delete_user(id: str, current_user: Annotated[Client, Depends(http_auth)]):
+    user = db_delete_user(id)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
