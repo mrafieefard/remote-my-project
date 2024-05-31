@@ -1,6 +1,6 @@
 from fastapi import APIRouter, WebSocket, Response, status,Depends,Header,HTTPException
 from typing_extensions import Annotated
-from base_models import UpdateFunction, UpdateProgressWidget,UpdateReady, UpdateTextWidget, UpdateWidgets
+from base_models import UpdateFunction, UpdateProgressWidget,UpdateReady, UpdateTextWidget, UpdateTimeWidget, UpdateWidgets
 from websocket_manager import websocket_handler, ProjectWebsocket
 from db import *
 
@@ -43,7 +43,7 @@ async def sync_widgets(id: str, payload: UpdateWidgets, response: Response,proje
     return
 
 @route.put("/widget/text/{name}")
-async def update_widget(name: str, payload: UpdateTextWidget, response: Response,project : Annotated[Project, Depends(verify_secret)]):
+async def update_text_widget(name: str, payload: UpdateTextWidget, response: Response,project : Annotated[Project, Depends(verify_secret)]):
     widget = db_get_widget(name)
 
     if not widget :
@@ -60,7 +60,7 @@ async def update_widget(name: str, payload: UpdateTextWidget, response: Response
     return data
 
 @route.put("/widget/progress/{name}")
-async def update_widget(name: str, payload: UpdateProgressWidget, response: Response,project : Annotated[Project, Depends(verify_secret)]):
+async def update_progress_widget(name: str, payload: UpdateProgressWidget, response: Response,project : Annotated[Project, Depends(verify_secret)]):
     widget = db_get_widget(name)
 
     if not widget :
@@ -75,6 +75,24 @@ async def update_widget(name: str, payload: UpdateProgressWidget, response: Resp
     
 
     return data
+
+@route.put("/widget/time/{name}")
+async def update_time_widget(name: str, payload: UpdateTimeWidget, response: Response,project : Annotated[Project, Depends(verify_secret)]):
+    widget = db_get_widget(name)
+
+    if not widget :
+        raise HTTPException(status.HTTP_404_NOT_FOUND,"Widget not found")
+    
+    if widget.type != 2:
+        raise HTTPException(status.HTTP_403_FORBIDDEN,f"{name.capitalize()} its not a progress widget")
+    
+    data = db_update_widget(name,{
+        "timestamp" : payload.timestamp
+    })
+    
+
+    return data
+
 
 @route.put("/project/{id}/ready")
 async def update_ready(id: str, payload: UpdateReady, response: Response,project : Annotated[Project, Depends(verify_secret)]):

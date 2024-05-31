@@ -30,6 +30,9 @@ class UpdateTextWidget(BaseModel):
 class UpdateProgressWidget(BaseModel):
     amont : int
 
+class UpdateTimeWidget(BaseModel):
+    timestamp : int
+
 class TokenData(BaseModel):
     username: str | None = None
 

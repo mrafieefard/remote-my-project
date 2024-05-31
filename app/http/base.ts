@@ -53,6 +53,10 @@ interface ProgressWidgetContent {
   progress: number;
 }
 
+interface TimeWidgetContent {
+  timestamp: number;
+}
+
 interface BaseWidgetResponse {
   id: string;
   name: string;
@@ -70,7 +74,12 @@ interface ProgressWidgetResponse extends BaseWidgetResponse {
   content: ProgressWidgetContent;
 }
 
-type WidgetResponse = TextWidgetResponse | ProgressWidgetResponse;
+interface TimeWidgetContent extends BaseWidgetResponse {
+  type: 2;
+  content: TimeWidgetContent;
+}
+
+type WidgetResponse = TextWidgetResponse | ProgressWidgetResponse | TimeWidgetContent;
 
 interface UserResponse{
   id : string
