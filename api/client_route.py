@@ -39,7 +39,7 @@ async def login(payload: LoginForm):
 
 
 @route.get("/projects")
-async def get_projects(search: str, current_user: Annotated[Client, Depends(http_auth)]):
+async def get_projects(search: str, user: Annotated[Client, Depends(http_auth)]):
     projects = db_get_projects()
     search_lower = search.lower()
     datas = []
@@ -58,7 +58,7 @@ async def get_projects(search: str, current_user: Annotated[Client, Depends(http
 
 
 @route.get("/project/{id}")
-async def get_project(id: str, response: Response, current_user: Annotated[Client, Depends(http_auth)]):
+async def get_project(id: str, response: Response, user: Annotated[Client, Depends(http_auth)]):
     data = db_get_project(id)
 
     if data:
@@ -68,7 +68,7 @@ async def get_project(id: str, response: Response, current_user: Annotated[Clien
 
 
 @route.put("/project/{id}")
-async def edit_project(id: str, payload: UpdateProject, response: Response):
+async def edit_project(id: str, payload: UpdateProject, response: Response,user: Annotated[Client, Depends(http_auth)]):
     project = db_get_project(id)
     if not project.is_active:
         project.title = payload.title
@@ -105,7 +105,7 @@ async def edit_project(id: str, payload: UpdateProject, response: Response):
 
 
 @route.delete("/project/{id}")
-async def delete_project(id: str, response: Response, current_user: Annotated[Client, Depends(http_auth)]):
+async def delete_project(id: str, response: Response, user: Annotated[Client, Depends(http_auth)]):
     data = db_delete_project(id)
 
     if data:
@@ -121,7 +121,7 @@ async def delete_project(id: str, response: Response, current_user: Annotated[Cl
 
 
 @route.post("/project")
-async def create_project(json_data: CreateProject, current_user: Annotated[Client, Depends(http_auth)]):
+async def create_project(json_data: CreateProject, user: Annotated[Client, Depends(http_auth)]):
     new_project = db_create_project(
         str(uuid.uuid4()), json_data.title, json_data.description)
     if new_project:
@@ -132,7 +132,7 @@ async def create_project(json_data: CreateProject, current_user: Annotated[Clien
 
 
 @route.post("/logs")
-async def get_project_log(payload: GetLogsForm, current_user: Annotated[Client, Depends(http_auth)]):
+async def get_project_log(payload: GetLogsForm, user: Annotated[Client, Depends(http_auth)]):
     logs = db_get_logs()
 
     logs_dict = []
@@ -147,14 +147,14 @@ async def get_project_log(payload: GetLogsForm, current_user: Annotated[Client, 
 
 
 @route.delete("/logs/clear")
-async def clear_all_logs(current_user: Annotated[Client, Depends(http_auth)]):
+async def clear_all_logs(user: Annotated[Client, Depends(http_auth)]):
     db_clear_logs()
 
     return {"success": True, }
 
 
 @route.delete("/log/{id}")
-async def get_project_log(id: str, current_user: Annotated[Client, Depends(http_auth)]):
+async def get_project_log(id: str, user: Annotated[Client, Depends(http_auth)]):
     logs = db_delete_log(id)
     if not logs:
         raise HTTPException(
@@ -165,7 +165,7 @@ async def get_project_log(id: str, current_user: Annotated[Client, Depends(http_
 
 
 @route.get("/log/{id}")
-async def get_project_log(id: str, current_user: Annotated[Client, Depends(http_auth)]):
+async def get_project_log(id: str, user: Annotated[Client, Depends(http_auth)]):
     logs = db_get_log(id)
 
     return logs.get_data()
@@ -173,13 +173,13 @@ async def get_project_log(id: str, current_user: Annotated[Client, Depends(http_
 
 
 @route.get("/widgets")
-async def get_widgets(current_user: Annotated[Client, Depends(http_auth)]):
+async def get_widgets(user: Annotated[Client, Depends(http_auth)]):
     widgets = db_get_widgets()
 
     return [widget.get_data() for widget in widgets]
 
 @route.get("/users")
-async def get_projects(search: str, current_user: Annotated[Client, Depends(http_auth)]):
+async def get_projects(search: str, user: Annotated[Client, Depends(http_auth)]):
     users = db_get_users()
     search_lower = search.lower()
     datas = []
@@ -190,7 +190,7 @@ async def get_projects(search: str, current_user: Annotated[Client, Depends(http
     return datas
 
 @route.post("/user")
-async def create_user(payload: CreateUser, current_user: Annotated[Client, Depends(http_auth)]):
+async def create_user(payload: CreateUser, user: Annotated[Client, Depends(http_auth)]):
     hashed_password = get_password_hash(payload.password)
     user = db_create_user(
         payload.username, hashed_password,is_admin=True)
@@ -201,7 +201,7 @@ async def create_user(payload: CreateUser, current_user: Annotated[Client, Depen
         return user.get_data()
 
 @route.delete("/user/{id}")
-async def delete_user(id: str, current_user: Annotated[Client, Depends(http_auth)]):
+async def delete_user(id: str, user: Annotated[Client, Depends(http_auth)]):
     user = db_get_user(id)
     if user.is_owner:
         raise HTTPException(
@@ -241,7 +241,7 @@ async def edit_user(id: str, payload: UpdateUser, response: Response):
 
 @route.websocket("/project/{id}/ws")
 async def client_websocket(websocket: WebSocket, id: str, token: Annotated[str, Header(alias="Authorization")]):
-    user = await get_current_user(token)
+    user = await get_user(token)
 
     await websocket.accept()
 
